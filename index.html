@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title>AQI & Noise Monitor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">AQI & Noise Monitor</a>
+                <div class="d-flex align-items-center navbar-tools">
+
+                <!-- AQI / Noise Toggle Button -->
+                <div class="btn-group btn-group-toggle me-2" data-bs-toggle="buttons">
+                <input type="radio" class="btn-check" name="options" id="option-aqi" autocomplete="off" checked>
+                    <label class="btn btn-outline-light btn-sm" for="option-aqi">AQI</label>
+
+                    <input type="radio" class="btn-check" name="options" id="option-noise" autocomplete="off">
+                    <label class="btn btn-outline-light btn-sm" for="option-noise">Noise</label>
+            </div>
+
+                <!-- Map Dropdown -->
+                <div class="dropdown me-2">
+                    <a class="btn btn-outline-light dropdown-toggle ranking-btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        📍 Map
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">AQI</a></li>
+                        <li><a class="dropdown-item" href="#">Noise</a></li>
+                    </ul>
+                </div>
+
+                <!-- Rankings Dropdown -->
+                <div class="dropdown me-2">
+                    <a class="btn btn-outline-light dropdown-toggle ranking-btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        🏆 Rankings
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#rankings">AQI</a></li>
+                        <li><a class="dropdown-item" href="#rankings">Noise</a></li>
+                    </ul>
+                </div>
+
+                <!-- Search Form -->
+                <form class="d-flex search-form" id="searchForm">
+                    <input class="form-control form-control-sm me-2" type="search" placeholder="🔍 Search City" id="citySearch">
+                    <button class="btn btn-outline-light btn-sm" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <!-- Section 1: Current Location Data -->
+        <div class="row" id="currentData">
+            <div class="col-md-3"><div class="card text-white bg-info mb-3"><div class="card-header">AQI</div><div class="card-body"><h5 id="aqi">--</h5></div></div></div>
+            <div class="col-md-3"><div class="card text-white bg-success mb-3"><div class="card-header">Temperature</div><div class="card-body"><h5 id="temp">--</h5></div></div></div>
+            <div class="col-md-3"><div class="card text-white bg-warning mb-3"><div class="card-header">Humidity</div><div class="card-body"><h5 id="humidity">--</h5></div></div></div>
+            <div class="col-md-3"><div class="card text-white bg-danger mb-3"><div class="card-header">Noise Level</div><div class="card-body"><h5 id="noise">--</h5></div></div></div>
+        </div>
+
+        <!-- Section 2: Graphs -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h4>Weekly AQI Trend</h4>
+                <canvas id="weeklyAqiChart"></canvas>
+            </div>
+            <div class="col-md-6">
+                <h4>Monthly Noise Levels</h4>
+                <canvas id="monthlyNoiseChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Section 3: Educational Content -->
+<!-- Section 3: Educational Content -->
+<div class="container mt-5">
+    <h1>Understanding Air Pollution</h1>
+
+    <!-- Toggle Buttons -->
+    <div class="btn-group mb-4" role="group">
+        <button type="button" class="btn btn-outline-primary" onclick="showSection('causes')">Causes</button>
+        <button type="button" class="btn btn-outline-primary" onclick="showSection('effects')">Effects</button>
+        <button type="button" class="btn btn-outline-primary" onclick="showSection('solutions')">Solutions</button>
+    </div>
+
+    <!-- Causes Section -->
+    <div id="causes" class="edu-section">
+        <h2>1. What is Air Pollution?</h2>
+        <ul>
+            <li>Presence of harmful substances in the atmosphere.</li>
+            <li>Includes outdoor pollution (vehicles, factories, crop burning) and indoor pollution (smoke, poor ventilation).</li>
+        </ul>
+
+        <h2>2. What is AQI (Air Quality Index)?</h2>
+        <ul>
+            <li>AQI communicates current or forecasted pollution levels.</li>
+            <li>Scale: 0 to 500 (higher = worse).</li>
+            <li>Major pollutants: PM2.5, PM10, NO₂, SO₂, CO, O₃.</li>
+        </ul>
+
+        <h3>AQI Categories</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr><th>AQI Range</th><th>Health Concern</th><th>Color</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>0–50</td><td>Good</td><td style="background-color: green; color: white;">Green</td></tr>
+                <tr><td>51–100</td><td>Moderate</td><td style="background-color: yellow;">Yellow</td></tr>
+                <tr><td>101–150</td><td>Unhealthy for Sensitive Groups</td><td style="background-color: orange;">Orange</td></tr>
+                <tr><td>151–200</td><td>Unhealthy</td><td style="background-color: red; color: white;">Red</td></tr>
+                <tr><td>201–300</td><td>Very Unhealthy</td><td style="background-color: purple; color: white;">Purple</td></tr>
+                <tr><td>301–500</td><td>Hazardous</td><td style="background-color: maroon; color: white;">Maroon</td></tr>
+            </tbody>
+        </table>
+
+        <h2>3. Causes of Air Pollution</h2>
+        <ul>
+            <li><strong>Human-made:</strong> Vehicle emissions, industrial discharge, construction dust, burning fossil fuels, waste burning.</li>
+            <li><strong>Natural:</strong> Wildfires, dust storms, volcanic activity.</li>
+        </ul>
+    </div>
+
+    <!-- Effects Section -->
+    <div id="effects" class="edu-section d-none">
+        <h2>4. Effects on the Present Generation</h2>
+        <ul>
+            <li>Respiratory diseases: asthma, bronchitis, lung cancer.</li>
+            <li>Heart issues, eye irritation.</li>
+            <li>Decreased productivity due to illness.</li>
+            <li>Environmental effects: smog, acid rain, poor visibility.</li>
+        </ul>
+
+        <h2>5. Effects on Future Generations</h2>
+        <ul>
+            <li>Poor lung development in children.</li>
+            <li>Higher risk of cognitive and developmental disorders.</li>
+            <li>Long-term environmental damage.</li>
+            <li>Harm to biodiversity and climate.</li>
+        </ul>
+    </div>
+
+    <!-- Solutions Section -->
+    <div id="solutions" class="edu-section d-none">
+        <h2>6. Real-Life Solutions</h2>
+
+        <h3>Individual Level</h3>
+        <ul>
+            <li>Use public transport, carpool, bike, or walk.</li>
+            <li>Shift to electric vehicles and clean fuels.</li>
+            <li>Avoid burning garbage or leaves.</li>
+            <li>Grow air-purifying plants.</li>
+        </ul>
+
+        <h3>Community Level</h3>
+        <ul>
+            <li>Create green zones and urban forests.</li>
+            <li>Control dust/emissions at construction sites.</li>
+            <li>Promote recycling and waste segregation.</li>
+            <li>Raise community awareness.</li>
+        </ul>
+
+        <h3>Government Level</h3>
+        <ul>
+            <li>Enforce pollution laws.</li>
+            <li>Invest in renewables and public transit.</li>
+            <li>Regulate crop burning.</li>
+            <li>Educate the public via media campaigns.</li>
+        </ul>
+    </div>
+</div>
+
+
+
+
+
+    <!-- Rankings -->
+    <div class="mt-5" id="rankings">
+      <h3>City Rankings</h3>
+      <table class="table table-striped">
+        <thead><tr><th>City</th><th>AQI</th><th>Noise</th></tr></thead>
+        <tbody id="rankingTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
+

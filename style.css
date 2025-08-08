@@ -1,0 +1,120 @@
+/* Navbar button styles */
+.navbar-tools {
+    gap: 0.5rem;
+    }
+    
+    /* Button formatting */
+    .ranking-btn {
+    border-radius: 20px;
+    font-weight: 500;
+    padding: 6px 16px;
+    }
+    
+    /* Search */
+    .search-form input {
+    border-radius: 20px;
+    padding-left: 10px;
+    }
+    
+    .search-form button {
+    border-radius: 20px;
+    padding: 6px 16px;
+    }
+    
+    /* Hover dropdown fix */
+    .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    }
+    
+    /* Dropdown style */
+    .dropdown-menu {
+    min-width: 8rem;
+    font-size: 0.9rem;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    }
+    
+    /* AQI/Noise toggle styles */
+    .btn-group-toggle label {
+    font-weight: 600;
+    border-radius: 20px;
+    padding: 6px 16px;
+    margin: 0;
+    transition: all 0.2s ease-in-out;
+    }
+    
+    .btn-group-toggle .btn-check:checked + .btn-outline-light {
+    background-color: white;
+    color: #212529;
+    border: 1px solid #ccc;
+    }
+
+    body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 0;
+    color: #333;
+        }
+        
+        .container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        h1 {
+    text-align: center;
+    color: #1e3a8a;
+    margin-bottom: 30px;
+        }
+        
+        h2 {
+    color: #1e3a8a;
+    margin-top: 30px;
+    border-bottom: 2px solid #1e3a8a;
+    padding-bottom: 5px;
+        }
+        
+        h3 {
+    color: #374151;
+    margin-top: 20px;
+        }
+        
+        ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    margin-bottom: 20px;
+        }
+        
+        .section-divider {
+    border-top: 2px dashed #ccc;
+    margin: 30px 0;
+        }
+        
+        table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 15px;
+        }
+        
+        th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+        }
+        
+        th {
+    background-color: #f3f4f6;
+    color: #1e3a8a;
+        }
+
+        .edu-section {
+            margin-top: 20px;
+        }
+        
