@@ -1,4 +1,3 @@
-Script.js 
 document.addEventListener("DOMContentLoaded", () => {
     loadRankingData();
 
