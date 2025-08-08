@@ -4,7 +4,7 @@
 
 2. Login
 
-![image alt](https://github.com/DevStorm9833/AQI/blob/2c635ccd7b457a4b259b230edbc5ba34b021d4cb/assets/Output2_1.png)
+![image alt](https://github.com/DevStorm9833/AQI/blob/ac0423cda4ef307f341a142110f3386dd61ea88c/assets/Output%202_1.png)
 
 3. AQI_Home 
 
