@@ -1,65 +1,91 @@
-body {
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(to right, #74ebd5, #ACB6E5);
-    background-image: url('https://cdn.pixabay.com/photo/2016/10/22/21/54/industry-1761801_1280.jpg');
-    background-size:cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  .login-container {
-    background: white;
-    padding: 30px 40px;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 450px;
-  }
-  
-  .login-container h2 {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #333;
-  }
-  
-  .login-container input {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 3px solid #33313162;
-    border-radius: 8px;
-    font-size: 1rem;
-  }
+/* A good practice to make layout sizing more intuitive */
+* {
+  box-sizing: border-box;
+}
 
-  .login-container button {
-    width: 100%;
-    padding: 12px;
-    background-color: #0063c7;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 1rem;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background 0.3s;
-  }
-  
-  .login-container button:hover {
-    background-color: #538ac0;
-  }
-  
-  .login-container .register {
-    text-align: center;
-    margin-top: 15px;
-    font-size: 0.9rem;
-  }
-  .login-container .register a {
-    color: #0066cc;
-    text-decoration: none;
-  }
-  
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /*
+    Corrected background: 
+    1. Added a linear-gradient overlay to darken the image slightly for better text contrast.
+    2. Set the background image URL.
+    3. The properties are combined for better performance and readability.
+  */
+  background: 
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('https://cdn.pixabay.com/photo/2016/10/22/21/54/industry-1761801_1280.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+ 
+.login-container {
+  background: white;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px; /* Adjusted max-width for a slightly sleeker look */
+  text-align: center; /* Center align all content inside the container */
+}
+ 
+.login-container h2 {
+  margin-top: 0; /* Removed default top margin */
+  margin-bottom: 25px;
+  color: #333;
+}
+ 
+.login-container form {
+  display: flex;
+  flex-direction: column; /* Stack form elements vertically */
+}
+
+.login-container input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px; /* Spacing between inputs */
+  border: 1px solid #ccc; /* Simplified border for a cleaner look */
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.login-container button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff; /* A more standard blue color */
+  color: white;
+  border: none;
+  border-radius: 8px; /* Matched input border-radius */
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease; /* Smoother transition */
+}
+ 
+.login-container button:hover {
+  background-color: #0056b3; /* Darker shade for hover */
+}
+ 
+.login-container .links {
+  margin-top: 20px;
+  font-size: 0.9rem;
+}
+
+.login-container .links p {
+  margin: 10px 0; /* Add some space between the links */
+}
+
+.login-container .links a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-container .links a:hover {
+  text-decoration: underline;
+}
