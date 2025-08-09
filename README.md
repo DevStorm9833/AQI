@@ -36,6 +36,7 @@
    + In left side all the NPI details should be shown.
 
 10. AQI Ranking
+    + Search Button
     + Live AQI City Ranking
     + World's Most Polluted Cities
     + World's Most Polluted Countries
