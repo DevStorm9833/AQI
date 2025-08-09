@@ -55,4 +55,4 @@
 11. Admin( Everything same as User )
     + Feedback stats & controls
     + Alert controls
-    + 
+    + Account controls( Block users )
