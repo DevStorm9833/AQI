@@ -9,15 +9,17 @@
 </head>
 <body>
   <div class="login-container">
-    <h2>AQI Monitor Login</h2>
+    <h2>Login</h2>
     <form action="/login" method="POST">
-      <input type="text" name="username" placeholder="Username" required />
-      <input type="password" name="password" placeholder="Password" required />
-       <p><a href="/forgot-password">Forgot your password?</a></p>
+      <p>Email Address</p>
+      <input type="text" name="email" placeholder="yashjain123@gmail.com" required />
+      <p class="password-row">Password</p>
+      <input type="password" name="password" placeholder="*********" required />
+      <a href="/forgot-password">Forgot your password?</a>
       <button type="submit">Login</button>
     </form>
     <div class="links">
-      <p>Don't have an account? <a href="/register">Register here</a></p>
+      <p>New to AQI? <a href="/register">Create an account</a></p>
     </div>
   </div>
 </body>
