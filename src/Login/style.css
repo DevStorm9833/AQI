@@ -7,7 +7,7 @@ body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: 
-    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    linear-gradient(rgb(236, 114, 14), rgba(0, 0, 0, 0.5)),
     url('https://cdn.pixabay.com/photo/2016/10/22/21/54/industry-1761801_1280.jpg');
   background-size: cover;
   background-repeat: no-repeat;
@@ -46,8 +46,8 @@ body {
   border: 1px solid #ccc; /* Simplified border for a cleaner look */
   border-radius: 8px;
   font-size: 1rem;
+  background-color: #d5dfd6;
 }
-
 
 .login-container p {
   margin: 10px 0; /* Add some space between the links */
@@ -57,6 +57,9 @@ body {
 }
 
 .login-container a {
+  margin: 0px 0; /* Add some space between the links */
+  font-size: 0.9rem;
+  text-align: right;
   color: #007bff;
   text-decoration: none;
 }
@@ -91,7 +94,11 @@ body {
 
 .login-container .links p {
   margin: 10px 0; /* Add some space between the links */
+  margin-top: 5px;
+  font-size: 0.9rem;
+  text-align: center;
 }
+
 
 .login-container .links a {
   color: #007bff;
