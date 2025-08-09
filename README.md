@@ -2,9 +2,13 @@
 
 # Output:
 
+1. Landing Page
+
 2. Login
 
 ![image alt](https://github.com/DevStorm9833/AQI/blob/ac0423cda4ef307f341a142110f3386dd61ea88c/assets/Output%202_1.png)
+
+3. 
 
 3. AQI_Home 
 
