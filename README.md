@@ -12,5 +12,9 @@
 
 4. Forgot_Password
 
-5. AQI_Home 
+5. AQI_Home(Nearby Location ka data in AQI, Humidity, Temp)
+
+6. Noise_Home
+
+7. 
 
