@@ -17,6 +17,8 @@
 
 4. Forgot_Password
 
+✓ User Pages(6 pages)
+
 5. AQI_Home
    + Nearby Location ka data in AQI, Humidity, Temp
    + Monthly and Weekly Graphs
@@ -50,3 +52,7 @@
     + World's Lowest Noise Pollution Cities
     + World's Lowest Noise Pollution Countries
 
+11. Admin( Everything same as User )
+    + Feedback stats & controls
+    + Alert controls
+    + 
