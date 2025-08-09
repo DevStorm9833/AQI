@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AQI Monitor - Forgot Password</title>
+  <style>
+    /* This CSS is identical to the previous pages for a consistent look */
+    * {
+      box-sizing: border-box;
+    }
+  
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: 
+        linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url('https://cdn.pixabay.com/photo/2016/10/22/21/54/industry-1761801_1280.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    
+    .login-container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    
+    .login-container h2 {
+      margin-top: 0;
+      margin-bottom: 15px; /* Adjusted margin */
+      color: #333;
+    }
+
+    .login-container .instructions {
+        margin-bottom: 25px;
+        color: #666;
+        font-size: 0.95rem;
+        line-height: 1.4;
+    }
+    
+    .login-container form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .login-container input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .login-container button {
+      width: 100%;
+      padding: 12px;
+      background-color: #28a745; /* Using the primary blue color */
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+    
+    .login-container button:hover {
+      background-color: #218838;
+    }
+    
+    .login-container .links {
+      margin-top: 20px;
+      font-size: 0.9rem;
+    }
+
+    .login-container .links p {
+      margin: 10px 0;
+    }
+
+    .login-container .links a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .login-container .links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Reset Password</h2>
+    <p class="instructions">
+      Enter the email address associated with your account, and we'll send you a link to reset your password.
+    </p>
+    <form action="/request-password-reset" method="POST">
+      <input type="email" name="email" placeholder="Enter your email address" required />
+      <button type="submit">Send Reset Link</button>
+    </form>
+    <div class="links">
+      <p><a href="/login">Back to Login</a></p>
+    </div>
+  </div>
+</body>
+</html>
