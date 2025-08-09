@@ -14,14 +14,30 @@
 
 4. Forgot_Password
 
-5. AQI_Home(a. Nearby Location ka data in AQI, Humidity, Temp b. Monthly and Weekly Graphs c. Health Advisories in Causes, Effects, Solution) - No need of Search button
+5. AQI_Home
+   + Nearby Location ka data in AQI, Humidity, Temp
+   + Monthly and Weekly Graphs
+   + Health Advisories in Causes, Effects, Solution
+   - No need of Search button
 
-6. Noise_Home(a. Nearby Location ka data in NPI, b. Monthly and Weekly Graphs c. Health Advisories in Causes, Effects, Solution)
+6. Noise_Home
+   + Nearby Location ka data in NPI,
+   + Monthly and Weekly Graphs
+   + Health Advisories in Causes, Effects, Solution
 
-7. AQI Map(a. When you click on any location or search for any location it should zoom the map to that location. b. In left side all the AQI details should be shown.)
+7. AQI Map
+   + Search Button
+   + When you click on any location or search for any location it should zoom the map to that location.
+   + In left side all the AQI details should be shown.
 
-8. NPI Map(a. When you click on any location or search for any location it should zoom the map to that location. b. In left side all the NPI details should be shown.)
+9. NPI Map
+   + Search Button
+   + When you click on any location or search for any location it should zoom the map to that location.
+   + In left side all the NPI details should be shown.
 
-9. AQI Ranking()
+10. AQI Ranking
+    + Live AQI City Ranking
+    + 
+    
 
 
