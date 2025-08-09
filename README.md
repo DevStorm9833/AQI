@@ -38,12 +38,12 @@
 9. AQI Ranking
     + Search Button
     + Live AQI City Ranking
-    + World's Most Polluted Cities
-    + World's Most Polluted Countries
+    + World's Best Air Quality Cities
+    + World's Best Air Quality  Countries
     
 10. NPI Ranking
     + Search Button
     + Live NPI City Ranking
-    + World's Most Polluted Cities
-    + World's Most Polluted Countries
+    + World's Lowest Noise Pollution Cities
+    + World's Lowest Noise Pollution Countries
 
