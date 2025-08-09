@@ -30,12 +30,12 @@
    + When you click on any location or search for any location it should zoom the map to that location.
    + In left side all the AQI details should be shown.
 
-9. NPI Map
+8. NPI Map
    + Search Button
    + When you click on any location or search for any location it should zoom the map to that location.
    + In left side all the NPI details should be shown.
 
-10. AQI Ranking
+9. AQI Ranking
     + Search Button
     + Live AQI City Ranking
     + World's Most Polluted Cities
