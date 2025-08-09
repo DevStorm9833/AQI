@@ -8,13 +8,17 @@
 </head>
 <body>
   <div class="login-container">
-    <h2>Create an Account</h2>
+    <h2>Sign Up</h2>
     <form action="/register" method="POST">
-      <input type="text" name="username" placeholder="Username" required />
-      <input type="email" name="email" placeholder="Email Address" required />
-      <input type="password" name="password" placeholder="Password" required />
-      <input type="password" name="confirm_password" placeholder="Confirm Password" required />
-      <button type="submit">Register</button>
+      <p>Username</p>
+      <input type="text" name="username" placeholder="YashJ101" required />
+      <p>Email Address</p>
+      <input type="email" name="email" placeholder="yashjain123@gmail.com" required />
+      <p>Password</p>
+      <input type="password" name="password" placeholder="*********" required />
+      <!-- <p>Confirm Password</p>
+      <input type="password" name="confirm_password" placeholder="Confirm Password" required /> -->
+      <button type="submit">Create account</button>
     </form>
     <div class="links">
       <p>Already have an account? <a href="/login">Login here</a></p>
