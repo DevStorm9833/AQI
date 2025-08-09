@@ -14,7 +14,7 @@
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: 
-        linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        linear-gradient(rgb(236, 114, 14), rgba(0, 0, 0, 0.5)),
         url('https://cdn.pixabay.com/photo/2016/10/22/21/54/industry-1761801_1280.jpg');
       background-size: cover;
       background-repeat: no-repeat;
@@ -47,6 +47,13 @@
         font-size: 0.95rem;
         line-height: 1.4;
     }
+
+    .login-container p {
+      margin: 10px 0; /* Add some space between the links */
+      margin-top: 5px;
+      font-size: 0.9rem;
+      text-align: left;
+}
     
     .login-container form {
       display: flex;
@@ -60,6 +67,7 @@
       border: 1px solid #ccc;
       border-radius: 8px;
       font-size: 1rem;
+      background-color: #d5dfd6;
     }
 
     .login-container button {
@@ -87,6 +95,7 @@
 
     .login-container .links p {
       margin: 10px 0;
+      text-align: center;
     }
 
     .login-container .links a {
@@ -103,10 +112,11 @@
   <div class="login-container">
     <h2>Reset Password</h2>
     <p class="instructions">
-      Enter the email address associated with your account, and we'll send you a link to reset your password.
+      Forgot your password? No worries, just share your email and we'll send you a password reset link.
     </p>
     <form action="/request-password-reset" method="POST">
-      <input type="email" name="email" placeholder="Enter your email address" required />
+      <p>Email Address</p>
+      <input type="email" name="email" placeholder="yashjain123@gmail.com" required />
       <button type="submit">Send Reset Link</button>
     </form>
     <div class="links">
