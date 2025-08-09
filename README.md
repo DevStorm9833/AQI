@@ -1,6 +1,9 @@
 # AQI
 
-# Reference : https://www.aqi.in/in
+# Reference 
+- https://www.aqi.in/in
+- API_KEY : f3dbd79d82849161bc891d3f99aa17df24ce5340
+
 
 # Output:
 
