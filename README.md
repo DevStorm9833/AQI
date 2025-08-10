@@ -56,3 +56,4 @@
     + Feedback stats & controls
     + Alert controls
     + Account controls( Block users )
+    + Daily Awareness Quiz / Facts
