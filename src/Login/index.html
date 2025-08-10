@@ -1,26 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AQI Monitor - Login</title>
-  <!-- Link to the external CSS file -->
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Login - EcoGauge</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Boxicons CSS -->
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <style>
+    /* General Body Styles */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0d1117;
+      /* Dark bluish-black background */
+      color: #c9d1d9;
+      /* Light text for readability */
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    
+    .main-content-wrapper {
+        flex: 1;
+    }
+
+    /* Navbar styling */
+    .navbar {
+      background-color: #161b22;
+      /* Slightly lighter than body */
+      border-bottom: 1px solid #6a5acd;
+      /* SlateBlue accent */
+    }
+
+    .navbar-brand {
+      color: #e209d0;
+      /* Pink accent */
+      font-weight: bold;
+    }
+
+    .navbar-brand:hover,
+    .navbar-brand:focus,
+    .navbar-brand:active {
+      color: #fc4ded; /* Lighter pink */
+      outline: none;
+      box-shadow: none;
+    }
+
+    /* Navbar tools alignment */
+    .navbar-tools {
+      gap: 0.5rem;
+    }
+
+    /* Button Styles */
+    .nav-btn {
+      border-radius: 20px;
+      font-weight: 500;
+      padding: 6px 16px;
+      transition: all 0.2s ease-in-out;
+      border: 1px solid #6a5acd;
+      /* SlateBlue border */
+      background-color: transparent;
+      color: #f194ff; /* Light pink text */
+      box-shadow: 0 0 8px 2px rgba(138, 43, 226, 0.3); /* Violet shadow */
+      text-decoration: none; /* Remove underline from all buttons */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem; /* Space between icon and text */
+    }
+    
+    .nav-btn:hover {
+        background-color: #21262d; /* Dark grey background */
+        border-color: white;
+        color: white;
+        box-shadow: 0 0 15px 5px rgba(138, 43, 226, 0.5);
+    }
+
+    /* Login Form Container */
+    .login-container {
+        background-color: #161b22;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 0 20px 8px rgba(138, 43, 226, 0.4);
+        max-width: 500px;
+        width: 100%;
+    }
+    .login-container h1 {
+        color: white;
+        font-size: 2.2rem;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .gradient-text {
+        background: linear-gradient(to right, #6a5acd, #e209d0);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    .form-control {
+        background-color: #0d1117;
+        border: 1px solid #6a5acd;
+        color: #c9d1d9;
+        border-radius: 10px;
+        padding: 12px 15px;
+    }
+    .form-control:focus {
+        background-color: #21262d;
+        border-color: white;
+        color: white;
+        box-shadow: 0 0 15px 5px rgba(138, 43, 226, 0.5);
+    }
+    .form-control::placeholder {
+        color: #8b949e;
+    }
+    .btn-login {
+        background: linear-gradient(to right, #0b0edb, #e209d0);
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 20px;
+        padding: 12px;
+        width: 100%;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 15px 5px rgba(138, 43, 226, 0.4);
+    }
+    .btn-login:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 0 25px 8px rgba(138, 43, 226, 0.6);
+    }
+    
+    /* Footer Styles */
+    footer {
+        background-color: #161b22;
+        color: #8b949e;
+        text-align: center;
+        padding: 20px 0;
+        margin-top: auto;
+        border-top: 1px solid #6a5acd;
+    }
+    footer a {
+        color: #6a5acd;
+        text-decoration: none;
+        margin: 0 10px;
+    }
+    footer a:hover {
+        color: #836FFF;
+        text-decoration: underline;
+    }
+    
+  </style>
 </head>
+
 <body>
-  <div class="login-container">
-    <h2>Login</h2>
-    <form action="/login" method="POST">
-      <p>Email Address</p>
-      <input type="text" name="email" placeholder="yashjain123@gmail.com" required />
-      <p class="password-row">Password</p>
-      <input type="password" name="password" placeholder="*********" required />
-      <a href="/forgot-password">Forgot your password?</a>
-      <button type="submit">Login</button>
-    </form>
-    <div class="links">
-      <p>New to AQI? <a href="/register">Create an account</a></p>
+  <div class="main-content-wrapper d-flex flex-column">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">EcoGauge</a>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container d-flex justify-content-center align-items-center flex-grow-1 my-5">
+        <div class="login-container">
+            <h1>Welcome Back to <span class="gradient-text">EcoGauge</span></h1>
+            <form>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="email" placeholder="yashjain123@gmail.com" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="*********" required>
+                </div>
+                <div class="d-flex justify-content-end mb-4">
+                    <a href="#">Forgot Password?</a>
+                </div>
+                <button type="submit" class="btn btn-login">Login</button>
+            </form>
+            <p class="text-center mt-4">New to EcoGauge? <a href="#">Create an account</a></p>
+        </div>
     </div>
   </div>
+  
+  <footer>
+    <p>&copy; 2025 EcoGauge. All Rights Reserved.</p>
+    <p>
+        <a href="#">About Us</a> | 
+        <a href="#">Contact</a> | 
+        <a href="#">Privacy Policy</a>
+    </p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
