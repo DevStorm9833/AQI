@@ -1,7 +1,7 @@
 # AQI
 
 # Reference 
-- https://www.aqi.in/in
+- AQI website: https://www.aqi.in/in
 - API_KEY : f3dbd79d82849161bc891d3f99aa17df24ce5340
 
 
@@ -33,7 +33,7 @@
 7. AQI Map
    + Search Button
    + When you click on any location or search for any location it should zoom the map to that location.
-   + In left side all the AQI details should be shown.
+   + In left side all the AQI details should be shown... Refer https://www.aqi.in/in/air-quality-map
 
 8. NPI Map
    + Search Button
