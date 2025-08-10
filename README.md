@@ -43,14 +43,14 @@
 9. AQI Ranking
     + Search Button
     + Live AQI City Ranking
-    + World's Best Air Quality Cities
-    + World's Best Air Quality  Countries
+    + India's Best Air Quality Cities
+    + India's Best Air Quality  States
     
 10. NPI Ranking
     + Search Button
     + Live NPI City Ranking
-    + World's Lowest Noise Pollution Cities
-    + World's Lowest Noise Pollution Countries
+    + India's Lowest Noise Pollution Cities
+    + India's Lowest Noise Pollution States
 
 11. Admin( Everything same as User )
     + Feedback stats & controls
