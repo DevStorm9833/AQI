@@ -37,15 +37,15 @@
     }
 
     .navbar-brand {
-      color: #6a5acd;
-      /* SlateBlue */
+      color: #e209d0;
+      /* Pink accent */
       font-weight: bold;
     }
 
     .navbar-brand:hover,
     .navbar-brand:focus,
     .navbar-brand:active {
-      color: #836FFF; /* Lighter SlateBlue */
+      color: #fc4ded; /* Lighter pink */
       outline: none;
       box-shadow: none;
     }
@@ -58,7 +58,8 @@
     /* Button Styles */
     .nav-btn,
     .btn-group-toggle label,
-    .edu-toggle-btn {
+    .edu-toggle-btn,
+    .timeframe-btn {
       border-radius: 20px;
       font-weight: 500;
       padding: 6px 16px;
@@ -66,7 +67,7 @@
       border: 1px solid #6a5acd;
       /* SlateBlue border */
       background-color: transparent;
-      color: #6a5acd;
+      color: #f194ff; /* Light pink text */
       box-shadow: 0 0 8px 2px rgba(138, 43, 226, 0.3); /* Violet shadow */
       text-decoration: none; /* Remove underline from all buttons */
       display: inline-flex;
@@ -81,8 +82,10 @@
     }
 
 
-    /* Specific hover for Map and Rankings buttons */
-    .nav-btn:hover {
+    /* Specific hover for Map, Rankings, and Timeframe buttons */
+    .nav-btn:hover,
+    .timeframe-btn:hover,
+    .edu-toggle-btn:hover {
         background-color: #21262d; /* Dark grey background */
         border-color: white;
         color: white;
@@ -90,8 +93,7 @@
     }
     
     /* General hover for other buttons */
-    .btn-group-toggle label:hover,
-    .edu-toggle-btn:hover {
+    .btn-group-toggle label:hover {
       background-color: #8A2BE2; /* Violet background */
       border-color: #8A2BE2;
       color: #FFFFFF; /* White content */
@@ -104,10 +106,32 @@
       border-color: #8A2BE2;
     }
     
-    .edu-toggle-btn.active {
+    .edu-toggle-btn.active,
+    .timeframe-btn.active {
         background-color: #6a5acd;
         color: #FFFFFF;
     }
+    
+    /* Educational Toggle and Timeframe Button Group */
+    #edu-toggle-group,
+    #timeframe-selector {
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 0 8px 2px rgba(138, 43, 226, 0.3);
+        display: inline-flex;
+    }
+    #edu-toggle-group .edu-toggle-btn,
+    #timeframe-selector .timeframe-btn {
+        border-radius: 0;
+        box-shadow: none;
+        border: none;
+        border-right: 1px solid #21262d; /* Separator line */
+    }
+    #edu-toggle-group .edu-toggle-btn:last-child,
+    #timeframe-selector .timeframe-btn:last-child {
+        border-right: none;
+    }
+
 
     /* Search Form Container */
     .search-form {
@@ -136,7 +160,7 @@
     }
     
     .search-form input::placeholder {
-        color: #8b949e;
+        color: #f194ff;
     }
     
     /* Search Button inside search bar */
@@ -161,7 +185,7 @@
     }
 
     .search-form button:hover {
-        background-color: #6a5acd; /* Darker violet on hover */
+        background-color: #a200ff; /* Darker violet on hover */
     }
 
     .search-form button i {
@@ -185,6 +209,7 @@
         color: white;
         font-weight: 700;
         margin-bottom: 15px;
+        font-size: 2.5rem;
     }
 
     .hero-section p {
@@ -200,31 +225,108 @@
       box-shadow: 0 4px 12px rgba(106, 90, 205, 0.2);
       /* SlateBlue shadow */
     }
-
-    /* Card Styles */
-    .card {
-      border: none;
-      border-radius: 10px;
-      color: white;
-      box-shadow: 0 0 15px 5px rgba(138, 43, 226, 0.3); /* Shining violet shadow */
-      transition: all 0.2s ease-in-out;
-    }
     
-    .card:hover {
-        transform: translateY(-5px);
+    /* Live AQI Container */
+    .live-aqi-container {
+        background: linear-gradient(to right, #0d1117 20%, #483d8b 100%);
+        border-radius: 15px;
+        padding: 30px;
+        color: white;
         box-shadow: 0 0 20px 8px rgba(138, 43, 226, 0.4);
+        margin-bottom: 2rem;
     }
-
-    .card-header {
-      font-weight: bold;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    .live-aqi-container h2 {
+        color: white;
+        border: none;
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 2.2rem;
+        position: relative;
+        display: inline-block;
+        padding-bottom: 5px;
     }
-
-    /* Custom Card Colors */
-    .bg-aqi { background-color: #483d8b; } /* DarkSlateBlue */
-    .bg-temp { background-color: #6a5acd; } /* SlateBlue */
-    .bg-humidity { background-color: #7b68ee; } /* MediumSlateBlue */
-    .bg-noise { background-color: #8a2be2; } /* BlueViolet */
+    .live-aqi-container h2::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(to right, #e209d0, #fc4ded);
+    }
+    .aqi-main-info {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        margin-bottom: 25px;
+    }
+    .aqi-value {
+        font-size: 4rem;
+        font-weight: 700;
+        line-height: 1;
+    }
+    .aqi-status-wrapper span {
+        display: block;
+        margin-bottom: 8px;
+    }
+    .aqi-status-box {
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-weight: bold;
+        display: inline-block;
+    }
+    .pollutant-info {
+        font-size: 1.1rem;
+        margin-bottom: 35px; /* Increased space */
+    }
+    .aqi-scale-wrapper {
+        position: relative;
+        padding-bottom: 25px;
+    }
+    .aqi-scale {
+        height: 10px;
+        border-radius: 5px;
+        display: flex;
+        overflow: hidden;
+    }
+    .aqi-scale-segment {
+        height: 100%;
+    }
+    .aqi-scale-pointer {
+        position: absolute;
+        top: -3px; /* Center vertically on the scale line */
+        width: 16px;
+        height: 16px;
+        background-color: white;
+        border-radius: 50%;
+        border: 2px solid #161b22;
+        transform: translateX(-50%);
+        transition: left 0.5s ease-in-out;
+        cursor: pointer;
+        animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+    }
+    .aqi-scale-labels {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        font-size: 0.8rem;
+        color: #c9d1d9;
+    }
+    .aqi-scale-labels span {
+        position: absolute;
+        transform: translateX(-50%);
+    }
+    .aqi-scale-labels span:first-child {
+        transform: translateX(0);
+    }
+    .aqi-scale-labels span:last-child {
+        transform: translateX(-100%);
+    }
 
 
     /* Headings and Educational Content */
@@ -233,11 +335,12 @@
       font-weight: 600;
     }
 
-    h2 {
+    .edu-section h2 {
       border-bottom: 2px solid #6a5acd;
       padding-bottom: 10px;
       margin-top: 2rem;
       margin-bottom: 1.5rem;
+      font-size: 1.7rem; /* Smaller font size for questions */
     }
     
     .edu-section {
@@ -270,7 +373,7 @@
     }
 
     #causes .table-bordered thead th {
-        background-color: #0b0edb; 
+        background-color: #101316;
         color: white;
         border-color: #483d8b;
     }
@@ -283,25 +386,56 @@
 
     #causes .table-bordered tbody td:nth-child(1),
     #causes .table-bordered tbody td:nth-child(2) {
-        background-color: black;
+        background-color: #21262c;
     }
 
     #causes .table-bordered tbody td:nth-child(3) {
         font-weight: bold;
     }
     
-    /* Location and Time Info */
-    .location-info {
-        background-color: #21262d;
-        padding: 10px 20px;
-        border-radius: 8px;
-        border: 1px solid #30363d;
-        margin-bottom: 2rem;
+    /* Chart Header */
+    .chart-header {
         text-align: center;
-        font-size: 0.95rem;
+        margin-bottom: 1rem;
     }
-    .location-info strong {
-        color: #836FFF;
+    .chart-header h4 {
+        color: white;
+        font-size: 2.2rem;
+    }
+    #chart-title-suffix {
+        color: white;
+    }
+    .timeframe-btn {
+        padding: 4px 12px;
+        font-size: 0.8rem;
+    }
+    
+    /* Chart Title Flip Animation */
+    #chart-timeframe-title,
+    .gradient-text {
+        display: inline-block;
+        perspective: 1000px;
+        background: linear-gradient(to right, #6a5acd, #e209d0);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    #chart-timeframe-title.flipping {
+        animation: flip-box 0.6s ease-in-out;
+    }
+    @keyframes flip-box {
+        0% { transform: rotateX(0deg); }
+        50% { transform: rotateX(-90deg); }
+        100% { transform: rotateX(0deg); }
+    }
+    
+    /* Educational Section Title */
+    .container.mt-5 h1 {
+        color: white;
+        font-size: 2.2rem;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 30px;
     }
     
     /* Footer Styles */
@@ -367,68 +501,72 @@
     <!-- Main Content -->
     <div class="container mt-4 main-container">
     
-      <!-- Location and Time Info -->
-      <div class="location-info">
-        Current Location: <strong>Mumbai, Maharashtra, India</strong> | <span id="currentTime"></span>
-      </div>
-
-      <!-- Section 1: Current Location Data -->
-      <div class="row" id="currentData">
-        <div class="col-md-3">
-          <div class="card bg-aqi mb-3">
-            <div class="card-header">AQI</div>
-            <div class="card-body">
-              <h5 id="aqi">152</h5>
-            </div>
+      <!-- Live AQI Container -->
+      <div class="live-aqi-container">
+          <h2 id="aqi-city-name">Mumbai</h2>
+          <div class="aqi-main-info">
+              <div id="aqi-live-value" class="aqi-value">--</div>
+              <div class="aqi-status-wrapper">
+                  <span>Air Quality is</span>
+                  <div id="aqi-live-status" class="aqi-status-box">Loading...</div>
+              </div>
           </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card bg-temp mb-3">
-            <div class="card-header">Temperature</div>
-            <div class="card-body">
-              <h5 id="temp">31°C</h5>
-            </div>
+          <div class="pollutant-info">
+              <span><strong>PM10:</strong> <span id="pm10-value">--</span> µg/m³</span>
+              <span class="ms-4"><strong>PM2.5:</strong> <span id="pm25-value">--</span> µg/m³</span>
           </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card bg-humidity mb-3">
-            <div class="card-header">Humidity</div>
-            <div class="card-body">
-              <h5 id="humidity">78%</h5>
-            </div>
+          <div class="aqi-scale-wrapper">
+              <div class="aqi-scale">
+                  <div class="aqi-scale-segment" style="width: 10%; background-color: #2E8B57;"></div>
+                  <div class="aqi-scale-segment" style="width: 10%; background-color: #FFD700;"></div>
+                  <div class="aqi-scale-segment" style="width: 10%; background-color: #FF8C00;"></div>
+                  <div class="aqi-scale-segment" style="width: 10%; background-color: #DC143C;"></div>
+                  <div class="aqi-scale-segment" style="width: 20%; background-color: #8A2BE2;"></div>
+                  <div class="aqi-scale-segment" style="width: 40%; background-color: #800000;"></div>
+              </div>
+              <div id="aqi-pointer" class="aqi-scale-pointer" style="left: 0%;"></div>
+              <div class="aqi-scale-labels">
+                  <span style="left: 0%;">0</span>
+                  <span style="left: 10%;">50</span>
+                  <span style="left: 20%;">100</span>
+                  <span style="left: 30%;">150</span>
+                  <span style="left: 40%;">200</span>
+                  <span style="left: 60%;">300</span>
+                  <span style="left: 100%;">301+</span>
+              </div>
           </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card bg-noise mb-3">
-            <div class="card-header">Noise Level</div>
-            <div class="card-body">
-              <h5 id="noise">74 dB</h5>
-            </div>
-          </div>
-        </div>
       </div>
 
       <!-- Section 2: Graphs -->
       <div class="row mt-4">
-        <div class="col-md-6">
-          <h4>Weekly AQI Trend</h4>
-          <canvas id="weeklyAqiChart"></canvas>
-        </div>
-        <div class="col-md-6">
-          <h4>Monthly Noise Levels</h4>
-          <canvas id="monthlyNoiseChart"></canvas>
+        <div class="col-md-12">
+          <div class="chart-header">
+              <h4><span id="chart-timeframe-title">Weekly</span><span id="chart-title-suffix"> AQI Trend</span></h4>
+          </div>
+          <div class="d-flex justify-content-center mb-4">
+              <div class="btn-group" id="timeframe-selector">
+                  <button class="timeframe-btn" data-timeframe="1D">1D</button>
+                  <button class="timeframe-btn active" data-timeframe="1W">1W</button>
+                  <button class="timeframe-btn" data-timeframe="1M">1M</button>
+                  <button class="timeframe-btn" data-timeframe="1Y">1Y</button>
+                  <button class="timeframe-btn" data-timeframe="10Y">10Y</button>
+              </div>
+          </div>
+          <canvas id="aqiTrendChart"></canvas>
         </div>
       </div>
 
       <!-- Section 3: Educational Content -->
       <div class="container mt-5">
-        <h1>Understanding Environmental Quality</h1>
+        <h1>Decoding the <span class="gradient-text">Air We Breathe</span></h1>
 
         <!-- Toggle Buttons -->
-        <div class="btn-group mb-4" role="group" id="edu-toggle-group">
-          <button type="button" class="edu-toggle-btn active" data-target="causes">Causes</button>
-          <button type="button" class="edu-toggle-btn" data-target="effects">Effects</button>
-          <button type="button" class="edu-toggle-btn" data-target="solutions">Solutions</button>
+        <div class="d-flex justify-content-center mb-4">
+            <div class="btn-group" role="group" id="edu-toggle-group">
+              <button type="button" class="edu-toggle-btn active" data-target="causes">Causes</button>
+              <button type="button" class="edu-toggle-btn" data-target="effects">Effects</button>
+              <button type="button" class="edu-toggle-btn" data-target="solutions">Solutions</button>
+            </div>
         </div>
 
         <!-- Causes Section -->
@@ -469,7 +607,7 @@
               </tr>
               <tr>
                 <td>101–150</td>
-                <td>Unhealthy for Sensitive Groups</td>
+                <td>Poor</td>
                 <td style="background-color: #FF8C00; color: black;">Orange</td>
               </tr>
               <tr>
@@ -479,7 +617,7 @@
               </tr>
               <tr>
                 <td>201–300</td>
-                <td>Very Unhealthy</td>
+                <td>Severe</td>
                 <td style="background-color: #8A2BE2; color: white;">Purple</td>
               </tr>
               <tr>
@@ -562,6 +700,39 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // --- Live AQI Data Update ---
+        const updateAqiData = () => {
+            // Static data as requested
+            const staticAqi = 152;
+            const staticPm10 = 145;
+            const staticPm25 = 152;
+
+            document.getElementById('aqi-live-value').textContent = staticAqi;
+            document.getElementById('pm10-value').textContent = staticPm10;
+            document.getElementById('pm25-value').textContent = staticPm25;
+
+            // Update AQI Status Box
+            const statusBox = document.getElementById('aqi-live-status');
+            let statusInfo = { text: 'Unknown', color: '#30363d', textColor: 'white' };
+            if (staticAqi <= 50) statusInfo = { text: 'Good', color: '#2E8B57', textColor: 'white' };
+            else if (staticAqi <= 100) statusInfo = { text: 'Moderate', color: '#FFD700', textColor: 'black' };
+            else if (staticAqi <= 150) statusInfo = { text: 'Poor', color: '#FF8C00', textColor: 'black' };
+            else if (staticAqi <= 200) statusInfo = { text: 'Unhealthy', color: '#DC143C', textColor: 'white' };
+            else if (staticAqi <= 300) statusInfo = { text: 'Severe', color: '#8A2BE2', textColor: 'white' };
+            else statusInfo = { text: 'Hazardous', color: '#800000', textColor: 'white' };
+
+            statusBox.textContent = statusInfo.text;
+            statusBox.style.backgroundColor = statusInfo.color;
+            statusBox.style.color = statusInfo.textColor;
+
+            // Update AQI Pointer
+            const pointer = document.getElementById('aqi-pointer');
+            const aqiPercentage = Math.min(staticAqi / 500, 1) * 100; // Cap at 500
+            pointer.style.left = `${aqiPercentage}%`;
+        };
+
+        updateAqiData(); // Initial call to display the static data
+
         // --- Educational Section Toggle ---
         const eduToggleButtons = document.querySelectorAll('.edu-toggle-btn');
         const eduSections = document.querySelectorAll('.edu-section');
@@ -580,86 +751,141 @@
         // --- Chart.js Configuration ---
         const chartFontColor = '#c9d1d9';
         const chartGridColor = 'rgba(193, 209, 217, 0.2)';
-        const chartAccentColor = '#6a5acd';
-        
-        // Weekly AQI Chart
-        const weeklyAqiCtx = document.getElementById('weeklyAqiChart').getContext('2d');
-        new Chart(weeklyAqiCtx, {
-            type: 'line',
-            data: {
+        const chartAccentColor = '#8A2BE2'; // Changed to violet
+
+        const aqiTrendCtx = document.getElementById('aqiTrendChart').getContext('2d');
+        let aqiTrendChart = new Chart(aqiTrendCtx, {}); // Initialize empty chart
+
+        const timeframeData = {
+            '1D': {
+                labels: ['12am', '3am', '6am', '9am', '12pm', '3pm', '6pm', '9pm'],
+                data: [150, 152, 155, 160, 158, 155, 153, 152]
+            },
+            '1W': {
                 labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                datasets: [{
-                    label: 'AQI',
-                    data: [165, 159, 180, 181, 156, 155, 152],
-                    borderColor: chartAccentColor,
-                    backgroundColor: 'rgba(106, 90, 205, 0.2)',
-                    fill: true,
-                    tension: 0, // Make graph spiky
-                    pointBackgroundColor: 'white',
-                    pointBorderColor: chartAccentColor,
-                    pointRadius: 5, // Make points more visible
-                    pointHoverRadius: 8, // Enlarge points on hover
-                    pointHoverBackgroundColor: chartAccentColor,
-                }]
+                data: [165, 159, 180, 181, 156, 155, 152]
             },
-            options: {
-                // onClick removed to disable data modal
-                scales: {
-                    y: { beginAtZero: false, ticks: { color: chartFontColor }, grid: { color: chartGridColor } },
-                    x: { ticks: { color: chartFontColor }, grid: { color: chartGridColor } }
-                },
-                plugins: { legend: { labels: { color: chartFontColor } } }
-            }
-        });
-
-        // Monthly Noise Chart
-        const monthlyNoiseCtx = document.getElementById('monthlyNoiseChart').getContext('2d');
-        new Chart(monthlyNoiseCtx, {
-            type: 'line',
-            data: {
+            '1M': {
                 labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-                datasets: [{
-                    label: 'Noise Level (dB)',
-                    data: [78, 75, 72, 74],
-                    borderColor: '#8A2BE2',
-                    backgroundColor: 'rgba(138, 43, 226, 0.2)',
-                    fill: true,
-                    tension: 0, // Make graph spiky
-                    pointBackgroundColor: 'white',
-                    pointBorderColor: '#8A2BE2',
-                    pointRadius: 5, // Make points more visible
-                    pointHoverRadius: 8, // Enlarge points on hover
-                    pointHoverBackgroundColor: '#8A2BE2',
-                }]
+                data: [158, 162, 155, 152]
             },
-            options: {
-                // onClick removed to disable data modal
-                scales: {
-                    y: { beginAtZero: false, ticks: { color: chartFontColor }, grid: { color: chartGridColor } },
-                    x: { ticks: { color: chartFontColor }, grid: { color: chartGridColor } }
-                },
-                plugins: { legend: { labels: { color: chartFontColor } } }
+            '1Y': {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                data: [180, 175, 160, 140, 120, 110, 130, 152, 165, 170, 175, 185]
+            },
+            '10Y': {
+                labels: ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'],
+                data: [190, 185, 188, 175, 160, 165, 170, 162, 155, 152]
             }
+        };
+        
+        const getOrdinalSuffix = (day) => {
+            if (day > 3 && day < 21) return 'th';
+            switch (day % 10) {
+                case 1: return "st";
+                case 2: return "nd";
+                case 3: return "rd";
+                default: return "th";
+            }
+        };
+        
+        const timeframeTitles = {
+            '1D': 'Daily',
+            '1W': 'Weekly',
+            '1M': 'Monthly',
+            '1Y': 'Yearly',
+            '10Y': 'Decadal'
+        };
+
+        const updateChart = (timeframe) => {
+            const chartTitleSpan = document.getElementById('chart-timeframe-title');
+            chartTitleSpan.textContent = timeframeTitles[timeframe];
+            chartTitleSpan.classList.add('flipping');
+            setTimeout(() => {
+                chartTitleSpan.classList.remove('flipping');
+            }, 600);
+
+            const newData = timeframeData[timeframe];
+            if (aqiTrendChart) {
+                aqiTrendChart.destroy();
+            }
+            aqiTrendChart = new Chart(aqiTrendCtx, {
+                type: 'line',
+                data: {
+                    labels: newData.labels,
+                    datasets: [{
+                        label: 'AQI',
+                        data: newData.data,
+                        borderColor: chartAccentColor,
+                        backgroundColor: 'rgba(138, 43, 226, 0.2)',
+                        fill: true,
+                        tension: 0,
+                        pointBackgroundColor: 'white',
+                        pointBorderColor: chartAccentColor,
+                        pointRadius: 5,
+                        pointHoverRadius: 8,
+                        pointHoverBackgroundColor: chartAccentColor,
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: { beginAtZero: false, ticks: { color: chartFontColor }, grid: { color: chartGridColor } },
+                        x: { ticks: { color: chartFontColor }, grid: { color: chartGridColor } }
+                    },
+                    plugins: { 
+                        legend: { 
+                            position: 'right',
+                            labels: { color: chartFontColor }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    const index = context[0].dataIndex;
+                                    const today = new Date();
+                                    let date;
+
+                                    if (timeframe === '1W') {
+                                        const dayOfWeek = today.getDay();
+                                        const startDate = new Date(today);
+                                        startDate.setDate(today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1));
+                                        date = new Date(startDate);
+                                        date.setDate(startDate.getDate() + index);
+                                        const day = date.getDate();
+                                        const month = date.toLocaleString('default', { month: 'short' });
+                                        const year = date.getFullYear();
+                                        return `${day}${getOrdinalSuffix(day)} ${month}, ${year}`;
+                                    }
+                                    return context[0].label;
+                                },
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        };
+
+        const timeframeButtons = document.querySelectorAll('.timeframe-btn');
+        timeframeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                timeframeButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                const timeframe = this.getAttribute('data-timeframe');
+                updateChart(timeframe);
+            });
         });
 
-
-        // --- Set Current Time ---
-        function updateTime() {
-            const timeElement = document.getElementById('currentTime');
-            if (timeElement) {
-                const now = new Date();
-                const options = {
-                    timeZone: 'Asia/Kolkata',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit',
-                    hour12: true
-                };
-                timeElement.textContent = `Time: ${now.toLocaleTimeString('en-US', options)} IST`;
-            }
-        }
-        updateTime();
-        setInterval(updateTime, 1000); // Update every second
+        // Initial chart load
+        updateChart('1W');
     });
   </script>
 </body>
