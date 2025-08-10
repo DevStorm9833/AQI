@@ -22,13 +22,13 @@
 5. AQI_Home
    + Nearby Location ka data in AQI, Humidity, Temp
    + Monthly and Weekly Graphs
-   + Health Advisories in Causes, Effects, Solution
+   + Health Advisories in Causes, Effects, Solution( Decoding the Air We Breathe )
    - ❌ No need of Search button
 
 6. Noise_Home
    + Nearby Location ka data in NPI,
    + Monthly and Weekly Graphs
-   + Health Advisories in Causes, Effects, Solution
+   + Health Advisories in Causes, Effects, Solution( Decoding the Noise We Hear )
 
 7. AQI Map
    + Search Button
