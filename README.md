@@ -13,7 +13,8 @@
 
 2. Login
 
-3. Register
+3. Create_Account
+   + Remember password
 
 4. Forgot_Password
 
