@@ -45,14 +45,12 @@
 9. AQI Ranking
     + Search Button
     + Live AQI City Ranking
-    + India's Best Air Quality Cities
-    + India's Best Air Quality  States
+    + Mumbai's Best Air Quality Stations
     
 10. NPI Ranking
     + Search Button
     + Live NPI City Ranking
-    + India's Lowest Noise Pollution Cities
-    + India's Lowest Noise Pollution States
+    + Mumbai's Lowest Noise Pollution Stations
 
 11. Admin( Everything same as User )
     + Feedback stats & controls
