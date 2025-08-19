@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>NPI_Home Page</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <style>
+    /* General Body Styles */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0d1117;
+      /* Dark bluish-black background */
+      color: #c9d1d9;
+      /* Light text for readability */
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    
+    .main-content-wrapper {
+        flex: 1;
+    }
+
+    /* Navbar styling */
+    .navbar {
+      background-color: #161b22;
+      /* Slightly lighter than body */
+      border-bottom: 1px solid #6a5acd;
+      /* SlateBlue accent */
+    }
+
+    .navbar-brand {
+      color: #e209d0;
+      /* Pink accent */
+      font-weight: bold;
+    }
+
+    .navbar-brand:hover,
+    .navbar-brand:focus,
+    .navbar-brand:active {
+      color: #fc4ded; /* Lighter pink */
+      outline: none;
+      box-shadow: none;
+    }
+
+    /* Navbar tools alignment */
+    .navbar-tools {
+      gap: 0.5rem;
+    }
+
+    /* Button Styles */
+    .nav-btn,
+    .btn-group-toggle .btn,
+    .edu-toggle-btn,
+    .timeframe-btn {
+      border-radius: 20px;
+      font-weight: 500;
+      padding: 6px 16px;
+      transition: all 0.2s ease-in-out;
+      border: 1px solid #6a5acd;
+      /* SlateBlue border */
+      background-color: transparent;
+      color: #f194ff; /* Light pink text */
+      box-shadow: 0 0 8px 2px rgba(138, 43, 226, 0.3); /* Violet shadow */
+      text-decoration: none; /* Remove underline from all buttons */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem; /* Space between icon and text */
+    }
+    
+    .nav-btn i,
+    .btn-group-toggle .btn i {
+        font-size: 20px; /* Adjust icon size */
+    }
+
+
+    /* Specific hover for Map, Rankings, and Timeframe buttons */
+    .nav-btn:hover,
+    .timeframe-btn:hover,
+    .edu-toggle-btn:hover {
+        background-color: #21262d; /* Dark grey background */
+        border-color: white;
+        color: white;
+        box-shadow: 0 0 15px 5px rgba(138, 43, 226, 0.5);
+    }
+    
+    /* General hover for other buttons */
+    .btn-group-toggle .btn:hover {
+      background-color: #8A2BE2; /* Violet background */
+      border-color: #8A2BE2;
+      color: #FFFFFF; /* White content */
+      box-shadow: 0 0 15px 5px rgba(138, 43, 226, 0.5); /* Enhanced violet shadow on hover */
+    }
+
+    .btn-group-toggle .btn.active,
+    .btn-group-toggle .btn-check:checked+.btn-outline-light {
+      background-color: #8A2BE2; /* Violet */
+      color: #FFFFFF;
+      border-color: #8A2BE2;
+    }
+    
+    .edu-toggle-btn.active,
+    .timeframe-btn.active {
+        background-color: #6a5acd;
+        color: #FFFFFF;
+    }
+    
+    /* Educational Toggle and Timeframe Button Group */
+    #edu-toggle-group,
+    #timeframe-selector {
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 0 8px 2px rgba(138, 43, 226, 0.3);
+        display: inline-flex;
+    }
+    #edu-toggle-group .edu-toggle-btn,
+    #timeframe-selector .timeframe-btn {
+        border-radius: 0;
+        box-shadow: none;
+        border: none;
+        border-right: 1px solid #21262d; /* Separator line */
+    }
+    #edu-toggle-group .edu-toggle-btn:last-child,
+    #timeframe-selector .timeframe-btn:last-child {
+        border-right: none;
+    }
+
+
+    /* Search Form Container */
+    .search-form {
+        position: relative;
+    }
+
+    .search-form input {
+      border-radius: 20px;
+      padding-left: 15px;
+      padding-right: 45px; /* Make space for the button */
+      background-color: #0d1117;
+      border: 1px solid #6a5acd;
+      color: #c9d1d9;
+      box-shadow: 0 0 8px 2px rgba(138, 43, 226, 0.3); /* Violet shadow */
+      transition: all 0.2s ease-in-out;
+      height: 38px; /* Match Bootstrap's sm button height */
+    }
+    
+    .search-form input:hover,
+    .search-form input:focus {
+        background-color: #21262d; /* Dark grey background */
+        border-color: white;
+        color: white;
+        box-shadow: 0 0 15px 5px rgba(138, 43, 226, 0.5); /* Enhanced violet shadow on focus */
+        outline: none;
+    }
+    
+    .search-form input::placeholder {
+        color: #f194ff;
+    }
+    
+    /* Search Button inside search bar */
+    .search-form button {
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: none;
+        background-color: #8A2BE2; /* Violet background */
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+        box-shadow: none;
+    }
+
+    .search-form button:hover {
+        background-color: #a200ff; /* Darker violet on hover */
+    }
+
+    .search-form button i {
+        font-size: 20px; /* Adjust icon size */
+    }
+
+    /* Hero Section */
+    .hero-section {
+        background: linear-gradient(to right, #0b0edb, #e209d0);
+        color: white;
+        padding: 60px 20px;
+        text-align: center;
+        border-radius: 15px;
+        margin: 20px auto;
+        width: 95%;
+        max-width: 1200px;
+        box-shadow: 0 0 15px 5px rgba(138, 43, 226, 0.4); /* Shining violet shadow */
+    }
+
+    .hero-section h1{
+        color: white;
+        font-weight: 700;
+        margin-bottom: 15px;
+        font-size: 2.5rem;
+    }
+
+    .hero-section p {
+        font-size: 1.1rem;
+    }
+
+    /* Main Content Area */
+    .main-container {
+      background-color: #161b22;
+      /* Darker container background */
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(106, 90, 205, 0.2);
+      /* SlateBlue shadow */
+    }
+    
+    /* Live NPI Container */
+    .live-npi-container {
+        background: linear-gradient(to right, #0d1117 20%, #483d8b 100%);
+        border-radius: 15px;
+        padding: 30px;
+        color: white;
+        box-shadow: 0 0 20px 8px rgba(138, 43, 226, 0.4);
+        margin-bottom: 2rem;
+    }
+    .live-npi-container h2 {
+        color: white;
+        border: none;
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 2.2rem;
+        position: relative;
+        display: inline-block;
+        padding-bottom: 5px;
+    }
+    .live-npi-container h2::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(to right, #e209d0, #fc4ded);
+    }
+    .npi-main-info {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        margin-bottom: 25px;
+    }
+    .npi-value {
+        font-size: 4rem;
+        font-weight: 700;
+        line-height: 1;
+    }
+    .npi-status-wrapper span {
+        display: block;
+        margin-bottom: 8px;
+    }
+    .npi-status-box {
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-weight: bold;
+        display: inline-block;
+    }
+    .sound-info {
+        font-size: 1.1rem;
+        margin-bottom: 35px; /* Increased space */
+    }
+    .npi-scale-wrapper {
+        position: relative;
+        padding-bottom: 25px;
+    }
+    .npi-scale {
+        height: 10px;
+        border-radius: 5px;
+        display: flex;
+        overflow: hidden;
+    }
+    .npi-scale-segment {
+        height: 100%;
+    }
+    .npi-scale-pointer {
+        position: absolute;
+        top: -3px; /* Center vertically on the scale line */
+        width: 16px;
+        height: 16px;
+        background-color: white;
+        border-radius: 50%;
+        border: 2px solid #161b22;
+        transform: translateX(-50%);
+        transition: left 0.5s ease-in-out;
+        cursor: pointer;
+        animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+    }
+    .npi-scale-labels {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        font-size: 0.8rem;
+        color: #c9d1d9;
+    }
+    .npi-scale-labels span {
+        position: absolute;
+        transform: translateX(-50%);
+    }
+    .npi-scale-labels span:first-child {
+        transform: translateX(0);
+    }
+    .npi-scale-labels span:last-child {
+        transform: translateX(-100%);
+    }
+
+
+    /* Headings and Educational Content */
+    h1, h2, h3, h4 {
+      color: #6a5acd; /* SlateBlue */
+      font-weight: 600;
+    }
+
+    .edu-section h2 {
+      border-bottom: 2px solid #6a5acd;
+      padding-bottom: 10px;
+      margin-top: 2rem;
+      margin-bottom: 1.5rem;
+      font-size: 1.7rem; /* Smaller font size for questions */
+    }
+    
+    .edu-section {
+        margin-top: 20px;
+        display: none; /* Hidden by default */
+    }
+    .edu-section.active {
+        display: block; /* Shown when active */
+    }
+
+    /* General Table styles */
+    .table {
+      margin-top: 20px;
+      color: #c9d1d9;
+      border-color: #30363d;
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+      border: 1px solid #30363d;
+    }
+    
+    /* --- NPI Categories Table Beautification --- */
+    #causes .table-bordered {
+        border-radius: 8px;
+        overflow: hidden; /* To make border-radius work with background colors */
+        box-shadow: 0 0 15px 5px rgba(155, 47, 255, 0.4); /* Shining violet shadow */
+        border-collapse: separate; /* Needed for border-radius on tables */
+        border-spacing: 0;
+    }
+
+    #causes .table-bordered thead th {
+        background-color: #101316;
+        color: white;
+        border-color: #483d8b;
+    }
+
+    #causes .table-bordered tbody td {
+        color: white;
+        vertical-align: middle;
+        border-color: #483d8b;
+    }
+
+    #causes .table-bordered tbody td:nth-child(1),
+    #causes .table-bordered tbody td:nth-child(2) {
+        background-color: #21262c;
+    }
+
+    #causes .table-bordered tbody td:nth-child(3) {
+        font-weight: bold;
+    }
+    
+    /* Chart Header */
+    .chart-header {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    .chart-header h4 {
+        color: white;
+        font-size: 2.2rem;
+    }
+    #chart-title-suffix {
+        color: white;
+    }
+    .timeframe-btn {
+        padding: 4px 12px;
+        font-size: 0.8rem;
+    }
+    
+    /* Chart Title Flip Animation */
+    #chart-timeframe-title,
+    .gradient-text {
+        display: inline-block;
+        perspective: 1000px;
+        background: linear-gradient(to right, #6a5acd, #e209d0);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    #chart-timeframe-title.flipping {
+        animation: flip-box 0.6s ease-in-out;
+    }
+    @keyframes flip-box {
+        0% { transform: rotateX(0deg); }
+        50% { transform: rotateX(-90deg); }
+        100% { transform: rotateX(0deg); }
+    }
+    
+    /* Educational Section Title */
+    .container.mt-5 h1 {
+        color: white;
+        font-size: 2.2rem;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    /* Footer Styles */
+    footer {
+        background-color: #161b22;
+        color: #8b949e;
+        text-align: center;
+        padding: 20px 0;
+        margin-top: auto;
+        border-top: 1px solid #6a5acd;
+    }
+    footer a {
+        color: #6a5acd;
+        text-decoration: none;
+        margin: 0 10px;
+    }
+    footer a:hover {
+        color: #836FFF;
+        text-decoration: underline;
+    }
+    
+  </style>
+</head>
+
+<body>
+  <div class="main-content-wrapper">
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="Landing_Page.html">EcoGauge</a>
+        <div class="d-flex align-items-center navbar-tools">
+
+          <div class="btn-group btn-group-toggle me-2" role="group">
+            <a href="AQI_Home.html" class="btn btn-outline-light btn-sm"><i class='bx bx-wind'></i> AQI</a>
+            <a href="#" class="btn btn-outline-light btn-sm active"><i class='bx bxs-volume-full'></i> Noise</a>
+          </div>
+
+          <a class="nav-btn me-2" href="#" role="button"><i class='bx bxs-map'></i> Map</a>
+
+          <a class="nav-btn me-2" href="#" role="button"><i class='bx bxs-bar-chart-alt-2'></i> Rankings</a>
+
+          <form class="d-flex search-form" id="searchForm">
+            <input class="form-control form-control-sm" type="search" placeholder="Search City" id="citySearch">
+            <button type="submit"><i class='bx bx-search-alt-2'></i></button>
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <div class="hero-section">
+        <h1>Welcome to EcoGauge</h1>
+        <p>Your real-time guide to air quality and noise levels in your city.</p>
+    </div>
+
+    <div class="container mt-4 main-container">
+    
+      <div class="live-npi-container">
+          <h2 id="npi-city-name">Mumbai</h2>
+          <div class="npi-main-info">
+              <div id="npi-live-value" class="npi-value">--</div>
+              <div class="npi-status-wrapper">
+                  <span>Noise Level is</span>
+                  <div id="npi-live-status" class="npi-status-box">Loading...</div>
+              </div>
+          </div>
+          <div class="sound-info">
+              <span><strong>Decibel Level:</strong> <span id="db-value">--</span> dB</span>
+              <span class="ms-4"><strong>Main Source:</strong> <span id="source-value">--</span></span>
+          </div>
+          <div class="npi-scale-wrapper">
+              <div class="npi-scale">
+                  <div class="npi-scale-segment" style="width: 21.4%; background-color: #2E8B57;"></div>
+                  <div class="npi-scale-segment" style="width: 14.3%; background-color: #FFD700;"></div>
+                  <div class="npi-scale-segment" style="width: 14.3%; background-color: #FF8C00;"></div>
+                  <div class="npi-scale-segment" style="width: 14.3%; background-color: #DC143C;"></div>
+                  <div class="npi-scale-segment" style="width: 17.9%; background-color: #8A2BE2;"></div>
+                  <div class="npi-scale-segment" style="width: 17.8%; background-color: #800000;"></div>
+              </div>
+              <div id="npi-pointer" class="npi-scale-pointer" style="left: 0%;"></div>
+              <div class="npi-scale-labels">
+                  <span style="left: 0%;">0</span>
+                  <span style="left: 21.4%;">30</span>
+                  <span style="left: 35.7%;">50</span>
+                  <span style="left: 50%;">70</span>
+                  <span style="left: 64.3%;">90</span>
+                  <span style="left: 82.2%;">115</span>
+                  <span style="left: 100%;">140+</span>
+              </div>
+          </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-md-12">
+          <div class="chart-header">
+              <h4><span id="chart-timeframe-title">Weekly</span><span id="chart-title-suffix"> NPI Trend</span></h4>
+          </div>
+          <div class="d-flex justify-content-center mb-4">
+              <div class="btn-group" id="timeframe-selector">
+                  <button class="timeframe-btn" data-timeframe="1D">1D</button>
+                  <button class="timeframe-btn active" data-timeframe="1W">1W</button>
+                  <button class="timeframe-btn" data-timeframe="1M">1M</button>
+                  <button class="timeframe-btn" data-timeframe="1Y">1Y</button>
+                  <button class="timeframe-btn" data-timeframe="10Y">10Y</button>
+              </div>
+          </div>
+          <canvas id="npiTrendChart"></canvas>
+        </div>
+      </div>
+
+      <div class="container mt-5">
+        <h1>Decoding the <span class="gradient-text">Noise We Hear</span></h1>
+
+        <div class="d-flex justify-content-center mb-4">
+            <div class="btn-group" role="group" id="edu-toggle-group">
+              <button type="button" class="edu-toggle-btn active" data-target="causes">Causes</button>
+              <button type="button" class="edu-toggle-btn" data-target="effects">Effects</button>
+              <button type="button" class="edu-toggle-btn" data-target="solutions">Solutions</button>
+            </div>
+        </div>
+
+        <div id="causes" class="edu-section active">
+          <h2>1. What is Noise Pollution?</h2>
+          <ul>
+            <li>Presence of excessive or disturbing sounds in the environment.</li>
+            <li>Includes traffic noise, construction, industrial activity, and loud music.</li>
+          </ul>
+
+          <h2>2. What is NPI (Noise Pollution Index)?</h2>
+          <ul>
+            <li>NPI communicates the potential for noise to cause annoyance and health problems.</li>
+            <li>Measured in decibels (dB).</li>
+          </ul>
+
+          <h3>NPI Categories</h3>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>NPI Range (dB)</th>
+                <th>Health Concern</th>
+                <th>Color</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>0–30</td>
+                <td>Faint</td>
+                <td style="background-color: #2E8B57; color: white;">Green</td>
+              </tr>
+              <tr>
+                <td>31–50</td>
+                <td>Quiet</td>
+                <td style="background-color: #FFD700; color: black;">Yellow</td>
+              </tr>
+              <tr>
+                <td>51–70</td>
+                <td>Moderate</td>
+                <td style="background-color: #FF8C00; color: black;">Orange</td>
+              </tr>
+              <tr>
+                <td>71–90</td>
+                <td>Loud</td>
+                <td style="background-color: #DC143C; color: white;">Red</td>
+              </tr>
+              <tr>
+                <td>91–115</td>
+                <td>Very Loud</td>
+                <td style="background-color: #8A2BE2; color: white;">Purple</td>
+              </tr>
+              <tr>
+                <td>116+</td>
+                <td>Painful</td>
+                <td style="background-color: #800000; color: white;">Maroon</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2>3. Causes of Noise Pollution</h2>
+          <ul>
+            <li><strong>Transportation:</strong> Cars, motorcycles, airplanes, and trains.</li>
+            <li><strong>Industrial:</strong> Factories, machinery, and power plants.</li>
+            <li><strong>Construction:</strong> Drilling, jackhammering, and heavy equipment.</li>
+            <li><strong>Social Events:</strong> Concerts, parties, and public gatherings.</li>
+          </ul>
+        </div>
+
+        <div id="effects" class="edu-section">
+          <h2>4. Effects on the Present Generation</h2>
+          <ul>
+            <li>Hearing loss, tinnitus, and other auditory problems.</li>
+            <li>Stress, anxiety, and sleep disturbances.</li>
+            <li>Increased risk of cardiovascular disease.</li>
+          </ul>
+
+          <h2>5. Effects on Future Generations</h2>
+          <ul>
+            <li>Developmental delays in children.</li>
+            <li>Negative impact on wildlife and ecosystems.</li>
+            <li>Reduced quality of life in urban areas.</li>
+          </ul>
+        </div>
+
+        <div id="solutions" class="edu-section">
+          <h2>6. Real-Life Solutions</h2>
+
+          <h3>Individual Level</h3>
+          <ul>
+            <li>Use noise-canceling headphones or earplugs.</li>
+            <li>Choose quieter appliances and vehicles.</li>
+            <li>Avoid making unnecessary noise.</li>
+          </ul>
+
+          <h3>Community Level</h3>
+          <ul>
+            <li>Implement noise ordinances and curfews.</li>
+            <li>Create quiet zones in parks and residential areas.</li>
+            <li>Use sound-absorbing materials in buildings.</li>
+          </ul>
+
+          <h3>Government Level</h3>
+          <ul>
+            <li>Invest in quieter transportation systems.</li>
+            <li>Regulate industrial and construction noise.</li>
+            <li>Promote public awareness campaigns.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    <p>&copy; 2025 EcoGauge. All Rights Reserved.</p>
+    <p>
+        <a href="#">About Us</a> | 
+        <a href="#">Contact</a> | 
+        <a href="#">Privacy Policy</a>
+    </p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- Live NPI Data Update ---
+        const updateNpiData = () => {
+            // Static data for NPI
+            const staticNpi = 74;
+            const staticDb = 74;
+            const staticSource = 'Traffic';
+
+            document.getElementById('npi-live-value').textContent = staticNpi;
+            document.getElementById('db-value').textContent = staticDb;
+            document.getElementById('source-value').textContent = staticSource;
+
+            // Update NPI Status Box
+            const statusBox = document.getElementById('npi-live-status');
+            let statusInfo = { text: 'Unknown', color: '#30363d', textColor: 'white' };
+            if (staticNpi <= 30) statusInfo = { text: 'Faint', color: '#2E8B57', textColor: 'white' };
+            else if (staticNpi <= 50) statusInfo = { text: 'Quiet', color: '#FFD700', textColor: 'black' };
+            else if (staticNpi <= 70) statusInfo = { text: 'Moderate', color: '#FF8C00', textColor: 'black' };
+            else if (staticNpi <= 90) statusInfo = { text: 'Loud', color: '#DC143C', textColor: 'white' };
+            else if (staticNpi <= 115) statusInfo = { text: 'Very Loud', color: '#8A2BE2', textColor: 'white' };
+            else statusInfo = { text: 'Painful', color: '#800000', textColor: 'white' };
+
+            statusBox.textContent = statusInfo.text;
+            statusBox.style.backgroundColor = statusInfo.color;
+            statusBox.style.color = statusInfo.textColor;
+
+            // Update NPI Pointer
+            const pointer = document.getElementById('npi-pointer');
+            const npiPercentage = Math.min(staticNpi / 140, 1) * 100; // Cap at 140
+            pointer.style.left = `${npiPercentage}%`;
+        };
+
+        updateNpiData(); // Initial call to display the static data
+
+        // --- Educational Section Toggle ---
+        const eduToggleButtons = document.querySelectorAll('.edu-toggle-btn');
+        const eduSections = document.querySelectorAll('.edu-section');
+
+        eduToggleButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                eduToggleButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                const targetId = this.getAttribute('data-target');
+                eduSections.forEach(section => {
+                    section.classList.toggle('active', section.id === targetId);
+                });
+            });
+        });
+
+        // --- Chart.js Configuration ---
+        const chartFontColor = '#c9d1d9';
+        const chartGridColor = 'rgba(193, 209, 217, 0.2)';
+        const chartAccentColor = '#8A2BE2'; // Changed to violet
+
+        const npiTrendCtx = document.getElementById('npiTrendChart').getContext('2d');
+        let npiTrendChart = new Chart(npiTrendCtx, {}); // Initialize empty chart
+
+        const timeframeData = {
+            '1D': {
+                labels: ['12am', '3am', '6am', '9am', '12pm', '3pm', '6pm', '9pm'],
+                data: [60, 62, 65, 70, 68, 65, 63, 62]
+            },
+            '1W': {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                data: [75, 69, 80, 81, 76, 75, 72]
+            },
+            '1M': {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                data: [78, 82, 75, 72]
+            },
+            '1Y': {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                data: [80, 75, 70, 65, 60, 60, 65, 72, 75, 80, 82, 85]
+            },
+            '10Y': {
+                labels: ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'],
+                data: [90, 85, 88, 75, 70, 75, 80, 72, 75, 74]
+            }
+        };
+        
+        const timeframeTitles = {
+            '1D': 'Daily',
+            '1W': 'Weekly',
+            '1M': 'Monthly',
+            '1Y': 'Yearly',
+            '10Y': 'Decadal'
+        };
+
+        const updateChart = (timeframe) => {
+            const chartTitleSpan = document.getElementById('chart-timeframe-title');
+            chartTitleSpan.textContent = timeframeTitles[timeframe];
+            chartTitleSpan.classList.add('flipping');
+            setTimeout(() => {
+                chartTitleSpan.classList.remove('flipping');
+            }, 600);
+
+            const newData = timeframeData[timeframe];
+            if (npiTrendChart) {
+                npiTrendChart.destroy();
+            }
+            npiTrendChart = new Chart(npiTrendCtx, {
+                type: 'line',
+                data: {
+                    labels: newData.labels,
+                    datasets: [{
+                        label: 'NPI',
+                        data: newData.data,
+                        borderColor: chartAccentColor,
+                        backgroundColor: 'rgba(138, 43, 226, 0.2)',
+                        fill: true,
+                        tension: 0,
+                        pointBackgroundColor: 'white',
+                        pointBorderColor: chartAccentColor,
+                        pointRadius: 5,
+                        pointHoverRadius: 8,
+                        pointHoverBackgroundColor: chartAccentColor,
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: { beginAtZero: false, ticks: { color: chartFontColor }, grid: { color: chartGridColor } },
+                        x: { ticks: { color: chartFontColor }, grid: { color: chartGridColor } }
+                    },
+                    plugins: { 
+                        legend: { 
+                            position: 'right',
+                            labels: { color: chartFontColor }
+                        }
+                    }
+                }
+            });
+        };
+
+        const timeframeButtons = document.querySelectorAll('.timeframe-btn');
+        timeframeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                timeframeButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                const timeframe = this.getAttribute('data-timeframe');
+                updateChart(timeframe);
+            });
+        });
+
+        // Initial chart load
+        updateChart('1W');
+    });
+  </script>
+</body>
+
+</html>

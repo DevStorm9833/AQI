@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mumbai Real-Time AQI Monitor</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Leaflet.js for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <!-- Chart.js for Graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        #map {
+            height: 100%;
+            width: 100%;
+            border-radius: 0.5rem;
+            z-index: 10;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 max-w-7xl">
+
+        <header class="mb-6 text-center">
+            <h1 class="text-4xl font-bold text-gray-900">Mumbai Air Quality Index Monitor</h1>
+            <p class="text-lg text-gray-600 mt-1">Real-time air quality data for the Mumbai region</p>
+            <div id="api-notice" class="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+                <p class="text-sm text-green-800">
+                    <strong>✅ Enhanced AQI Monitor Ready!</strong> WAQI API configured for real-time monitoring station data. 
+                    Click on the 🏭 station markers for enhanced AQI readings from official monitoring stations across Mumbai.
+                </p>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+
+            <div class="lg:col-span-3 bg-white p-4 rounded-lg shadow-md flex flex-col">
+                <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
+                    <h2 class="text-xl font-semibold">Select a Location</h2>
+                     <div class="flex flex-wrap items-center gap-2">
+                         <input type="text" id="search-input" placeholder="Search a place in Mumbai..." class="flex-grow sm:flex-grow-0 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                         <input type="number" id="lat-input" placeholder="Latitude..." class="w-28 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition" step="any">
+                         <input type="number" id="lon-input" placeholder="Longitude..." class="w-28 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition" step="any">
+                        <button id="search-btn" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            Search
+                        </button>
+                        <button id="location-btn" class="p-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2" title="Use My Location">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex-grow min-h-[400px] sm:min-h-[500px] md:min-h-[600px]">
+                    <div id="map"></div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 space-y-6">
+                
+                <div id="aqi-data-card" class="bg-white p-6 rounded-lg shadow-md relative hidden">
+                    <div id="loader" class="absolute inset-0 bg-white bg-opacity-75 flex justify-center items-center rounded-lg z-20 hidden">
+                        <div class="loader"></div>
+                    </div>
+
+                    <div id="aqi-content">
+                        <p class="text-gray-500">AQI for <span id="location-name" class="font-bold">...</span></p>
+                        <div class="flex items-baseline gap-4 my-4">
+                            <p id="aqi-value" class="text-7xl font-bold">--</p>
+                            <div id="aqi-level-badge" class="px-4 py-2 rounded-full text-white font-semibold text-lg">
+                                <span id="aqi-level">Loading...</span>
+                            </div>
+                        </div>
+                        <p id="aqi-recommendation" class="text-gray-700 mb-6">Health recommendations will appear here.</p>
+
+                        <h3 class="font-semibold text-lg mb-3 border-b pb-2">Pollutant Details (μg/m³)</h3>
+                        <div id="pollutants-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-center">
+                            <!-- Pollutant data will be injected here -->
+                        </div>
+                    </div>
+                     <div id="no-data-message" class="text-center py-10 hidden">
+                        <p class="text-xl text-gray-500">No AQI data available for this location.</p>
+                        <p class="text-gray-400 mt-2">Please select another point on the map.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-semibold">Historical Data</h3>
+                        <div class="flex gap-2">
+                            <button class="chart-btn px-3 py-1 text-sm bg-gray-200 rounded-md hover:bg-gray-300" disabled>Weekly</button>
+                            <button class="chart-btn px-3 py-1 text-sm bg-gray-200 rounded-md hover:bg-gray-300" disabled>Monthly</button>
+                        </div>
+                    </div>
+                    <div>
+                        <canvas id="aqiChart"></canvas>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-4 text-center">Note: Historical data is not available with this API.</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        // WAQI API Token configured
+        const WAQI_API_TOKEN = "f3dbd79d82849161bc891d3f99aa17df24ce5340"; // WAQI API token for enhanced monitoring station data
+        const OWM_API_KEY = "bd6ac3542d15cd7daf12f898abe3c42b";
+        const OWM_API_URL = "https://api.openweathermap.org/data/2.5/air_pollution";
+        const WAQI_API_URL = "https://api.waqi.info/feed";
+        const WAQI_SEARCH_URL = "https://api.waqi.info/search";
+        const GEOCODING_API_URL = "https://nominatim.openstreetmap.org/search";
+        
+        // Mumbai Bounding Box [lat_min, lon_min, lat_max, lon_max]
+        const MUMBAI_BOUNDS_COORDS = [18.89, 72.77, 19.27, 72.99];
+        const MUMBAI_CENTER = [19.0760, 72.8777];
+        
+        // Mumbai AQI Monitoring Stations (real stations with coordinates)
+        const MUMBAI_STATIONS = [
+            { name: "Bandra Kurla Complex", lat: 19.0544, lon: 72.8691, id: "bandra-kurla-complex-mumbai" },
+            { name: "Powai", lat: 19.1197, lon: 72.9056, id: "powai-mumbai" },
+            { name: "Worli", lat: 19.0176, lon: 72.8118, id: "worli-mumbai" },
+            { name: "Andheri", lat: 19.1136, lon: 72.8697, id: "andheri-mumbai" },
+            { name: "Borivali", lat: 19.2307, lon: 72.8567, id: "borivali-mumbai" },
+            { name: "Chembur", lat: 19.0607, lon: 72.8976, id: "chembur-mumbai" },
+            { name: "Colaba", lat: 18.9067, lon: 72.8147, id: "colaba-mumbai" },
+            { name: "Malad", lat: 19.1869, lon: 72.8492, id: "malad-mumbai" },
+            { name: "Santacruz", lat: 19.0896, lon: 72.8656, id: "santacruz-mumbai" },
+            { name: "Vile Parle", lat: 19.1075, lon: 72.8263, id: "vile-parle-mumbai" }
+        ];
+
+
+        // --- DOM ELEMENTS ---
+        const mapElement = document.getElementById('map');
+        const aqiDataCard = document.getElementById('aqi-data-card');
+        const loader = document.getElementById('loader');
+        const aqiContent = document.getElementById('aqi-content');
+        const noDataMessage = document.getElementById('no-data-message');
+        const locationNameEl = document.getElementById('location-name');
+        const aqiValueEl = document.getElementById('aqi-value');
+        const aqiLevelBadge = document.getElementById('aqi-level-badge');
+        const aqiLevelEl = document.getElementById('aqi-level');
+        const aqiRecommendationEl = document.getElementById('aqi-recommendation');
+        const pollutantsGrid = document.getElementById('pollutants-grid');
+        const locationBtn = document.getElementById('location-btn');
+        const searchBtn = document.getElementById('search-btn');
+        const searchInput = document.getElementById('search-input');
+        const latInput = document.getElementById('lat-input');
+        const lonInput = document.getElementById('lon-input');
+
+        // --- MAP INITIALIZATION ---
+        let map;
+        let marker;
+        let stationMarkers = [];
+        
+        function initializeMap(lat, lon, zoomLevel = 11) {
+            if (!map) {
+                map = L.map(mapElement).setView([lat, lon], zoomLevel);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                    minZoom: 10
+                }).addTo(map);
+                map.on('click', onMapClick);
+
+                // Set map bounds to restrict panning
+                const corner1 = L.latLng(MUMBAI_BOUNDS_COORDS[0], MUMBAI_BOUNDS_COORDS[1]);
+                const corner2 = L.latLng(MUMBAI_BOUNDS_COORDS[2], MUMBAI_BOUNDS_COORDS[3]);
+                const bounds = L.latLngBounds(corner1, corner2);
+                map.setMaxBounds(bounds);
+                map.on('drag', function() {
+                    map.panInsideBounds(bounds, { animate: false });
+                });
+                
+                // Add Mumbai monitoring station markers
+                addStationMarkers();
+
+            } else {
+                map.setView([lat, lon], zoomLevel);
+            }
+            updateMarker(lat, lon);
+        }
+        
+        function addStationMarkers() {
+            MUMBAI_STATIONS.forEach(station => {
+                const stationIcon = L.divIcon({
+                    className: 'station-marker',
+                    html: '🏭',
+                    iconSize: [20, 20],
+                    iconAnchor: [10, 10]
+                });
+                
+                const stationMarker = L.marker([station.lat, station.lon], { icon: stationIcon })
+                    .bindPopup(`<strong>${station.name}</strong><br>Click to get AQI data`)
+                    .addTo(map);
+                    
+                stationMarker.on('click', () => {
+                    updateMarker(station.lat, station.lon);
+                    fetchAqiDataFromStation(station);
+                });
+                
+                stationMarkers.push(stationMarker);
+            });
+        }
+
+        function updateMarker(lat, lon) {
+            if (marker) {
+                marker.setLatLng([lat, lon]);
+            } else {
+                marker = L.marker([lat, lon]).addTo(map);
+            }
+        }
+
+        function onMapClick(e) {
+            const { lat, lng } = e.latlng;
+            updateMarker(lat, lng);
+            fetchAqiData(lat, lng, `Coordinates (${lat.toFixed(2)}, ${lng.toFixed(2)})`);
+        }
+
+        // --- AQI DATA HANDLING ---
+        async function fetchAqiData(lat, lon, locationName) {
+            showLoader();
+            aqiDataCard.classList.remove('hidden');
+            
+            // Try WAQI API first for more accurate data
+            if (WAQI_API_TOKEN !== "YOUR_WAQI_API_TOKEN") {
+                try {
+                    const waqiUrl = `${WAQI_API_URL}/geo:${lat};${lon}/?token=${WAQI_API_TOKEN}`;
+                    console.log('Fetching WAQI data from:', waqiUrl);
+                    const response = await fetch(waqiUrl);
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log('WAQI Response:', data);
+                        if (data.status === "ok" && data.data && data.data.aqi > 0) {
+                            displayWaqiData(data.data, locationName);
+                            hideLoader();
+                            return;
+                        }
+                    }
+                } catch (error) {
+                    console.warn("WAQI API failed, falling back to OpenWeatherMap:", error);
+                }
+            }
+            
+            // Fallback to OpenWeatherMap API
+            const url = `${OWM_API_URL}?lat=${lat}&lon=${lon}&appid=${OWM_API_KEY}`;
+            try {
+                console.log('Fetching OpenWeatherMap data from:', url);
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const data = await response.json();
+                console.log('OpenWeatherMap Response:', data);
+                
+                if (data.list && data.list.length > 0) {
+                    displayAqiData(data.list[0], locationName);
+                } else {
+                    showNoDataMessage();
+                }
+            } catch (error) {
+                console.error("Error fetching AQI data:", error);
+                showNoDataMessage();
+            } finally {
+                hideLoader();
+            }
+        }
+
+        function displayAqiData(data, locationName) {
+            aqiContent.classList.remove('hidden');
+            noDataMessage.classList.add('hidden');
+            
+            const aqi = data.main.aqi;
+            const { level, color, recommendation } = getOwmAqiInfo(aqi);
+            
+            locationNameEl.textContent = locationName;
+            aqiValueEl.textContent = aqi;
+            aqiLevelEl.textContent = level;
+            aqiLevelBadge.style.backgroundColor = color;
+            aqiRecommendationEl.textContent = recommendation;
+            
+            displayPollutants(data.components);
+        }
+
+        function displayPollutants(pollutants) {
+            pollutantsGrid.innerHTML = '';
+            const relevantPollutants = {'co':'CO', 'no':'NO', 'no2':'NO₂', 'o3':'O₃', 'so2':'SO₂', 'pm2_5':'PM₂.₅', 'pm10':'PM₁₀', 'nh3':'NH₃'};
+            Object.keys(relevantPollutants).forEach(key => {
+                if (pollutants[key]) {
+                    const el = document.createElement('div');
+                    el.className = 'p-2 bg-gray-100 rounded-md';
+                    el.innerHTML = `<p class="font-bold text-gray-700">${relevantPollutants[key]}</p><p class="text-lg">${pollutants[key]}</p>`;
+                    pollutantsGrid.appendChild(el);
+                }
+            });
+        }
+
+        function getOwmAqiInfo(aqi) {
+            switch (aqi) {
+                case 1: return { level: "Good", color: "#22c55e", recommendation: "Air quality is considered satisfactory, and air pollution poses little or no risk." };
+                case 2: return { level: "Fair", color: "#facc15", recommendation: "Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people." };
+                case 3: return { level: "Moderate", color: "#f97316", recommendation: "Members of sensitive groups may experience health effects. The general public is not likely to be affected." };
+                case 4: return { level: "Poor", color: "#ef4444", recommendation: "Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects." };
+                case 5: return { level: "Very Poor", color: "#a855f7", recommendation: "Health warnings of emergency conditions. The entire population is more likely to be affected." };
+                default: return { level: "Unknown", color: "#6b7280", recommendation: "AQI data is unavailable." };
+            }
+        }
+        
+        // --- WAQI API FUNCTIONS ---
+        async function fetchAqiDataFromStation(station) {
+            showLoader();
+            aqiDataCard.classList.remove('hidden');
+            
+            // Try WAQI API first if token is available
+            if (WAQI_API_TOKEN !== "YOUR_WAQI_API_TOKEN") {
+                try {
+                    const waqiUrl = `${WAQI_API_URL}/geo:${station.lat};${station.lon}/?token=${WAQI_API_TOKEN}`;
+                    const response = await fetch(waqiUrl);
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.status === "ok" && data.data) {
+                            displayWaqiData(data.data, station.name);
+                            hideLoader();
+                            return;
+                        }
+                    }
+                } catch (error) {
+                    console.warn("WAQI API failed, falling back to OpenWeatherMap:", error);
+                }
+            }
+            
+            // Fallback to OpenWeatherMap API
+            try {
+                const owmUrl = `${OWM_API_URL}?lat=${station.lat}&lon=${station.lon}&appid=${OWM_API_KEY}`;
+                const response = await fetch(owmUrl);
+                
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const data = await response.json();
+                
+                if (data.list && data.list.length > 0) {
+                    displayAqiData(data.list[0], station.name);
+                } else {
+                    showNoDataMessage();
+                }
+            } catch (error) {
+                console.error("Error fetching AQI data:", error);
+                showNoDataMessage();
+            } finally {
+                hideLoader();
+            }
+        }
+        
+        function displayWaqiData(data, locationName) {
+            aqiContent.classList.remove('hidden');
+            noDataMessage.classList.add('hidden');
+            
+            const aqi = data.aqi || 0;
+            const { level, color, recommendation } = getWaqiAqiInfo(aqi);
+            
+            locationNameEl.textContent = locationName;
+            aqiValueEl.textContent = aqi;
+            aqiLevelEl.textContent = level;
+            aqiLevelBadge.style.backgroundColor = color;
+            aqiRecommendationEl.textContent = recommendation;
+            
+            // Display WAQI pollutants
+            displayWaqiPollutants(data.iaqi || {});
+        }
+        
+        function displayWaqiPollutants(iaqi) {
+            pollutantsGrid.innerHTML = '';
+            const pollutantLabels = {
+                'pm25': 'PM₂.₅',
+                'pm10': 'PM₁₀',
+                'o3': 'O₃',
+                'no2': 'NO₂',
+                'so2': 'SO₂',
+                'co': 'CO',
+                'nh3': 'NH₃',
+                'no': 'NO'
+            };
+            
+            Object.keys(pollutantLabels).forEach(key => {
+                if (iaqi[key] && iaqi[key].v !== undefined) {
+                    const el = document.createElement('div');
+                    el.className = 'p-2 bg-gray-100 rounded-md';
+                    el.innerHTML = `<p class="font-bold text-gray-700">${pollutantLabels[key]}</p><p class="text-lg">${iaqi[key].v}</p>`;
+                    pollutantsGrid.appendChild(el);
+                }
+            });
+            
+            if (pollutantsGrid.children.length === 0) {
+                pollutantsGrid.innerHTML = '<p class="col-span-full text-gray-500">No detailed pollutant data available</p>';
+            }
+        }
+        
+        function getWaqiAqiInfo(aqi) {
+            if (aqi <= 50) return { level: "Good", color: "#00e400", recommendation: "Air quality is considered satisfactory, and air pollution poses little or no risk." };
+            if (aqi <= 100) return { level: "Moderate", color: "#ffff00", recommendation: "Air quality is acceptable for most people. Sensitive individuals may experience minor issues." };
+            if (aqi <= 150) return { level: "Unhealthy for Sensitive Groups", color: "#ff7e00", recommendation: "Members of sensitive groups may experience health effects. The general public is not likely to be affected." };
+            if (aqi <= 200) return { level: "Unhealthy", color: "#ff0000", recommendation: "Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects." };
+            if (aqi <= 300) return { level: "Very Unhealthy", color: "#8f3f97", recommendation: "Health warnings of emergency conditions. The entire population is more likely to be affected." };
+            return { level: "Hazardous", color: "#7e0023", recommendation: "Health alert: everyone may experience more serious health effects." };
+        }
+
+        // --- UI HELPER FUNCTIONS ---
+        function showLoader() {
+            loader.classList.remove('hidden');
+            aqiContent.classList.add('hidden');
+            noDataMessage.classList.add('hidden');
+        }
+
+        function hideLoader() {
+            loader.classList.add('hidden');
+        }
+        
+        function showNoDataMessage() {
+            aqiContent.classList.add('hidden');
+            noDataMessage.classList.remove('hidden');
+        }
+
+        // --- EVENT LISTENERS ---
+        locationBtn.addEventListener('click', () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const { latitude, longitude } = position.coords;
+                    initializeMap(latitude, longitude, 14);
+                    fetchAqiData(latitude, longitude, "Your Location");
+                }, () => alert("Unable to retrieve your location. Please allow location access."));
+            } else {
+                alert("Geolocation is not supported by your browser.");
+            }
+        });
+
+        async function handleSearch() {
+            const lat = parseFloat(latInput.value);
+            const lon = parseFloat(lonInput.value);
+            const query = searchInput.value.trim();
+
+            if (!isNaN(lat) && !isNaN(lon)) {
+                if (lat >= MUMBAI_BOUNDS_COORDS[0] && lat <= MUMBAI_BOUNDS_COORDS[2] && lon >= MUMBAI_BOUNDS_COORDS[1] && lon <= MUMBAI_BOUNDS_COORDS[3]) {
+                    searchInput.value = '';
+                    initializeMap(lat, lon, 14); // Zoom in on search
+                    fetchAqiData(lat, lon, `Coordinates (${lat.toFixed(2)}, ${lon.toFixed(2)})`);
+                } else {
+                    alert("Coordinates are outside of the Mumbai region.");
+                }
+                return;
+            }
+
+            if (query) {
+                latInput.value = '';
+                lonInput.value = '';
+                const viewBox = [MUMBAI_BOUNDS_COORDS[1], MUMBAI_BOUNDS_COORDS[0], MUMBAI_BOUNDS_COORDS[3], MUMBAI_BOUNDS_COORDS[2]].join(',');
+                try {
+                    const response = await fetch(`${GEOCODING_API_URL}?q=${encodeURIComponent(query)}&format=json&limit=1&viewbox=${viewBox}&bounded=1`);
+                    const data = await response.json();
+                    if (data && data.length > 0) {
+                        const { lat, lon, display_name } = data[0];
+                        const locationName = display_name.split(',')[0];
+                        initializeMap(parseFloat(lat), parseFloat(lon), 14); // Zoom in on search
+                        fetchAqiData(parseFloat(lat), parseFloat(lon), locationName);
+                    } else {
+                        alert("Location not found within Mumbai. Please try another search term.");
+                    }
+                } catch (error) {
+                    console.error("Error during geocoding:", error);
+                    alert("Failed to search for location.");
+                }
+            } else {
+                alert("Please enter a place in Mumbai or coordinates to search.");
+            }
+        }
+
+        searchBtn.addEventListener('click', handleSearch);
+        [searchInput, latInput, lonInput].forEach(input => {
+            input.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleSearch(); });
+        });
+
+        // --- CHART INITIALIZATION ---
+        const ctx = document.getElementById('aqiChart').getContext('2d');
+        const aqiChart = new Chart(ctx, {
+            type: 'line',
+            data: { labels: [], datasets: [{ label: 'AQI', data: [] }] },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+
+        // --- INITIAL LOAD ---
+        initializeMap(MUMBAI_CENTER[0], MUMBAI_CENTER[1]);
+        fetchAqiData(MUMBAI_CENTER[0], MUMBAI_CENTER[1], "Mumbai");
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Map View - EcoGauge</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Boxicons CSS -->
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <style>
+    /* General Body Styles */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0d1117;
+      /* Dark bluish-black background */
+      color: #c9d1d9;
+      /* Light text for readability */
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Navbar styling */
+    .navbar {
+      background-color: #161b22;
+      /* Slightly lighter than body */
+      border-bottom: 1px solid #6a5acd;
+      /* SlateBlue accent */
+    }
+
+    .navbar-brand {
+      color: #e209d0;
+      /* Pink accent */
+      font-weight: bold;
+    }
+
+    .navbar-brand:hover,
+    .navbar-brand:focus,
+    .navbar-brand:active {
+      color: #fc4ded; /* Lighter pink */
+      outline: none;
+      box-shadow: none;
+    }
+
+    /* Button Styles */
+    .nav-btn {
+      border-radius: 20px;
+      font-weight: 500;
+      padding: 6px 16px;
+      transition: all 0.2s ease-in-out;
+      border: 1px solid #6a5acd;
+      /* SlateBlue border */
+      background-color: transparent;
+      color: #f194ff; /* Light pink text */
+      box-shadow: 0 0 8px 2px rgba(138, 43, 226, 0.3); /* Violet shadow */
+      text-decoration: none; /* Remove underline from all buttons */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem; /* Space between icon and text */
+    }
+    
+    .nav-btn:hover {
+        background-color: #21262d; /* Dark grey background */
+        border-color: white;
+        color: white;
+        box-shadow: 0 0 15px 5px rgba(138, 43, 226, 0.5);
+    }
+    
+    /* Main Content Area */
+    .main-container {
+      background-color: #161b22;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px 8px rgba(138, 43, 226, 0.2);
+    }
+    
+    .main-container h1 {
+        color: white;
+        font-size: 2.5rem;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .gradient-text {
+        background: linear-gradient(to right, #6a5acd, #e209d0);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    /* Map and Search Styles */
+    #map {
+        height: 500px;
+        width: 100%;
+        border-radius: 15px;
+        box-shadow: 0 0 15px 5px rgba(138, 43, 226, 0.4);
+        border: 1px solid #6a5acd;
+    }
+    .map-search-form {
+        position: relative;
+        max-width: 600px;
+        margin: 0 auto 30px;
+    }
+    .map-search-form input {
+        border-radius: 20px;
+        padding-left: 15px;
+        padding-right: 45px;
+        background-color: #0d1117;
+        border: 1px solid #6a5acd;
+        color: #c9d1d9;
+        box-shadow: 0 0 8px 2px rgba(138, 43, 226, 0.3);
+        transition: all 0.2s ease-in-out;
+        height: 45px;
+    }
+    .map-search-form input:focus {
+        background-color: #21262d;
+        border-color: white;
+        color: white;
+        box-shadow: 0 0 15px 5px rgba(138, 43, 226, 0.5);
+    }
+    .map-search-form button {
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        border: none;
+        background-color: #8A2BE2;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+    }
+    .map-search-form button:hover {
+        background-color: #a200ff;
+    }
+    .map-search-form button i {
+        font-size: 22px;
+    }
+    
+    /* Leaflet Popup Customization */
+    .leaflet-popup-content-wrapper {
+        background-color: #161b22;
+        color: #c9d1d9;
+        border: 1px solid #6a5acd;
+        border-radius: 10px;
+    }
+    .leaflet-popup-content {
+        margin: 15px;
+    }
+    .leaflet-popup-tip {
+        background: #161b22;
+    }
+    .popup-aqi-badge {
+        padding: 5px 10px;
+        border-radius: 15px;
+        font-weight: bold;
+    }
+
+    /* Footer Styles */
+    footer {
+        background-color: #161b22;
+        color: #8b949e;
+        text-align: center;
+        padding: 20px 0;
+        border-top: 1px solid #6a5acd;
+    }
+    footer a {
+        color: #6a5acd;
+        text-decoration: none;
+        margin: 0 10px;
+    }
+    footer a:hover {
+        color: #836FFF;
+        text-decoration: underline;
+    }
+    
+  </style>
+</head>
+
+<body>
+  <div class="main-content-wrapper">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <a class="navbar-brand me-auto" href="AQI_Home.html">EcoGauge</a>
+        <div class="d-flex align-items-center">
+          <a class="nav-btn me-2" href="Create_Account.html" role="button">Sign Up</a>
+          <a class="nav-btn" href="Login.html" role="button">Login</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <div class="main-container">
+            <h1>Mumbai & Thane's <span class="gradient-text">Interactive Map</span></h1>
+            <form class="map-search-form" id="mapSearchForm">
+                <input class="form-control" type="search" placeholder="Search for a location in Mumbai or Thane..." id="mapSearchInput">
+                <button type="submit"><i class='bx bx-search'></i></button>
+            </form>
+            <div id="map"></div>
+        </div>
+    </div>
+  </div>
+  
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 EcoGauge. All Rights Reserved.</p>
+      <p>
+          <a href="#">About Us</a> | 
+          <a href="#">Contact</a> | 
+          <a href="#">Privacy Policy</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Leaflet Map
+        const map = L.map('map').setView([19.15, 72.95], 10); // Centered between Mumbai and Thane
+
+        // Set map boundaries to include Mumbai and Thane regions
+        const southWest = L.latLng(18.8, 72.7);
+        const northEast = L.latLng(19.5, 73.3);
+        const bounds = L.latLngBounds(southWest, northEast);
+        map.setMaxBounds(bounds);
+        map.on('drag', function() {
+            map.panInsideBounds(bounds, { animate: false });
+        });
+
+        // Add a dark tile layer
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            minZoom: 10,
+            maxZoom: 18
+        }).addTo(map);
+        
+        let marker; // To hold the current marker
+
+        // List of Mumbai and Thane railway stations
+        const stations = [
+            'CST', 'Churchgate', 'Marine Lines', 'Charni Road', 'Grant Road', 'Mumbai Central', 'Mahalaxmi',
+            'Lower Parel', 'Prabhadevi', 'Dadar', 'Matunga Road', 'Mahim', 'Bandra', 'Khar Road', 'Santacruz',
+            'Vile Parle', 'Andheri', 'Jogeshwari', 'Ram Mandir', 'Goregaon', 'Malad', 'Kandivali', 'Borivali',
+            'Dahisar', 'Masjid', 'Sandhurst Road', 'Byculla', 'Chinchpokli', 'Currey Road', 'Parel', 'Sion',
+            'Kurla', 'Vidyavihar', 'Ghatkopar', 'Vikhroli', 'Kanjurmarg', 'Bhandup', 'Nahur', 'Mulund', 'Thane',
+            'Kalwa', 'Mumbra', 'Diva', 'Kopar', 'Dombivli', 'Thakurli', 'Kalyan', 'Dockyard Road', 'Reay Road',
+            'Cotton Green', 'Sewri', 'Wadala Road', 'GTB Nagar', 'Chunabhatti', 'Govandi', 'Mankhurd', 'Vashi',
+            'Sanpada', 'Juinagar', 'Nerul', 'Seawoods', 'Belapur', 'Kharghar', 'Panvel', 'Tilak Nagar'
+        ];
+
+        // --- Helper function to get AQI status ---
+        function getAqiStatus(aqi) {
+            let statusInfo = { text: 'Unknown', color: '#30363d', textColor: 'white' };
+            if (aqi <= 50) statusInfo = { text: 'Good', color: '#2E8B57', textColor: 'white' };
+            else if (aqi <= 100) statusInfo = { text: 'Moderate', color: '#FFD700', textColor: 'black' };
+            else if (aqi <= 150) statusInfo = { text: 'Poor', color: '#FF8C00', textColor: 'black' };
+            else if (aqi <= 200) statusInfo = { text: 'Unhealthy', color: '#DC143C', textColor: 'white' };
+            else if (aqi <= 300) statusInfo = { text: 'Severe', color: '#8A2BE2', textColor: 'white' };
+            else statusInfo = { text: 'Hazardous', color: '#800000', textColor: 'white' };
+            return statusInfo;
+        }
+
+        // Handle map search
+        const mapSearchForm = document.getElementById('mapSearchForm');
+        mapSearchForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const searchInput = document.getElementById('mapSearchInput');
+            const query = searchInput.value.trim();
+
+            if (!query) return;
+
+            // Using Nominatim for geocoding (free, no API key needed for basic use)
+            const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1&viewbox=72.7,18.8,73.3,19.5&bounded=1`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data && data.length > 0) {
+                    const lat = parseFloat(data[0].lat);
+                    const lon = parseFloat(data[0].lon);
+                    const location = [lat, lon];
+                    const displayName = data[0].display_name;
+
+                    // Check if the result is within our defined bounds
+                    if (bounds.contains(location)) {
+                        map.flyTo(location, 15); // Zoom into the location
+
+                        // Remove previous marker if it exists
+                        if (marker) {
+                            map.removeLayer(marker);
+                        }
+                        
+                        // Simulate AQI data for the location
+                        const simulatedAqi = Math.floor(Math.random() * 250) + 50; // Random AQI between 50 and 300
+                        const aqiStatus = getAqiStatus(simulatedAqi);
+
+                        // Check if the location is a station
+                        let isStation = false;
+                        for (const station of stations) {
+                            if (displayName.toLowerCase().includes(station.toLowerCase())) {
+                                isStation = true;
+                                break;
+                            }
+                        }
+                        const nameColor = isStation ? '#e209d0' : 'white';
+
+                        const popupContent = `
+                            <div style="font-size: 1rem;">
+                                <b style="color: ${nameColor};">${displayName.split(',')[0]}</b>
+                                <hr style="margin: 5px 0;">
+                                <p style="margin-bottom: 5px;">
+                                    AQI: <strong>${simulatedAqi}</strong> 
+                                    <span class="badge aqi-badge" style="background-color: ${aqiStatus.color}; color: ${aqiStatus.textColor};">
+                                        ${aqiStatus.text}
+                                    </span>
+                                </p>
+                            </div>
+                        `;
+
+                        // Add a new marker
+                        marker = L.marker(location).addTo(map)
+                            .bindPopup(popupContent)
+                            .openPopup();
+                    } else {
+                        alert('Location found, but it is outside of the Mumbai-Thane region.');
+                    }
+                } else {
+                    alert('Location not found in the Mumbai-Thane region. Please try another search.');
+                }
+            } catch (error) {
+                console.error('Error during geocoding:', error);
+                alert('An error occurred while searching. Please try again.');
+            }
+        });
+    });
+  </script>
+</body>
+
+</html>
