@@ -22,15 +22,18 @@
 ✓ User Pages(6 pages)
 
 5. AQI_Home
+   + Daily Awareness Quiz / Facts
    + Nearby Location ka data in AQI, Humidity, Temp
    + Monthly and Weekly Graphs
    + Health Advisories in Causes, Effects, Solution( Decoding the Air We Breathe )
-   - ❌ No need of Search button
+   + Search button should direct user to Maps page
 
 6. Noise_Home
+   + Daily Awareness Quiz / Facts
    + Nearby Location ka data in NPI,
    + Monthly and Weekly Graphs
    + Health Advisories in Causes, Effects, Solution( Decoding the Noise We Hear )
+   + Search button should direct user to Maps page
 
 7. AQI Map
    + Search Button
@@ -53,7 +56,11 @@
     + Mumbai's Lowest Noise Pollution Stations
 
 11. Admin( Everything same as User )
-    + Feedback stats & controls
-    + Alert controls
-    + Account controls( Block users )
-    + Daily Awareness Quiz / Facts
+    + Profile Icon
+    + Dashboard
+    + Alerts
+    + History Reports
+    + User Account controls, Feedback stats & controls
+    + Settings
+    
+    
