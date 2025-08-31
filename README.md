@@ -42,21 +42,21 @@
    + Monthly and Weekly Graphs
    + Health Advisories in Causes, Effects, Solution( Decoding the Noise We Hear )
 
-7. AQI Map
+7. AQI_Map
    + Search Button
    + When you click on any location or search for any location it should zoom the map to that location.
    + In left side all the AQI details should be shown... Refer https://www.aqi.in/in/air-quality-map
 
-8. NPI Map
+8. NPI_Map
    + Search Button
    + When you click on any location or search for any location it should zoom the map to that location.
    + In left side all the NPI details should be shown.
 
-9. AQI Ranking
+9. AQI_Ranking
     + Search Button
     + Live AQI City Ranking
       
-10. NPI Ranking
+10. NPI_Ranking
     + Search Button
     + Live NPI City Ranking
 
@@ -68,10 +68,15 @@
     + Profile Icon
     + Menu( Dashboard, Alerts, History Reports, User Account controls & Feedback stats, Settings
     + Dashboard Analysis
-    + + Top 5 High & Low Avg AQI stations Weekly, Monthly
+    + + Top 5 High & Low Avg AQI stations Weekly, Monthly i.e Alerts
       + Graphs for each station filtered by Sept 2025 v/s Sept 2024, Sept v/s Aug,
       + Heatmaps
       + Feedback(+ve / -ve) for each station
+    + AQI_Map
+    + AQI_Ranking
+    + History Reports
+    + + Export Json file
+      + filtered by 
 
 12. NPI_Admin
     + Profile Icon
