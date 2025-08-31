@@ -19,6 +19,9 @@
 
 4. Forgot_Password
 
+
+
+
 ✓ User Pages(6 pages)
 
 5. AQI_Home
@@ -52,18 +55,23 @@
 9. AQI Ranking
     + Search Button
     + Live AQI City Ranking
-    + Mumbai's Best Air Quality Stations
-    
+      
 10. NPI Ranking
     + Search Button
     + Live NPI City Ranking
-    + Mumbai's Lowest Noise Pollution Stations
+
+
 
 ✓ Admin Page( Everything same as User )
 
 11. AQI_Admin
     + Profile Icon
     + Menu( Dashboard, Alerts, History Reports, User Account controls & Feedback stats, Settings
+    + Dashboard Analysis
+    + + Top 5 High & Low Avg AQI stations Weekly, Monthly
+      + Graphs for each station filtered by Sept 2025 v/s Sept 2024, Sept v/s Aug,
+      + Heatmaps
+      + Feedback(+ve / -ve) for each station
 
 12. NPI_Admin
     + Profile Icon
