@@ -76,7 +76,8 @@
     + AQI_Ranking
     + History Reports
     + + Export Json file
-      + filtered by 
+      + Search button filtered by Station, Daily Weekly, Monthly, Yearly, Decadal
+      + Table( AQI, PM2.5, 10, NO2, SO2, CO, )
 
 12. NPI_Admin
     + Profile Icon
