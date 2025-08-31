@@ -60,11 +60,13 @@
     + Mumbai's Lowest Noise Pollution Stations
 
 ✓ Admin Page( Everything same as User )
+
+11. AQI_Admin
     + Profile Icon
-    + Dashboard
-    + Alerts
-    + History Reports
-    + User Account controls, Feedback stats & controls
-    + Settings
+    + Menu( Dashboard, Alerts, History Reports, User Account controls & Feedback stats, Settings
+
+12. NPI_Admin
+    + Profile Icon
+    + Menu( Dashboard, Alerts, History Reports, User Account controls & Feedback stats, Settings
     
     
