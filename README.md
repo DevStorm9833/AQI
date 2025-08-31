@@ -67,7 +67,7 @@
 
 11. AQI_Admin
     + Profile Icon
-    + Menu( Dashboard, Alerts, History Reports, User Account controls & Feedback stats, Settings
+    + Menu( Dashboard, Alerts, AQI_Map, AQI_Ranking, History Reports, User Account controls & Feedback stats, Settings
     + Dashboard Analysis
     + + Top 5 High & Low Avg AQI stations Weekly, Monthly i.e Alerts
       + Graphs for each station filtered by Sept 2025 v/s Sept 2024, Sept v/s Aug,
