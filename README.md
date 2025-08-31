@@ -54,7 +54,7 @@
 
 9. AQI_Ranking
     + Search Button, Refresh, Export, Last updated & Next update Time
-    + Table( AQI, PM2.5, 10, NO2, SO2, CO, O3)
+    + Table( Line, Station, Lat, Long, AQI, PM2.5, 10, NO2, SO2, CO, O3)
       
 10. NPI_Ranking
     + Search Button
