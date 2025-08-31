@@ -53,10 +53,11 @@
    + In left side all the NPI details should be shown.
 
 9. AQI_Ranking
+    + filtered by Central, Western, Harbour 
     + Search Button, Refresh, Export, Last updated & Next update Time
     + Table( Line, Station, Lat, Long, AQI, PM2.5, 10, NO2, SO2, CO, O3)
       
-10. NPI_Ranking
+11. NPI_Ranking
     + Search Button
     + Live NPI City Ranking
 
