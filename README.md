@@ -53,8 +53,8 @@
    + In left side all the NPI details should be shown.
 
 9. AQI_Ranking
-    + Search Button
-    + Live AQI City Ranking
+    + Search Button, Refresh, Export, Last updated & Next update Time
+    + Table( AQI, PM2.5, 10, NO2, SO2, CO, O3)
       
 10. NPI_Ranking
     + Search Button
@@ -77,7 +77,7 @@
     + History Reports
     + + Export Json file
       + Search button filtered by Station, Daily Weekly, Monthly, Yearly, Decadal
-      + Table( AQI, PM2.5, 10, NO2, SO2, CO, )
+      + Table( AQI, PM2.5, 10, NO2, SO2, CO, O3)
 
 12. NPI_Admin
     + Profile Icon
