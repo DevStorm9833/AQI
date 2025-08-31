@@ -22,18 +22,22 @@
 ✓ User Pages(6 pages)
 
 5. AQI_Home
+   + Search button should direct user to Maps page
+   + Menu( Maps, Ranking, Feedback, Login/Sign Up )
+   + Green Mountains bg img
    + Daily Awareness Quiz / Facts
    + Nearby Location ka data in AQI, Humidity, Temp
    + Monthly and Weekly Graphs
    + Health Advisories in Causes, Effects, Solution( Decoding the Air We Breathe )
-   + Search button should direct user to Maps page
 
 6. Noise_Home
+   + Search button should direct user to Maps page
+   + Menu( Maps, Ranking, Feedback, Login/Sign Up )
+   + bg img
    + Daily Awareness Quiz / Facts
    + Nearby Location ka data in NPI,
    + Monthly and Weekly Graphs
    + Health Advisories in Causes, Effects, Solution( Decoding the Noise We Hear )
-   + Search button should direct user to Maps page
 
 7. AQI Map
    + Search Button
@@ -55,7 +59,7 @@
     + Live NPI City Ranking
     + Mumbai's Lowest Noise Pollution Stations
 
-11. Admin( Everything same as User )
+✓ Admin Page( Everything same as User )
     + Profile Icon
     + Dashboard
     + Alerts
