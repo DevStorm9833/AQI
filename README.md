@@ -81,8 +81,9 @@
       + Table( AQI, PM2.5, 10, NO2, SO2, CO, O3)
     + User
       + Account Controls
-      + +
+        + Add, Delete Users
       + Feedbacks for each station and its stats
+    + Settings
 
 12. NPI_Admin
     + Profile Icon
