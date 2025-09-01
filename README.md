@@ -85,7 +85,7 @@
         + Audit logs of logins, failed attempts, and account activity
         + 
       + Feedbacks for each station and its stats
-        + Manage user feedback (approve, resolve, escalate, or reject).
+      + + Manage user feedback (approve, resolve, escalate, or reject).
     + Settings
 
 12. NPI_Admin
