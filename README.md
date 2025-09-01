@@ -81,8 +81,11 @@
       + Table( AQI, PM2.5, 10, NO2, SO2, CO, O3)
     + User
       + Account Controls
-        + Add, Delete Users
+      + + Add, Delete Users
+        + Audit logs of logins, failed attempts, and account activity
+        + 
       + Feedbacks for each station and its stats
+        + Manage user feedback (approve, resolve, escalate, or reject).
     + Settings
 
 12. NPI_Admin
