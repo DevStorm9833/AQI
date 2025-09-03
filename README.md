@@ -86,7 +86,7 @@
       
       + Feedbacks for each station and its stats
       + + Manage user feedback (approve, resolve, escalate, or reject).
-        + Feedback box should show Name, Email, Date & Time.
+        + Feedback box should show Name, Email, Date & Time, ⭐ rating, 
     
     + Settings
 
