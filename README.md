@@ -83,9 +83,11 @@
       + Account Controls
       + + Add, Delete Users
         + Audit logs of logins, failed attempts, and account activity
-        + 
+      
       + Feedbacks for each station and its stats
       + + Manage user feedback (approve, resolve, escalate, or reject).
+        + Feedback box should show Name, Email, Date & Time.
+    
     + Settings
 
 12. NPI_Admin
