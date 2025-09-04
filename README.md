@@ -5,7 +5,12 @@
 - API_KEY : aqicn f3dbd79d82849161bc891d3f99aa17df24ce5340
 - openweather bd6ac3542d15cd7daf12f898abe3c42b
 
-- some img links :
+- some AQI img links
+- https://www.sei.org/wp-content/uploads/2020/09/gettyimages-469339221-cleanairday-mediaadvisory-resamp.jpg
+- https://moderndiplomacy.eu/wp-content/uploads/2021/09/air-pollution-china.jpg
+
+
+- some NPI img links :
 - https://static.toiimg.com/thumb/msid-105136821,width-1280,height-720,resizemode-72/105136821.jpg
 - https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXUybUk-B3N-dAtI1gzva9__UkMU0PmnC-WA&s
 - https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTu8vRXClnC3CwKfK4hJzj5Y0qlSS5fQYqqDA&s
