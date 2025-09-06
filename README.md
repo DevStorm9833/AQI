@@ -87,18 +87,20 @@
       + Feedback(+ve / -ve) for each station
     + AQI_Map
     + AQI_Ranking
+    + + Same as User
+      + Add, Delete, Update stations
     + History Reports
     + + Export Json file
       + Search button filtered by Station, Daily Weekly, Monthly, Yearly, Decadal
       + Table( AQI, PM2.5, 10, NO2, SO2, CO, O3)
     + User
+      + Feedbacks for each station and its stats
+      + + Manage user feedback (approve, resolve, escalate, or reject).
+        + Feedback box should show Name, Email, Place, Date & Time, ⭐ rating, File(Img, Audio, Video) filtered by Regions.
       + Account Controls
       + + Add, Delete Users
         + Audit logs of logins, failed attempts, and account activity
       
-      + Feedbacks for each station and its stats
-      + + Manage user feedback (approve, resolve, escalate, or reject).
-        + Feedback box should show Name, Email, Place, Date & Time, ⭐ rating, File(Img, Audio, Video) filtered by Regions.
     + Settings
 
 12. NPI_Admin
