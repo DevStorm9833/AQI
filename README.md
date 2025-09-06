@@ -97,7 +97,7 @@
       + Feedbacks for each station and its stats
       + + Manage user feedback (approve, resolve, escalate, or reject).
         + Feedback box should show Name, Email, Place, Date & Time, ⭐ rating, File(Img, Audio, Video) filtered by Regions.
-      + Account Controls
+      + ❌Account Controls
       + + Add, Delete Users
         + Audit logs of logins, failed attempts, and account activity
       
