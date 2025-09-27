@@ -2,354 +2,832 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Map View - EcoGauge</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Boxicons CSS -->
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <style>
-    /* General Body Styles */
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #0d1117;
-      /* Dark bluish-black background */
-      color: #c9d1d9;
-      /* Light text for readability */
-      margin: 0;
-      padding: 0;
-    }
-
-    /* Navbar styling */
-    .navbar {
-      background-color: #161b22;
-      /* Slightly lighter than body */
-      border-bottom: 1px solid #6a5acd;
-      /* SlateBlue accent */
-    }
-
-    .navbar-brand {
-      color: #e209d0;
-      /* Pink accent */
-      font-weight: bold;
-    }
-
-    .navbar-brand:hover,
-    .navbar-brand:focus,
-    .navbar-brand:active {
-      color: #fc4ded; /* Lighter pink */
-      outline: none;
-      box-shadow: none;
-    }
-
-    /* Button Styles */
-    .nav-btn {
-      border-radius: 20px;
-      font-weight: 500;
-      padding: 6px 16px;
-      transition: all 0.2s ease-in-out;
-      border: 1px solid #6a5acd;
-      /* SlateBlue border */
-      background-color: transparent;
-      color: #f194ff; /* Light pink text */
-      box-shadow: 0 0 8px 2px rgba(138, 43, 226, 0.3); /* Violet shadow */
-      text-decoration: none; /* Remove underline from all buttons */
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem; /* Space between icon and text */
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mumbai Real-Time AQI Monitor</title>
     
-    .nav-btn:hover {
-        background-color: #21262d; /* Dark grey background */
-        border-color: white;
-        color: white;
-        box-shadow: 0 0 15px 5px rgba(138, 43, 226, 0.5);
-    }
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
-    /* Main Content Area */
-    .main-container {
-      background-color: #161b22;
-      padding: 40px;
-      border-radius: 15px;
-      box-shadow: 0 0 20px 8px rgba(138, 43, 226, 0.2);
-    }
-    
-    .main-container h1 {
-        color: white;
-        font-size: 2.5rem;
-        font-weight: 600;
-        text-align: center;
-        margin-bottom: 30px;
-    }
-    .gradient-text {
-        background: linear-gradient(to right, #6a5acd, #e209d0);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-    }
+    <!-- Bootstrap CSS for Navbar -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    /* Map and Search Styles */
-    #map {
-        height: 500px;
-        width: 100%;
-        border-radius: 15px;
-        box-shadow: 0 0 15px 5px rgba(138, 43, 226, 0.4);
-        border: 1px solid #6a5acd;
-    }
-    .map-search-form {
-        position: relative;
-        max-width: 600px;
-        margin: 0 auto 30px;
-    }
-    .map-search-form input {
-        border-radius: 20px;
-        padding-left: 15px;
-        padding-right: 45px;
-        background-color: #0d1117;
-        border: 1px solid #6a5acd;
-        color: #c9d1d9;
-        box-shadow: 0 0 8px 2px rgba(138, 43, 226, 0.3);
-        transition: all 0.2s ease-in-out;
-        height: 45px;
-    }
-    .map-search-form input:focus {
-        background-color: #21262d;
-        border-color: white;
-        color: white;
-        box-shadow: 0 0 15px 5px rgba(138, 43, 226, 0.5);
-    }
-    .map-search-form button {
-        position: absolute;
-        right: 5px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
-        border: none;
-        background-color: #8A2BE2;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-        cursor: pointer;
-        transition: background-color 0.2s ease-in-out;
-    }
-    .map-search-form button:hover {
-        background-color: #a200ff;
-    }
-    .map-search-form button i {
-        font-size: 22px;
-    }
-    
-    /* Leaflet Popup Customization */
-    .leaflet-popup-content-wrapper {
-        background-color: #161b22;
-        color: #c9d1d9;
-        border: 1px solid #6a5acd;
-        border-radius: 10px;
-    }
-    .leaflet-popup-content {
-        margin: 15px;
-    }
-    .leaflet-popup-tip {
-        background: #161b22;
-    }
-    .popup-aqi-badge {
-        padding: 5px 10px;
-        border-radius: 15px;
-        font-weight: bold;
-    }
+    <!-- Leaflet.js for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-    /* Footer Styles */
-    footer {
-        background-color: #161b22;
-        color: #8b949e;
-        text-align: center;
-        padding: 20px 0;
-        border-top: 1px solid #6a5acd;
-    }
-    footer a {
-        color: #6a5acd;
-        text-decoration: none;
-        margin: 0 10px;
-    }
-    footer a:hover {
-        color: #836FFF;
-        text-decoration: underline;
-    }
-    
-  </style>
+    <!-- Chart.js for Graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+    <!-- Google Fonts: Inter & Boxicons for icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Segoe+UI:wght@400;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <style>
+        /* General Body Styles */
+        :root {
+            --good: #34d399;
+            --moderate: #facc15;
+            --poor: #fb923c;
+            --unhealthy: #ef4444;
+            --severe: #a855f7;
+            --hazardous: #800000;
+            --unknown: #6b7280;
+
+            --good-bg: rgba(52, 211, 153, 0.1);
+            --moderate-bg: rgba(250, 204, 21, 0.1);
+            --poor-bg: rgba(251, 146, 60, 0.1);
+            --unhealthy-bg: rgba(239, 68, 68, 0.1);
+            --severe-bg: rgba(168, 85, 247, 0.1);
+            --hazardous-bg: rgba(128, 0, 0, 0.1);
+            --unknown-bg: rgba(107, 114, 128, 0.1);
+        }
+        body {
+            font-family: 'Segoe UI', 'Inter', sans-serif;
+            background-color: #0d1117;
+            color: #c9d1d9;
+        }
+        #map {
+            height: 100%;
+            width: 100%;
+            border-radius: 0.5rem;
+            z-index: 10;
+        }
+        
+        /* Navbar styling from user example */
+        .navbar {
+          background-color: #161b22;
+          border-bottom: 1px solid #6a5acd;
+        }
+        .navbar-brand {
+          color: #e209d0;
+          font-weight: bold;
+        }
+        .navbar-brand:hover,
+        .navbar-brand:focus,
+        .navbar-brand:active {
+          color: #fc4ded;
+          outline: none;
+          box-shadow: none;
+        }
+        .navbar-tools {
+          gap: 0.5rem;
+        }
+        .nav-btn,
+        .btn-group-toggle .btn {
+          border-radius: 20px;
+          font-weight: 500;
+          padding: 6px 16px;
+          transition: all 0.2s ease-in-out;
+          border: 1px solid #6a5acd;
+          background-color: transparent;
+          color: #f194ff; 
+          box-shadow: 0 0 8px 2px rgba(138, 43, 226, 0.3);
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+        }
+        .nav-btn i,
+        .btn-group-toggle .btn i {
+            font-size: 20px;
+        }
+        .nav-btn:hover,
+        .btn-group-toggle .btn:hover {
+            background-color: #21262d;
+            border-color: white;
+            color: white;
+            box-shadow: 0 0 15px 5px rgba(138, 43, 226, 0.5);
+        }
+        .btn-group-toggle .btn.active {
+          background-color: #8A2BE2;
+          color: #FFFFFF;
+          border-color: #8A2BE2;
+        }
+
+        /* Custom Map Controls */
+        .leaflet-control-zoom-in, .leaflet-control-zoom-out, .leaflet-control-current-location a {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border: 1px solid #ccc !important;
+        }
+        .leaflet-control-zoom-in:hover, .leaflet-control-zoom-out:hover, .leaflet-control-current-location a:hover {
+            background-color: #f4f4f4 !important;
+        }
+        .leaflet-bar a {
+            border-radius: 0 !important;
+        }
+        .leaflet-bar a:first-child {
+            border-top-left-radius: 4px !important;
+            border-top-right-radius: 4px !important;
+        }
+        .leaflet-bar a:last-child {
+            border-bottom-left-radius: 4px !important;
+            border-bottom-right-radius: 4px !important;
+            border-top: 0.5px solid #ddd !important; /* Thinner separator */
+        }
+        .leaflet-control-current-location {
+            margin-top: 10px;
+        }
+        .leaflet-control-current-location a {
+            border-radius: 4px !important;
+            width: 30px;
+            height: 30px;
+            line-height: 28px;
+            font-size: 1.2rem;
+            text-align: center;
+            cursor: pointer;
+            display: block;
+        }
+        .leaflet-disabled {
+            background-color: #e9ecef !important;
+            color: #6c757d !important;
+            cursor: default !important;
+        }
+
+        /* Chart Styles */
+        .timeframe-capsule {
+            display: inline-flex;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 8px 2px rgba(138, 43, 226, 0.3);
+            border: 1px solid #6a5acd;
+        }
+        .timeframe-btn {
+            font-weight: 500;
+            padding: 4px 12px;
+            font-size: 0.9rem;
+            transition: all 0.2s ease-in-out;
+            background-color: transparent;
+            color: #f194ff;
+            border: none;
+        }
+        .timeframe-btn:not(:last-child) {
+            border-right: 1px solid #6a5acd;
+        }
+        .timeframe-btn:hover {
+            background-color: #21262d;
+            color: white;
+        }
+        .timeframe-btn.active {
+            background-color: #6a5acd;
+            color: #FFFFFF;
+        }
+        #chart-timeframe-title {
+            display: inline-block;
+            perspective: 1000px;
+            background: linear-gradient(90deg, #6366F1, #A855F7, #EC4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        #chart-timeframe-title.flipping {
+            animation: flip-box 0.6s ease-in-out;
+        }
+        @keyframes flip-box {
+            0% { transform: rotateX(0deg); }
+            50% { transform: rotateX(-90deg); }
+            100% { transform: rotateX(0deg); }
+        }
+        
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        thead th {
+            font-size: 12px;
+            text-align: left;
+            color: #b7c3d6;
+            background: rgba(255, 255, 255, .04);
+        }
+        th, td {
+            padding: 12px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, .1);
+            font-size: 13px;
+            white-space: nowrap;
+        }
+        tbody tr:hover { background: rgba(255, 255, 255, .05); }
+        .status-pill {
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 11px;
+            display: inline-block;
+            text-align: center;
+        }
+
+    </style>
 </head>
+<body class="flex flex-col min-h-screen">
 
-<body>
-  <div class="main-content-wrapper">
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg">
-      <div class="container">
-        <a class="navbar-brand me-auto" href="AQI_Home.html">EcoGauge</a>
-        <div class="d-flex align-items-center">
-          <a class="nav-btn me-2" href="Create_Account.html" role="button">Sign Up</a>
-          <a class="nav-btn" href="Login.html" role="button">Login</a>
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">EcoGauge</a>
+        <div class="d-flex align-items-center navbar-tools">
+          <div class="btn-group btn-group-toggle me-2" role="group">
+            <a href="#" class="btn btn-outline-light btn-sm active"><i class='bx bx-wind'></i> AQI</a>
+            <a href="#" class="btn btn-outline-light btn-sm"><i class='bx bxs-volume-full'></i> Noise</a>
+          </div>
+          <a class="nav-btn me-2 d-none d-sm-inline-flex" href="#" role="button"><i class='bx bxs-map'></i> Map</a>
+          <a class="nav-btn me-2 d-none d-sm-inline-flex" href="#" role="button"><i class='bx bxs-bar-chart-alt-2'></i> Rankings</a>
         </div>
       </div>
     </nav>
 
-    <!-- Main Content -->
-    <div class="container my-5">
-        <div class="main-container">
-            <h1>Mumbai & Thane's <span class="gradient-text">Interactive Map</span></h1>
-            <form class="map-search-form" id="mapSearchForm">
-                <input class="form-control" type="search" placeholder="Search for a location in Mumbai or Thane..." id="mapSearchInput">
-                <button type="submit"><i class='bx bx-search'></i></button>
-            </form>
-            <div id="map"></div>
+    <main class="container mx-auto p-4 max-w-7xl flex-grow">
+
+        <header class="mb-6 text-center">
+            <h1 class="text-4xl font-bold text-white">Mumbai Air Quality Index Monitor</h1>
+            <p class="text-lg text-gray-400 mt-1">Real-time air quality data for the Mumbai region</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+
+            <div class="lg:col-span-3 bg-[#161b22] p-4 rounded-lg shadow-lg flex flex-col border border-slate-700">
+                <h2 class="text-xl font-semibold text-white mb-4">Select / Search a Location</h2>
+                <div class="space-y-3 mb-4">
+                    <!-- Text Search -->
+                    <div class="flex items-center gap-2">
+                        <input type="text" id="search-input" placeholder="Search a place in Mumbai..." class="flex-grow px-3 py-2 border border-slate-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 transition bg-[#0d1117] text-white">
+                        <button id="search-btn" class="p-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 w-10 h-10 flex items-center justify-center">
+                            <i class='bx bx-search-alt-2 text-xl'></i>
+                        </button>
+                    </div>
+                    <!-- Coordinate Search -->
+                    <div class="flex items-center gap-2">
+                        <input type="number" id="lat-input" placeholder="Latitude..." class="w-1/2 px-3 py-2 border border-slate-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 transition bg-[#0d1117] text-white" step="any">
+                        <input type="number" id="lon-input" placeholder="Longitude..." class="w-1/2 px-3 py-2 border border-slate-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 transition bg-[#0d1117] text-white" step="any">
+                        <button id="coord-search-btn" class="p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 w-10 h-10 flex items-center justify-center">
+                            <i class='bx bxs-map text-xl'></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex-grow min-h-[400px] sm:min-h-[500px] md:min-h-[600px]">
+                    <div id="map"></div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 space-y-6">
+                
+                <div id="aqi-data-card" class="bg-[#161b22] p-6 rounded-lg shadow-lg relative hidden border border-slate-700">
+                    <div id="loader" class="absolute inset-0 bg-[#161b22] bg-opacity-75 flex justify-center items-center rounded-lg z-20 hidden">
+                        <div class="loader"></div>
+                    </div>
+
+                    <div id="aqi-content">
+                        <p class="text-gray-400">AQI for <span id="location-name" class="font-bold text-white">...</span></p>
+                        <div class="flex items-baseline gap-4 my-4">
+                            <p id="aqi-value" class="text-7xl font-bold text-white">--</p>
+                            <div id="aqi-level-badge" class="px-4 py-2 rounded-full text-white font-semibold text-lg">
+                                <span id="aqi-level">Loading...</span>
+                            </div>
+                        </div>
+                        <p id="aqi-recommendation" class="text-gray-300 mb-6">Health recommendations will appear here.</p>
+
+                        <h3 class="font-semibold text-lg mb-3 border-b border-slate-600 pb-2 text-white">Pollutant Details (μg/m³)</h3>
+                        <div id="pollutants-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-center">
+                            <!-- Pollutant data will be injected here -->
+                        </div>
+                    </div>
+                     <div id="no-data-message" class="text-center py-10 hidden">
+                        <p class="text-xl text-gray-500">No AQI data available for this location.</p>
+                        <p class="text-gray-400 mt-2">Please select another point on the map.</p>
+                    </div>
+                </div>
+
+                <div class="bg-[#161b22] p-6 rounded-lg shadow-lg border border-slate-700">
+                    <div class="text-center mb-4">
+                        <h4 class="text-2xl font-bold text-white"><span id="chart-timeframe-title">Weekly</span> AQI Trend</h4>
+                    </div>
+                    <div class="flex justify-center mb-4">
+                        <div class="timeframe-capsule">
+                            <button class="timeframe-btn" data-timeframe="1D">1D</button>
+                            <button class="timeframe-btn active" data-timeframe="1W">1W</button>
+                            <button class="timeframe-btn" data-timeframe="1M">1M</button>
+                            <button class="timeframe-btn" data-timeframe="1Y">1Y</button>
+                            <button class="timeframe-btn" data-timeframe="10Y">10Y</button>
+                        </div>
+                    </div>
+                    <div>
+                        <canvas id="aqiChart"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-  </div>
-  
-  <footer>
-    <div class="container">
-      <p>&copy; 2025 EcoGauge. All Rights Reserved.</p>
-      <p>
-          <a href="#">About Us</a> | 
-          <a href="#">Contact</a> | 
-          <a href="#">Privacy Policy</a>
-      </p>
-    </div>
-  </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialize Leaflet Map
-        const map = L.map('map').setView([19.15, 72.95], 10); // Centered between Mumbai and Thane
+        <!-- Nearby Stations Section -->
+        <div id="nearby-stations-section" class="mt-8">
+            <h2 class="text-2xl font-bold text-white mb-2">Nearby Location Recommendations</h2>
+             <p id="recommendation-disclaimer" class="text-sm text-gray-500 mb-4 hidden">Note: The 4 nearby locations are simulated based on data from the closest official monitoring station.</p>
+            <div class="overflow-x-auto rounded-lg border border-slate-700">
+                <table class="w-full text-left">
+                    <thead class="bg-[#161b22]">
+                         <tr>
+                            <th>Timestamp (IST)</th>
+                            <th>City</th>
+                            <th>Station</th>
+                            <th>Lat</th>
+                            <th>Lon</th>
+                            <th>AQI</th>
+                            <th>Category</th>
+                            <th>Peak Hr</th>
+                            <th>Traffic Idx</th>
+                          </tr>
+                    </thead>
+                    <tbody id="nearby-stations-body" class="bg-[#0d1117]">
+                        <tr><td colspan="9" class="text-center p-4 text-gray-500">Search for a location to see nearby recommendations.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-        // Set map boundaries to include Mumbai and Thane regions
-        const southWest = L.latLng(18.8, 72.7);
-        const northEast = L.latLng(19.5, 73.3);
-        const bounds = L.latLngBounds(southWest, northEast);
-        map.setMaxBounds(bounds);
-        map.on('drag', function() {
-            map.panInsideBounds(bounds, { animate: false });
-        });
+    </main>
 
-        // Add a dark tile layer
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-            subdomains: 'abcd',
-            minZoom: 10,
-            maxZoom: 18
-        }).addTo(map);
+    <footer class="bg-[#161b22] text-center py-5 mt-auto border-t border-slate-700">
+        <p class="text-gray-400">&copy; 2025 EcoGauge. All Rights Reserved.</p>
+        <p class="mt-2">
+            <a href="#" class="text-[#6a5acd] hover:text-[#836FFF] hover:underline mx-2 transition-colors">About Us</a> | 
+            <a href="#" class="text-[#6a5acd] hover:text-[#836FFF] hover:underline mx-2 transition-colors">Contact</a> | 
+            <a href="#" class="text-[#6a5acd] hover:text-[#836FFF] hover:underline mx-2 transition-colors">Privacy Policy</a>
+        </p>
+    </footer>
+
+    <script>
+        // --- CONFIGURATION ---
+        const WAQI_API_TOKEN = "f3dbd79d82849161bc891d3f99aa17df24ce5340";
+        const OWM_API_KEY = "bd6ac3542d15cd7daf12f898abe3c42b";
+        const OWM_API_URL = "https://api.openweathermap.org/data/2.5/air_pollution";
+        const WAQI_API_URL = "https://api.waqi.info/feed";
+        const GEOCODING_API_URL = "https://nominatim.openstreetmap.org/search";
         
-        let marker; // To hold the current marker
+        const MUMBAI_BOUNDS_COORDS = [18.89, 72.77, 19.27, 72.99];
+        const MUMBAI_CENTER = [19.0760, 72.8777];
 
-        // List of Mumbai and Thane railway stations
-        const stations = [
-            'CST', 'Churchgate', 'Marine Lines', 'Charni Road', 'Grant Road', 'Mumbai Central', 'Mahalaxmi',
-            'Lower Parel', 'Prabhadevi', 'Dadar', 'Matunga Road', 'Mahim', 'Bandra', 'Khar Road', 'Santacruz',
-            'Vile Parle', 'Andheri', 'Jogeshwari', 'Ram Mandir', 'Goregaon', 'Malad', 'Kandivali', 'Borivali',
-            'Dahisar', 'Masjid', 'Sandhurst Road', 'Byculla', 'Chinchpokli', 'Currey Road', 'Parel', 'Sion',
-            'Kurla', 'Vidyavihar', 'Ghatkopar', 'Vikhroli', 'Kanjurmarg', 'Bhandup', 'Nahur', 'Mulund', 'Thane',
-            'Kalwa', 'Mumbra', 'Diva', 'Kopar', 'Dombivli', 'Thakurli', 'Kalyan', 'Dockyard Road', 'Reay Road',
-            'Cotton Green', 'Sewri', 'Wadala Road', 'GTB Nagar', 'Chunabhatti', 'Govandi', 'Mankhurd', 'Vashi',
-            'Sanpada', 'Juinagar', 'Nerul', 'Seawoods', 'Belapur', 'Kharghar', 'Panvel', 'Tilak Nagar'
+        const MUMBAI_STATIONS = [
+            { name: "Bandra Kurla Complex", lat: 19.0544, lon: 72.8691 },
+            { name: "Powai", lat: 19.1197, lon: 72.9056 },
+            { name: "Worli", lat: 19.0176, lon: 72.8118 },
+            { name: "Andheri", lat: 19.1136, lon: 72.8697 },
+            { name: "Borivali", lat: 19.2307, lon: 72.8567 },
+            { name: "Chembur", lat: 19.0607, lon: 72.8976 },
+            { name: "Colaba", lat: 18.9067, lon: 72.8147 },
+            { name: "Malad", lat: 19.1869, lon: 72.8492 },
+            { name: "Santacruz", lat: 19.0896, lon: 72.8656 },
+            { name: "Vile Parle", lat: 19.1075, lon: 72.8263 }
         ];
+        
+        // --- DOM ELEMENTS ---
+        const mapElement = document.getElementById('map');
+        const aqiDataCard = document.getElementById('aqi-data-card');
+        const loader = document.getElementById('loader');
+        const aqiContent = document.getElementById('aqi-content');
+        const noDataMessage = document.getElementById('no-data-message');
+        const locationNameEl = document.getElementById('location-name');
+        const aqiValueEl = document.getElementById('aqi-value');
+        const aqiLevelBadge = document.getElementById('aqi-level-badge');
+        const aqiLevelEl = document.getElementById('aqi-level');
+        const aqiRecommendationEl = document.getElementById('aqi-recommendation');
+        const pollutantsGrid = document.getElementById('pollutants-grid');
+        const searchBtn = document.getElementById('search-btn');
+        const coordSearchBtn = document.getElementById('coord-search-btn');
+        const searchInput = document.getElementById('search-input');
+        const latInput = document.getElementById('lat-input');
+        const lonInput = document.getElementById('lon-input');
 
-        // --- Helper function to get AQI status ---
-        function getAqiStatus(aqi) {
-            let statusInfo = { text: 'Unknown', color: '#30363d', textColor: 'white' };
-            if (aqi <= 50) statusInfo = { text: 'Good', color: '#2E8B57', textColor: 'white' };
-            else if (aqi <= 100) statusInfo = { text: 'Moderate', color: '#FFD700', textColor: 'black' };
-            else if (aqi <= 150) statusInfo = { text: 'Poor', color: '#FF8C00', textColor: 'black' };
-            else if (aqi <= 200) statusInfo = { text: 'Unhealthy', color: '#DC143C', textColor: 'white' };
-            else if (aqi <= 300) statusInfo = { text: 'Severe', color: '#8A2BE2', textColor: 'white' };
-            else statusInfo = { text: 'Hazardous', color: '#800000', textColor: 'white' };
-            return statusInfo;
+        // --- MAP INITIALIZATION ---
+        let map;
+        let marker;
+        
+        function initializeMap(lat, lon, zoomLevel = 11) {
+            if (!map) {
+                map = L.map(mapElement).setView([lat, lon], zoomLevel);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                    minZoom: 10,
+                    maxZoom: 18
+                }).addTo(map);
+                
+                map.zoomControl.setPosition('topright');
+                
+                L.Control.CurrentLocation = L.Control.extend({
+                    onAdd: function(map) {
+                        const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-current-location');
+                        const link = L.DomUtil.create('a', '', container);
+                        link.innerHTML = '<i class="bx bx-current-location"></i>';
+                        link.href = '#';
+                        link.role = 'button';
+                        link.title = 'My Location';
+
+                        L.DomEvent.on(link, 'click', L.DomEvent.stop).on(link, 'click', function() {
+                            findMyLocation();
+                        });
+
+                        return container;
+                    }
+                });
+                new L.Control.CurrentLocation({ position: 'topright' }).addTo(map);
+
+                map.on('click', onMapClick);
+                map.on('zoomend', updateZoomButtons);
+
+                const corner1 = L.latLng(MUMBAI_BOUNDS_COORDS[0], MUMBAI_BOUNDS_COORDS[1]);
+                const corner2 = L.latLng(MUMBAI_BOUNDS_COORDS[2], MUMBAI_BOUNDS_COORDS[3]);
+                const bounds = L.latLngBounds(corner1, corner2);
+                map.setMaxBounds(bounds);
+                map.on('drag', function() {
+                    map.panInsideBounds(bounds, { animate: false });
+                });
+                
+                updateZoomButtons(); // Initial check
+            } else {
+                map.setView([lat, lon], zoomLevel);
+            }
+            updateMarker(lat, lon);
         }
 
-        // Handle map search
-        const mapSearchForm = document.getElementById('mapSearchForm');
-        mapSearchForm.addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const searchInput = document.getElementById('mapSearchInput');
-            const query = searchInput.value.trim();
+        function updateZoomButtons() {
+            const zoomInButton = document.querySelector('.leaflet-control-zoom-in');
+            const zoomOutButton = document.querySelector('.leaflet-control-zoom-out');
+            if(!zoomInButton || !zoomOutButton) return;
+            const currentZoom = map.getZoom();
+            const minZoom = map.getMinZoom();
+            const maxZoom = map.getMaxZoom();
 
-            if (!query) return;
+            if (currentZoom <= minZoom) {
+                zoomOutButton.classList.add('leaflet-disabled');
+            } else {
+                zoomOutButton.classList.remove('leaflet-disabled');
+            }
 
-            // Using Nominatim for geocoding (free, no API key needed for basic use)
-            const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1&viewbox=72.7,18.8,73.3,19.5&bounded=1`;
+            if (currentZoom >= maxZoom) {
+                zoomInButton.classList.add('leaflet-disabled');
+            } else {
+                zoomInButton.classList.remove('leaflet-disabled');
+            }
+        }
 
+        function updateMarker(lat, lon) {
+            if (marker) {
+                marker.setLatLng([lat, lon]);
+            } else {
+                marker = L.marker([lat, lon]).addTo(map);
+            }
+        }
+
+        function onMapClick(e) {
+            const { lat, lng } = e.latlng;
+            updateMarker(lat, lng);
+            fetchAqiData(lat, lng, `Coordinates (${lat.toFixed(2)}, ${lng.toFixed(2)})`);
+            generateAndDisplayNearbyRecommendations(lat, lng);
+        }
+
+        // --- AQI DATA HANDLING ---
+        function getAqiInfo(aqi) {
+            if (!aqi || aqi === 'N/A') return { category: "Unknown", className: "unknown", color: "var(--unknown)" };
+            if (aqi <= 50) return { category: "Good", className: "good", color: "var(--good)" };
+            if (aqi <= 100) return { category: "Moderate", className: "moderate", color: "var(--moderate)" };
+            if (aqi <= 150) return { category: "Poor", className: "poor", color: "var(--poor)" };
+            if (aqi <= 200) return { category: "Unhealthy", className: "unhealthy", color: "var(--unhealthy)" };
+            if (aqi <= 300) return { category: "Severe", className: "severe", color: "var(--severe)" };
+            return { category: "Hazardous", className: "hazardous", color: "var(--hazardous)" };
+        }
+
+        async function fetchAqiData(lat, lon, locationName) {
+            showLoader();
+            aqiDataCard.classList.remove('hidden');
+            
+            const waqiUrl = `${WAQI_API_URL}/geo:${lat};${lon}/?token=${WAQI_API_TOKEN}`;
             try {
-                const response = await fetch(url);
+                const response = await fetch(waqiUrl);
+                if (!response.ok) throw new Error('WAQI API request failed');
                 const data = await response.json();
-
-                if (data && data.length > 0) {
-                    const lat = parseFloat(data[0].lat);
-                    const lon = parseFloat(data[0].lon);
-                    const location = [lat, lon];
-                    const displayName = data[0].display_name;
-
-                    // Check if the result is within our defined bounds
-                    if (bounds.contains(location)) {
-                        map.flyTo(location, 15); // Zoom into the location
-
-                        // Remove previous marker if it exists
-                        if (marker) {
-                            map.removeLayer(marker);
-                        }
-                        
-                        // Simulate AQI data for the location
-                        const simulatedAqi = Math.floor(Math.random() * 250) + 50; // Random AQI between 50 and 300
-                        const aqiStatus = getAqiStatus(simulatedAqi);
-
-                        // Check if the location is a station
-                        let isStation = false;
-                        for (const station of stations) {
-                            if (displayName.toLowerCase().includes(station.toLowerCase())) {
-                                isStation = true;
-                                break;
-                            }
-                        }
-                        const nameColor = isStation ? '#e209d0' : 'white';
-
-                        const popupContent = `
-                            <div style="font-size: 1rem;">
-                                <b style="color: ${nameColor};">${displayName.split(',')[0]}</b>
-                                <hr style="margin: 5px 0;">
-                                <p style="margin-bottom: 5px;">
-                                    AQI: <strong>${simulatedAqi}</strong> 
-                                    <span class="badge aqi-badge" style="background-color: ${aqiStatus.color}; color: ${aqiStatus.textColor};">
-                                        ${aqiStatus.text}
-                                    </span>
-                                </p>
-                            </div>
-                        `;
-
-                        // Add a new marker
-                        marker = L.marker(location).addTo(map)
-                            .bindPopup(popupContent)
-                            .openPopup();
-                    } else {
-                        alert('Location found, but it is outside of the Mumbai-Thane region.');
-                    }
+                if (data.status === "ok" && data.data && data.data.aqi > 0) {
+                    displayWaqiData(data.data, locationName);
                 } else {
-                    alert('Location not found in the Mumbai-Thane region. Please try another search.');
+                    showNoDataMessage(`No station data for "${locationName}"`);
                 }
             } catch (error) {
-                console.error('Error during geocoding:', error);
-                alert('An error occurred while searching. Please try again.');
+                console.error("Error fetching AQI data:", error);
+                showNoDataMessage('Failed to fetch data');
+            } finally {
+                hideLoader();
             }
-        });
-    });
-  </script>
-</body>
+        }
+        
+        function displayWaqiData(data, locationName) {
+            aqiContent.classList.remove('hidden');
+            noDataMessage.classList.add('hidden');
+            
+            const aqi = data.aqi || 0;
+            const { category, color } = getAqiInfo(aqi);
+            
+            locationNameEl.textContent = locationName;
+            aqiValueEl.textContent = aqi;
+            aqiLevelEl.textContent = category;
+            aqiLevelBadge.style.backgroundColor = color;
+            aqiLevelBadge.style.color = (aqi <= 100 && category !== 'Moderate') ? '#000000' : '#FFFFFF';
+            
+            displayWaqiPollutants(data.iaqi || {});
+        }
+        
+        function displayWaqiPollutants(iaqi) {
+            pollutantsGrid.innerHTML = '';
+            const pollutantLabels = {'pm25': 'PM₂.₅', 'pm10': 'PM₁₀', 'o3': 'O₃', 'no2': 'NO₂', 'so2': 'SO₂', 'co': 'CO'};
+            
+            Object.keys(pollutantLabels).forEach(key => {
+                if (iaqi[key] && iaqi[key].v !== undefined) {
+                    const el = document.createElement('div');
+                    el.className = 'p-2 bg-slate-800 rounded-md';
+                    el.innerHTML = `<p class="font-bold text-gray-300">${pollutantLabels[key]}</p><p class="text-lg text-white">${iaqi[key].v}</p>`;
+                    pollutantsGrid.appendChild(el);
+                }
+            });
+            
+            if (pollutantsGrid.children.length === 0) {
+                pollutantsGrid.innerHTML = '<p class="col-span-full text-gray-500">No detailed pollutant data available</p>';
+            }
+        }
 
+        // --- Nearby Stations Logic ---
+        async function fetchStationData(station) {
+            const waqiUrl = `${WAQI_API_URL}/geo:${station.lat};${station.lon}/?token=${WAQI_API_TOKEN}`;
+            try {
+                const response = await fetch(waqiUrl);
+                if (!response.ok) return { ...station, error: 'Network error' };
+                const data = await response.json();
+                return (data.status === "ok" && data.data) 
+                    ? { ...station, aqiData: data.data } 
+                    : { ...station, error: 'No data' };
+            } catch (error) {
+                return { ...station, error: 'Fetch failed' };
+            }
+        }
+
+        async function generateAndDisplayNearbyRecommendations(searchLat, searchLon) {
+            const tableBody = document.getElementById('nearby-stations-body');
+            const section = document.getElementById('nearby-stations-section');
+            const disclaimer = document.getElementById('recommendation-disclaimer');
+            
+            section.classList.remove('hidden');
+            disclaimer.classList.remove('hidden');
+            tableBody.innerHTML = `<tr><td colspan="9" class="text-center p-4">Finding closest station and simulating nearby locations...</td></tr>`;
+
+            const searchedCoords = { lat: searchLat, lon: searchLon };
+            const closestStation = MUMBAI_STATIONS.map(station => ({
+                ...station,
+                distance: haversineDistance(searchedCoords, station)
+            })).sort((a, b) => a.distance - b.distance)[0];
+
+            const stationResult = await fetchStationData(closestStation);
+
+            if (stationResult.error || !stationResult.aqiData || !stationResult.aqiData.aqi) {
+                tableBody.innerHTML = `<tr><td colspan="9" class="text-center p-4">Could not retrieve data for the closest station (${closestStation.name}).</td></tr>`;
+                return;
+            }
+
+            const recommendations = [];
+            const baseData = stationResult.aqiData;
+            const baseStation = stationResult;
+            
+            const now = new Date();
+
+            for (let i = 0; i < 5; i++) {
+                const isOfficial = i === 0;
+                const simAqi = isOfficial ? baseData.aqi : Math.max(0, Math.round(baseData.aqi + (Math.random() - 0.5) * 10));
+                
+                const simLat = isOfficial ? baseStation.lat : baseStation.lat + (Math.random() - 0.5) * 0.01;
+                const simLon = isOfficial ? baseStation.lon : baseStation.lon + (Math.random() - 0.5) * 0.01;
+                
+                const hours = now.getHours();
+                const isPeak = (hours >= 8 && hours <= 10) || (hours >= 18 && hours <= 20);
+                const trafficIndex = Math.min(1, Math.max(0, (simAqi - 40) / 150)).toFixed(3);
+
+
+                recommendations.push({
+                    timestamp: now.toISOString(),
+                    city: "Mumbai",
+                    station: isOfficial ? `${baseStation.name} (Official)` : `${baseStation.name} (Location ${i})`,
+                    lat: simLat,
+                    lon: simLon,
+                    aqi: simAqi,
+                    category: getAqiInfo(simAqi).category,
+                    isPeakHour: isPeak ? 'Yes' : 'No',
+                    trafficIndex: trafficIndex
+                });
+            }
+            renderRecommendationsTable(recommendations);
+        }
+
+        function renderRecommendationsTable(recommendations) {
+            const tableBody = document.getElementById('nearby-stations-body');
+            tableBody.innerHTML = ''; 
+
+            if (!recommendations || recommendations.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="9" class="text-center p-4">Could not generate recommendations.</td></tr>`;
+                return;
+            }
+
+            recommendations.forEach(rec => {
+                const { category, color } = getAqiInfo(rec.aqi);
+                const row = `
+                    <tr>
+                        <td class="p-3 text-sm text-gray-400">${new Date(rec.timestamp).toLocaleTimeString('en-IN')}</td>
+                        <td class="p-3">${rec.city}</td>
+                        <td class="p-3 font-semibold">${rec.station}</td>
+                        <td class="p-3 text-sm text-gray-400">${rec.lat.toFixed(4)}</td>
+                        <td class="p-3 text-sm text-gray-400">${rec.lon.toFixed(4)}</td>
+                        <td class="p-3 font-bold" style="color: ${color};">${rec.aqi}</td>
+                        <td class="p-3">${category}</td>
+                        <td class="p-3">${rec.isPeakHour}</td>
+                        <td class="p-3">${rec.trafficIndex}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        }
+
+
+        // --- UI HELPER FUNCTIONS ---
+        function showLoader() {
+            if(loader) loader.classList.remove('hidden');
+            if(aqiContent) aqiContent.classList.add('hidden');
+            if(noDataMessage) noDataMessage.classList.add('hidden');
+        }
+
+        function hideLoader() {
+            if(loader) loader.classList.add('hidden');
+        }
+        
+        function showNoDataMessage(message = "No AQI data available for this location.") {
+            if(aqiContent) aqiContent.classList.add('hidden');
+            if(noDataMessage) {
+                noDataMessage.classList.remove('hidden');
+                noDataMessage.querySelector('p').textContent = message;
+            }
+        }
+
+        // --- EVENT LISTENERS & ACTIONS ---
+        function findMyLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const { latitude, longitude } = position.coords;
+                    map.setView([latitude, longitude], 14);
+                    updateMarker(latitude, longitude);
+                    fetchAqiData(latitude, longitude, "Your Location");
+                    generateAndDisplayNearbyRecommendations(latitude, longitude);
+                }, () => alert("Unable to retrieve your location. Please allow location access."));
+            } else {
+                alert("Geolocation is not supported by your browser.");
+            }
+        }
+
+        async function handleTextSearch() {
+            const query = searchInput.value.trim();
+            if (query) {
+                const viewBox = [MUMBAI_BOUNDS_COORDS[1], MUMBAI_BOUNDS_COORDS[0], MUMBAI_BOUNDS_COORDS[3], MUMBAI_BOUNDS_COORDS[2]].join(',');
+                try {
+                    const response = await fetch(`${GEOCODING_API_URL}?q=${encodeURIComponent(query)}&format=json&limit=1&viewbox=${viewBox}&bounded=1`);
+                    const data = await response.json();
+                    if (data && data.length > 0) {
+                        const { lat, lon, display_name } = data[0];
+                        const locationName = display_name.split(',')[0];
+                        const parsedLat = parseFloat(lat);
+                        const parsedLon = parseFloat(lon);
+                        map.setView([parsedLat, parsedLon], 14);
+                        updateMarker(parsedLat, parsedLon);
+                        fetchAqiData(parsedLat, parsedLon, locationName);
+                        generateAndDisplayNearbyRecommendations(parsedLat, parsedLon);
+                    } else {
+                        alert("Location not found within Mumbai. Please try another search term.");
+                    }
+                } catch (error) {
+                    console.error("Error during geocoding:", error);
+                    alert("Failed to search for location.");
+                }
+            } else {
+                alert("Please enter a place in Mumbai to search.");
+            }
+        }
+
+        function handleCoordSearch() {
+            const lat = parseFloat(latInput.value);
+            const lon = parseFloat(lonInput.value);
+
+            if (!isNaN(lat) && !isNaN(lon)) {
+                if (lat >= MUMBAI_BOUNDS_COORDS[0] && lat <= MUMBAI_BOUNDS_COORDS[2] && lon >= MUMBAI_BOUNDS_COORDS[1] && lon <= MUMBAI_BOUNDS_COORDS[3]) {
+                    map.setView([lat, lon], 14);
+                    updateMarker(lat, lon);
+                    fetchAqiData(lat, lon, `Coordinates (${lat.toFixed(2)}, ${lon.toFixed(2)})`);
+                    generateAndDisplayNearbyRecommendations(lat, lon);
+                } else {
+                    alert("Coordinates are outside of the Mumbai region.");
+                }
+            } else {
+                alert("Please enter valid latitude and longitude.");
+            }
+        }
+
+        searchBtn.addEventListener('click', handleTextSearch);
+        coordSearchBtn.addEventListener('click', handleCoordSearch);
+        searchInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleTextSearch(); });
+        [latInput, lonInput].forEach(input => {
+            input.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleCoordSearch(); });
+        });
+
+        // --- CHART INITIALIZATION ---
+        const ctx = document.getElementById('aqiChart').getContext('2d');
+        let aqiChart = new Chart(ctx, {}); // Initialize empty
+
+        const timeframeData = {
+            '1D': {
+                labels: ['12am', '3am', '6am', '9am', '12pm', '3pm', '6pm', '9pm'],
+                data: [150, 152, 155, 160, 158, 155, 153, 152]
+            },
+            '1W': {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                data: [165, 159, 180, 181, 156, 155, 152]
+            },
+            '1M': {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                data: [158, 162, 155, 152]
+            },
+            '1Y': {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                data: [180, 175, 160, 140, 120, 110, 130, 152, 165, 170, 175, 185]
+            },
+            '10Y': {
+                labels: ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'],
+                data: [190, 185, 188, 175, 160, 165, 170, 162, 155, 152]
+            }
+        };
+
+        const timeframeTitles = {
+            '1D': 'Daily',
+            '1W': 'Weekly',
+            '1M': 'Monthly',
+            '1Y': 'Yearly',
+            '10Y': 'Decadal'
+        };
+
+        function updateChart(timeframe) {
+            const chartTitleSpan = document.getElementById('chart-timeframe-title');
+            chartTitleSpan.textContent = timeframeTitles[timeframe];
+            chartTitleSpan.classList.add('flipping');
+            setTimeout(() => chartTitleSpan.classList.remove('flipping'), 600);
+
+            const newData = timeframeData[timeframe];
+            if (aqiChart.destroy) {
+                aqiChart.destroy();
+            }
+            aqiChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: newData.labels,
+                    datasets: [{
+                        label: 'AQI',
+                        data: newData.data,
+                        borderColor: '#8A2BE2',
+                        backgroundColor: 'rgba(138, 43, 226, 0.2)',
+                        fill: true,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { ticks: { color: '#c9d1d9' }, grid: { color: 'rgba(201, 209, 217, 0.2)' } },
+                        y: { ticks: { color: '#c9d1d9' }, grid: { color: 'rgba(201, 209, 217, 0.2)' } }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        document.querySelectorAll('.timeframe-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.timeframe-btn').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                updateChart(this.dataset.timeframe);
+            });
+        });
+
+        // --- INITIAL LOAD ---
+        initializeMap(MUMBAI_CENTER[0], MUMBAI_CENTER[1]);
+        fetchAqiData(MUMBAI_CENTER[0], MUMBAI_CENTER[1], "Mumbai");
+        updateChart('1W'); // Initial chart load
+        generateAndDisplayNearbyRecommendations(MUMBAI_CENTER[0], MUMBAI_CENTER[1]);
+
+
+    </script>
+</body>
 </html>
+
+
