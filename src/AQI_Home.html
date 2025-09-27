@@ -2,724 +2,733 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>AQI_Home Page</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <style>
-    /* General Body Styles */
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #0d1117;
-      /* Dark bluish-black background */
-      color: #c9d1d9;
-      /* Light text for readability */
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-    
-    .main-content-wrapper {
-        flex: 1;
-    }
+    <title>AQI_Home Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        :root {
+          --bg: #0b1020;
+          --card: #111833;
+          --header-bg: #161b22;
+          --border-color: rgba(255, 255, 255, .1);
+          --muted: #97a3b6;
+          --text: #e8ecf6;
 
-    /* Navbar styling */
-    .navbar {
-      background-color: #161b22;
-      /* Slightly lighter than body */
-      border-bottom: 1px solid #6a5acd;
-      /* SlateBlue accent */
-    }
+          /* Shining Light Blue Theme (Default) */
+          --accent1: #29B6F6;      /* Main light blue for borders, active states */
+          --accent2: #81D4FA;      /* Lighter blue for hovers, text */
+          --logo-color: #29B6F6;   /* Logo color */
+          --glow-color-rgba: rgba(41, 182, 246, 0.4); /* RGBA version for glows */
 
-    .navbar-brand {
-      color: #e209d0;
-      /* Pink accent */
-      font-weight: bold;
-    }
+          /* Violet Theme (For Navbar Buttons Only) */
+          --nav-accent1: var(--accent1);
+          --nav-accent2: var(--accent2);
+          --nav-glow-color-rgba: var(--glow-color-rgba);
 
-    .navbar-brand:hover,
-    .navbar-brand:focus,
-    .navbar-brand:active {
-      color: #fc4ded; /* Lighter pink */
-      outline: none;
-      box-shadow: none;
-    }
+          /* AQI Palette */
+          --good: #34d399;
+          --moderate: #facc15;
+          --poor: #fb923c;
+          --unhealthy: #ef4444;
+          --severe: #a855f7;
+          --hazardous: #800000;
+        }
+        *{ box-sizing: border-box; }
+        body {
+          margin: 0;
+          font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+          background: linear-gradient(120deg, #0b1020 0%, #0e1430 60%, #151a3a 100%);
+          color: var(--text);
+          display: flex;
+          flex-direction: column;
+          min-height: 100vh;
+        }
+         main {
+          flex: 1;
+         }
 
-    /* Navbar tools alignment */
-    .navbar-tools {
-      gap: 0.5rem;
-    }
+        /* --- Restored & Themed Header/Nav Styles --- */
+        .site-nav {
+          background-color: var(--header-bg);
+          border-bottom: 1px solid var(--border-color);
+          padding: 12px 24px;
+          position: sticky;
+          top: 0;
+          z-index: 10;
+          backdrop-filter: blur(6px);
+          background: rgba(22, 27, 34, .7);
+        }
+        .nav-container {
+          display: grid;
+          grid-template-columns: 1fr auto 1fr;
+          align-items: center;
+          width: 100%;
+          gap: 1rem;
+        }
+        .logo {
+          grid-column: 1 / 2;
+          justify-self: start;
+          font-size: 24px;
+          font-weight: 700;
+          color: var(--logo-color);
+          text-decoration: none;
+          transition: filter 0.2s ease;
+        }
+        .logo:hover {
+          filter: brightness(1.2);
+        }
+        .nav-controls {
+          grid-column: 2 / 3;
+          justify-self: center;
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+        }
+        .nav-search {
+            grid-column: 3 / 4;
+            justify-self: end;
+        }
+        .toggle-btn-group {
+          display: inline-flex;
+          border-radius: 20px;
+          overflow: hidden;
+          border: 1px solid var(--nav-accent1);
+          box-shadow: 0 0 8px 2px var(--nav-glow-color-rgba);
+        }
+        .toggle-btn {
+          padding: 6px 16px;
+          font-weight: 500;
+          transition: all 0.2s ease-in-out;
+          background-color: transparent;
+          color: var(--nav-accent2);
+          border: none;
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          text-decoration: none;
+        }
+        .toggle-btn:not(:last-child) {
+          border-right: 1px solid var(--nav-accent1);
+        }
+        .toggle-btn.active {
+          background-color: var(--nav-accent1);
+          color: #FFFFFF;
+        }
+        .toggle-btn:hover:not(.active) {
+          background-color: rgba(41, 182, 246, 0.2);
+          color: white;
+        }
+         .nav-btn {
+          cursor: pointer;
+          border: 1px solid var(--nav-accent1);
+          color: var(--nav-accent2);
+          padding: 8px 14px;
+          border-radius: 20px;
+          background: transparent;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          transition: all 0.2s ease;
+          font-weight: 500;
+          white-space: nowrap;
+          text-decoration: none;
+        }
+         .nav-btn:hover {
+            background-color: rgba(41, 182, 246, 0.2);
+            color: white;
+            box-shadow: 0 0 8px 2px var(--nav-glow-color-rgba);
+        }
 
-    /* Button Styles */
-    .nav-btn,
-    .btn-group-toggle .btn,
-    .edu-toggle-btn,
-    .timeframe-btn {
-      border-radius: 20px;
-      font-weight: 500;
-      padding: 6px 16px;
-      transition: all 0.2s ease-in-out;
-      border: 1px solid #6a5acd;
-      /* SlateBlue border */
-      background-color: transparent;
-      color: #f194ff; /* Light pink text */
-      box-shadow: 0 0 8px 2px rgba(138, 43, 226, 0.3); /* Violet shadow */
-      text-decoration: none; /* Remove underline from all buttons */
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem; /* Space between icon and text */
-    }
-    
-    .nav-btn i,
-    .btn-group-toggle .btn i {
-        font-size: 20px; /* Adjust icon size */
-    }
-
-
-    /* Specific hover for Map, Rankings, and Timeframe buttons */
-    .nav-btn:hover,
-    .timeframe-btn:hover,
-    .edu-toggle-btn:hover {
-        background-color: #21262d; /* Dark grey background */
-        border-color: white;
-        color: white;
-        box-shadow: 0 0 15px 5px rgba(138, 43, 226, 0.5);
-    }
-    
-    /* General hover for other buttons */
-    .btn-group-toggle .btn:hover {
-      background-color: #8A2BE2; /* Violet background */
-      border-color: #8A2BE2;
-      color: #FFFFFF; /* White content */
-      box-shadow: 0 0 15px 5px rgba(138, 43, 226, 0.5); /* Enhanced violet shadow on hover */
-    }
-
-    .btn-group-toggle .btn.active,
-    .btn-group-toggle .btn-check:checked+.btn-outline-light {
-      background-color: #8A2BE2; /* Violet */
-      color: #FFFFFF;
-      border-color: #8A2BE2;
-    }
-    
-    .edu-toggle-btn.active,
-    .timeframe-btn.active {
-        background-color: #6a5acd;
-        color: #FFFFFF;
-    }
-    
-    /* Educational Toggle and Timeframe Button Group */
-    #edu-toggle-group,
-    #timeframe-selector {
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 0 8px 2px rgba(138, 43, 226, 0.3);
-        display: inline-flex;
-    }
-    #edu-toggle-group .edu-toggle-btn,
-    #timeframe-selector .timeframe-btn {
-        border-radius: 0;
-        box-shadow: none;
-        border: none;
-        border-right: 1px solid #21262d; /* Separator line */
-    }
-    #edu-toggle-group .edu-toggle-btn:last-child,
-    #timeframe-selector .timeframe-btn:last-child {
-        border-right: none;
-    }
-
-
-    /* Search Form Container */
-    .search-form {
-        position: relative;
-    }
-
-    .search-form input {
-      border-radius: 20px;
-      padding-left: 15px;
-      padding-right: 45px; /* Make space for the button */
-      background-color: #0d1117;
-      border: 1px solid #6a5acd;
-      color: #c9d1d9;
-      box-shadow: 0 0 8px 2px rgba(138, 43, 226, 0.3); /* Violet shadow */
-      transition: all 0.2s ease-in-out;
-      height: 38px; /* Match Bootstrap's sm button height */
-    }
-    
-    .search-form input:hover,
-    .search-form input:focus {
-        background-color: #21262d; /* Dark grey background */
-        border-color: white;
-        color: white;
-        box-shadow: 0 0 15px 5px rgba(138, 43, 226, 0.5); /* Enhanced violet shadow on focus */
-        outline: none;
-    }
-    
-    .search-form input::placeholder {
-        color: #f194ff;
-    }
-    
-    /* Search Button inside search bar */
-    .search-form button {
-        position: absolute;
-        right: 5px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        border: none;
-        background-color: #8A2BE2; /* Violet background */
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-        cursor: pointer;
-        transition: background-color 0.2s ease-in-out;
-        box-shadow: none;
-    }
-
-    .search-form button:hover {
-        background-color: #a200ff; /* Darker violet on hover */
-    }
-
-    .search-form button i {
-        font-size: 20px; /* Adjust icon size */
-    }
-
-    /* Hero Section */
-    .hero-section {
-        background: linear-gradient(to right, #0b0edb, #e209d0);
-        color: white;
-        padding: 60px 20px;
-        text-align: center;
-        border-radius: 15px;
-        margin: 20px auto;
-        width: 95%;
-        max-width: 1200px;
-        box-shadow: 0 0 15px 5px rgba(138, 43, 226, 0.4); /* Shining violet shadow */
-    }
-
-    .hero-section h1{
-        color: white;
-        font-weight: 700;
-        margin-bottom: 15px;
-        font-size: 2.5rem;
-    }
-
-    .hero-section p {
-        font-size: 1.1rem;
-    }
-
-    /* Main Content Area */
-    .main-container {
-      background-color: #161b22;
-      /* Darker container background */
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(106, 90, 205, 0.2);
-      /* SlateBlue shadow */
-    }
-    
-    /* Live AQI Container */
-    .live-aqi-container {
-        background: linear-gradient(to right, #0d1117 20%, #483d8b 100%);
-        border-radius: 15px;
-        padding: 30px;
-        color: white;
-        box-shadow: 0 0 20px 8px rgba(138, 43, 226, 0.4);
-        margin-bottom: 2rem;
-    }
-    .live-aqi-container h2 {
-        color: white;
-        border: none;
-        margin-top: 0;
-        margin-bottom: 10px;
-        font-size: 2.2rem;
-        position: relative;
-        display: inline-block;
-        padding-bottom: 5px;
-    }
-    .live-aqi-container h2::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background: linear-gradient(to right, #e209d0, #fc4ded);
-    }
-    .aqi-main-info {
-        display: flex;
-        align-items: center;
-        gap: 25px;
-        margin-bottom: 25px;
-    }
-    .aqi-value {
-        font-size: 4rem;
-        font-weight: 700;
-        line-height: 1;
-    }
-    .aqi-status-wrapper span {
-        display: block;
-        margin-bottom: 8px;
-    }
-    .aqi-status-box {
-        padding: 6px 12px;
-        border-radius: 8px;
-        font-weight: bold;
-        display: inline-block;
-    }
-    .pollutant-info {
-        font-size: 1.1rem;
-        margin-bottom: 35px; /* Increased space */
-    }
-    .aqi-scale-wrapper {
-        position: relative;
-        padding-bottom: 25px;
-    }
-    .aqi-scale {
-        height: 10px;
-        border-radius: 5px;
-        display: flex;
-        overflow: hidden;
-    }
-    .aqi-scale-segment {
-        height: 100%;
-    }
-    .aqi-scale-pointer {
-        position: absolute;
-        top: -3px; /* Center vertically on the scale line */
-        width: 16px;
-        height: 16px;
-        background-color: white;
-        border-radius: 50%;
-        border: 2px solid #161b22;
-        transform: translateX(-50%);
-        transition: left 0.5s ease-in-out;
-        cursor: pointer;
-        animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-        0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
-        70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
-    }
-    .aqi-scale-labels {
-        position: absolute;
-        width: 100%;
-        bottom: 0;
-        font-size: 0.8rem;
-        color: #c9d1d9;
-    }
-    .aqi-scale-labels span {
-        position: absolute;
-        transform: translateX(-50%);
-    }
-    .aqi-scale-labels span:first-child {
-        transform: translateX(0);
-    }
-    .aqi-scale-labels span:last-child {
-        transform: translateX(-100%);
-    }
+        /* Search Form */
+        .search-form {
+            position: relative;
+        }
+        .search-form input {
+          border-radius: 20px;
+          padding-left: 15px;
+          padding-right: 45px;
+          background-color: rgba(255, 255, 255, .05);
+          border: 1px solid rgba(255, 255, 255, 0.5);
+          color: var(--text);
+          transition: all 0.2s ease-in-out;
+          height: 38px;
+        }
+        .search-form input:focus {
+            border-color: var(--accent1);
+            background-color: var(--text);
+            outline: none;
+            box-shadow: none;
+        }
+        .search-form input::placeholder {
+            color: var(--muted);
+        }
+        .search-form button {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: none;
+            background-color: var(--nav-accent1);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .search-form button:hover {
+            background-color: #0091ea;
+        }
 
 
-    /* Headings and Educational Content */
-    h1, h2, h3, h4 {
-      color: #6a5acd; /* SlateBlue */
-      font-weight: 600;
-    }
+        /* --- Main Content Styles --- */
+        main { padding: 20px 24px 40px; }
 
-    .edu-section h2 {
-      border-bottom: 2px solid #6a5acd;
-      padding-bottom: 10px;
-      margin-top: 2rem;
-      margin-bottom: 1.5rem;
-      font-size: 1.7rem; /* Smaller font size for questions */
-    }
-    
-    .edu-section {
-        margin-top: 20px;
-        display: none; /* Hidden by default */
-    }
-    .edu-section.active {
-        display: block; /* Shown when active */
-    }
+        /* New style for separate filter buttons */
+        .filter-btn-separate {
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid rgba(255, 255, 255, .1);
+            color: var(--muted);
+            padding: 8px 18px;
+            border-radius: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
 
-    /* General Table styles */
-    .table {
-      margin-top: 20px;
-      color: #c9d1d9;
-      border-color: #30363d;
-    }
+        .filter-btn-separate:hover {
+            background: rgba(255, 255, 255, .1);
+            border-color: rgba(255, 255, 255, .2);
+            color: var(--text);
+            transform: translateY(-2px);
+        }
 
-    .table-bordered th,
-    .table-bordered td {
-      border: 1px solid #30363d;
-    }
-    
-    /* --- AQI Categories Table Beautification --- */
-    #causes .table-bordered {
-        border-radius: 8px;
-        overflow: hidden; /* To make border-radius work with background colors */
-        box-shadow: 0 0 15px 5px rgba(155, 47, 255, 0.4); /* Shining violet shadow */
-        border-collapse: separate; /* Needed for border-radius on tables */
-        border-spacing: 0;
-    }
+        .filter-btn-separate.active {
+            background: rgba(255, 255, 255, .05);
+            border: 2px solid var(--accent1);
+            color: var(--accent2); /* Brighter text color for active state */
+            padding: 7px 17px; /* Adjust padding to account for thicker border */
+            font-weight: 600;
+            box-shadow: 4px 4px 12px -4px var(--glow-color-rgba), -4px 4px 12px -4px var(--glow-color-rgba);
+        }
 
-    #causes .table-bordered thead th {
-        background-color: #101316;
-        color: white;
-        border-color: #483d8b;
-    }
+        .hero-header {
+            position: relative;
+            text-align: center;
+            color: white;
+            border-radius: 18px;
+            overflow: hidden;
+            margin: 0 auto 24px;
+            width: 100%;
+            height: 350px;
+        }
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.6);
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+        }
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.5);
+        }
 
-    #causes .table-bordered tbody td {
-        color: white;
-        vertical-align: middle;
-        border-color: #483d8b;
-    }
+        .content-box {
+          background: var(--card);
+          padding: 30px;
+          border-radius: 18px;
+          border: 1px solid var(--border-color);
+          box-shadow: 0 8px 30px rgba(0,0,0,.25);
+          margin-bottom: 24px;
+        }
 
-    #causes .table-bordered tbody td:nth-child(1),
-    #causes .table-bordered tbody td:nth-child(2) {
-        background-color: #21262c;
-    }
+        /* Live AQI Container */
+        .live-aqi-container {
+            color: white;
+        }
+        .live-aqi-container h2 {
+            color: white;
+            border: none;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+        .live-aqi-container h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, var(--accent1), var(--accent2));
+        }
+        .aqi-main-info {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .aqi-value {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+        .aqi-status-wrapper span {
+            display: block;
+            margin-bottom: 8px;
+        }
+        .aqi-status-box {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .pollutant-info {
+            font-size: 1.1rem;
+            margin-bottom: 35px;
+        }
+        .aqi-scale-wrapper {
+            position: relative;
+            padding-bottom: 25px;
+        }
+        .aqi-scale {
+            height: 10px;
+            border-radius: 5px;
+            display: flex;
+            overflow: hidden;
+        }
+        .aqi-scale-segment {
+            height: 100%;
+        }
+        .aqi-scale-pointer {
+            position: absolute;
+            top: -3px;
+            width: 16px;
+            height: 16px;
+            background-color: white;
+            border-radius: 50%;
+            border: 2px solid var(--card);
+            transform: translateX(-50%);
+            transition: left 0.5s ease-in-out;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+        .aqi-scale-labels {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+        .aqi-scale-labels span {
+            position: absolute;
+            transform: translateX(-50%);
+        }
+        .aqi-scale-labels span:first-child { transform: translateX(0); }
+        .aqi-scale-labels span:last-child { transform: translateX(-100%); }
 
-    #causes .table-bordered tbody td:nth-child(3) {
-        font-weight: bold;
-    }
-    
-    /* Chart Header */
-    .chart-header {
-        text-align: center;
-        margin-bottom: 1rem;
-    }
-    .chart-header h4 {
-        color: white;
-        font-size: 2.2rem;
-    }
-    #chart-title-suffix {
-        color: white;
-    }
-    .timeframe-btn {
-        padding: 4px 12px;
-        font-size: 0.8rem;
-    }
-    
-    /* Chart Title Flip Animation */
-    #chart-timeframe-title,
-    .gradient-text {
-        display: inline-block;
-        perspective: 1000px;
-        background: linear-gradient(to right, #6a5acd, #e209d0);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-    }
-    #chart-timeframe-title.flipping {
-        animation: flip-box 0.6s ease-in-out;
-    }
-    @keyframes flip-box {
-        0% { transform: rotateX(0deg); }
-        50% { transform: rotateX(-90deg); }
-        100% { transform: rotateX(0deg); }
-    }
-    
-    /* Educational Section Title */
-    .container.mt-5 h1 {
-        color: white;
-        font-size: 2.2rem;
-        font-weight: 600;
-        text-align: center;
-        margin-bottom: 30px;
-    }
-    
-    /* Footer Styles */
-    footer {
-        background-color: #161b22;
-        color: #8b949e;
-        text-align: center;
-        padding: 20px 0;
-        margin-top: auto;
-        border-top: 1px solid #6a5acd;
-    }
-    footer a {
-        color: #6a5acd;
-        text-decoration: none;
-        margin: 0 10px;
-    }
-    footer a:hover {
-        color: #836FFF;
-        text-decoration: underline;
-    }
-    
-  </style>
+        /* Chart & Educational Sections */
+        h1, h2, h3, h4 {
+          color: var(--text);
+          font-weight: 600;
+        }
+        .edu-section h2 {
+          border-bottom: 2px solid var(--accent1);
+          padding-bottom: 10px;
+          margin-top: 2rem;
+          margin-bottom: 1.5rem;
+          font-size: 1.7rem;
+        }
+        .edu-section { display: none; }
+        .edu-section.active { display: block; }
+
+        /* Chart Header */
+        .chart-header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .chart-header h4 {
+            color: white;
+            font-size: 2.2rem;
+        }
+        #chart-timeframe-title,
+        .gradient-text {
+            display: inline-block;
+            perspective: 1000px;
+            background: linear-gradient(to right, var(--accent1), var(--accent2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        #chart-timeframe-title.flipping {
+            animation: flip-box 0.6s ease-in-out;
+        }
+        @keyframes flip-box {
+            0% { transform: rotateX(0deg); }
+            50% { transform: rotateX(-90deg); }
+            100% { transform: rotateX(0deg); }
+        }
+
+        /* Table styles */
+        .table-wrapper {
+            overflow-x:auto;
+            border-radius:14px;
+            margin-top: 10px;
+            border: 1px solid var(--border-color);
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          background: rgba(255, 255, 255, .03);
+        }
+        thead th {
+          font-size: 12px;
+          text-align: left;
+          color: #b7c3d6;
+          background: rgba(255, 255, 255, .04);
+        }
+        th, td {
+          padding: 12px 10px;
+          border-bottom: 1px solid rgba(255, 255, 255, .06);
+          font-size: 13px;
+        }
+        tbody tr:hover { background: rgba(255, 255, 255, .03); }
+
+        /* Footer Styles */
+        .site-footer {
+            background-color: var(--header-bg);
+            text-align: center;
+            padding: 20px;
+            margin-top: auto;
+            border-top: 1px solid var(--border-color);
+        }
+        .site-footer p {
+            margin: 0;
+            color: var(--muted);
+        }
+        .site-footer a {
+            color: var(--accent1);
+            text-decoration: none;
+            margin: 0 8px;
+            transition: color 0.2s ease, text-decoration 0.2s ease;
+        }
+        .site-footer a:hover {
+            color: var(--accent2);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 800px) {
+          .nav-btn .btn-text, .toggle-btn .btn-text { display: none; }
+          .nav-controls { gap: 0.5rem; }
+        }
+        @media (max-width: 768px) {
+          .nav-container {
+              grid-template-columns: 1fr;
+              justify-items: center;
+              gap: 12px;
+          }
+          .logo, .nav-controls, .nav-search {
+              grid-column: 1 / -1;
+              justify-self: center;
+          }
+          .nav-search {
+              justify-self: stretch; /* Make search bar take more width */
+              width: 80%;
+              margin: 0 auto;
+          }
+        }
+    </style>
 </head>
 
 <body>
-  <div class="main-content-wrapper">
-    <nav class="navbar navbar-expand-lg">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="Landing_Page.html">EcoGauge</a>
-        <div class="d-flex align-items-center navbar-tools">
-
-          <div class="btn-group btn-group-toggle me-2" role="group">
-            <a href="#" class="btn btn-outline-light btn-sm active"><i class='bx bx-wind'></i> AQI</a>
-            <a href="NPI_Home.html" class="btn btn-outline-light btn-sm"><i class='bx bxs-volume-full'></i> Noise</a>
-          </div>
-
-          <a class="nav-btn me-2" href="AQI_Map.html" role="button"><i class='bx bxs-map'></i> Map</a>
-
-          <a class="nav-btn me-2" href="AQI_Ranking.html" role="button"><i class='bx bxs-bar-chart-alt-2'></i> Rankings</a>
-
-          <form class="d-flex search-form" id="searchForm">
-            <input class="form-control form-control-sm" type="search" placeholder="Search City" id="citySearch">
-            <button type="submit"><i class='bx bx-search-alt-2'></i></button>
-          </form>
+<nav class="site-nav">
+    <div class="nav-container">
+        <a class="logo" href="Landing_Page.html">EcoGauge</a>
+        <div class="nav-controls">
+            <div class="toggle-btn-group">
+                <a href="#" class="toggle-btn active"><i class='bx bx-wind'></i><span class="btn-text">AQI</span></a>
+                <a href="NPI_Home.html" class="toggle-btn"><i class='bx bxs-volume-full'></i><span class="btn-text">Noise</span></a>
+            </div>
+            <a class="nav-btn" href="AQI_Map.html" role="button" title="Map View">
+                <i class='bx bxs-map'></i> <span class="btn-text">Map</span>
+            </a>
+            <a class="nav-btn" href="AQI_Ranking.html" role="button" title="View Rankings">
+                <i class='bx bxs-bar-chart-alt-2'></i> <span class="btn-text">Rankings</span>
+            </a>
         </div>
-      </div>
-    </nav>
-
-    <div class="hero-section">
-        <h1>Welcome to EcoGauge</h1>
-        <p>Your real-time guide to air quality and noise levels in your city.</p>
+        <div class="nav-search">
+            <form class="d-flex search-form" id="searchForm">
+                <input class="form-control" type="search" placeholder="Search City..." id="citySearch">
+                <button type="submit"><i class='bx bx-search-alt-2'></i></button>
+            </form>
+        </div>
     </div>
+</nav>
 
-    <div class="container mt-4 main-container">
-    
-      <div class="live-aqi-container">
-          <h2 id="aqi-city-name">Mumbai</h2>
-          <div class="aqi-main-info">
-              <div id="aqi-live-value" class="aqi-value">--</div>
-              <div class="aqi-status-wrapper">
-                  <span>Air Quality is</span>
-                  <div id="aqi-live-status" class="aqi-status-box">Loading...</div>
-              </div>
-          </div>
-          <div class="pollutant-info">
-              <span><strong>PM10:</strong> <span id="pm10-value">--</span> µg/m³</span>
-              <span class="ms-4"><strong>PM2.5:</strong> <span id="pm25-value">--</span> µg/m³</span>
-          </div>
-          <div class="aqi-scale-wrapper">
-              <div class="aqi-scale">
-                  <div class="aqi-scale-segment" style="width: 10%; background-color: #2E8B57;"></div>
-                  <div class="aqi-scale-segment" style="width: 10%; background-color: #FFD700;"></div>
-                  <div class="aqi-scale-segment" style="width: 10%; background-color: #FF8C00;"></div>
-                  <div class="aqi-scale-segment" style="width: 10%; background-color: #DC143C;"></div>
-                  <div class="aqi-scale-segment" style="width: 20%; background-color: #8A2BE2;"></div>
-                  <div class="aqi-scale-segment" style="width: 40%; background-color: #800000;"></div>
-              </div>
-              <div id="aqi-pointer" class="aqi-scale-pointer" style="left: 0%;"></div>
-              <div class="aqi-scale-labels">
-                  <span style="left: 0%;">0</span>
-                  <span style="left: 10%;">50</span>
-                  <span style="left: 20%;">100</span>
-                  <span style="left: 30%;">150</span>
-                  <span style="left: 40%;">200</span>
-                  <span style="left: 60%;">300</span>
-                  <span style="left: 100%;">301+</span>
-              </div>
-          </div>
-      </div>
-
-      <div class="row mt-4">
-        <div class="col-md-12">
-          <div class="chart-header">
-              <h4><span id="chart-timeframe-title">Weekly</span><span id="chart-title-suffix"> AQI Trend</span></h4>
-          </div>
-          <div class="d-flex justify-content-center mb-4">
-              <div class="btn-group" id="timeframe-selector">
-                  <button class="timeframe-btn" data-timeframe="1D">1D</button>
-                  <button class="timeframe-btn active" data-timeframe="1W">1W</button>
-                  <button class="timeframe-btn" data-timeframe="1M">1M</button>
-                  <button class="timeframe-btn" data-timeframe="1Y">1Y</button>
-                  <button class="timeframe-btn" data-timeframe="10Y">10Y</button>
-              </div>
-          </div>
-          <canvas id="aqiTrendChart"></canvas>
+<main>
+    <header class="hero-header">
+        <img src="/home/deviprasad-shetty/Desktop/Annu new/Annu Codes/Websites/AQI/Screenshot from 2025-09-05 13-06-12.png"
+             alt="Aerial view of a modern city at dusk" class="hero-image">
+        <div class="hero-overlay">
+            <h1 class="hero-title">Welcome to EcoGauge</h1>
+            <p class="hero-subtitle">Your real-time guide to air quality and noise levels in your city.</p>
         </div>
-      </div>
+    </header>
 
-      <div class="container mt-5">
-        <h1>Decoding the <span class="gradient-text">Air We Breathe</span></h1>
-
-        <div class="d-flex justify-content-center mb-4">
-            <div class="btn-group" role="group" id="edu-toggle-group">
-              <button type="button" class="edu-toggle-btn active" data-target="causes">Causes</button>
-              <button type="button" class="edu-toggle-btn" data-target="effects">Effects</button>
-              <button type="button" class="edu-toggle-btn" data-target="solutions">Solutions</button>
+    <div class="content-box">
+        <div class="live-aqi-container">
+            <h2 id="aqi-city-name">Kurla</h2>
+            <div class="aqi-main-info">
+                <div id="aqi-live-value" class="aqi-value">--</div>
+                <div class="aqi-status-wrapper">
+                    <span>Air Quality is</span>
+                    <div id="aqi-live-status" class="aqi-status-box">Loading...</div>
+                </div>
+            </div>
+            <div class="pollutant-info">
+                <span><strong>PM10:</strong> <span id="pm10-value">--</span> µg/m³</span>
+                <span class="ms-4"><strong>PM2.5:</strong> <span id="pm25-value">--</span> µg/m³</span>
+            </div>
+            <div class="aqi-scale-wrapper">
+                <div class="aqi-scale">
+                    <div class="aqi-scale-segment" style="width: 10%; background-color: var(--good);"></div>
+                    <div class="aqi-scale-segment" style="width: 10%; background-color: var(--moderate);"></div>
+                    <div class="aqi-scale-segment" style="width: 10%; background-color: var(--poor);"></div>
+                    <div class="aqi-scale-segment" style="width: 10%; background-color: var(--unhealthy);"></div>
+                    <div class="aqi-scale-segment" style="width: 20%; background-color: var(--severe);"></div>
+                    <div class="aqi-scale-segment" style="width: 40%; background-color: var(--hazardous);"></div>
+                </div>
+                <div id="aqi-pointer" class="aqi-scale-pointer" style="left: 0%;"></div>
+                <div class="aqi-scale-labels">
+                    <span style="left: 0%;">0</span>
+                    <span style="left: 10%;">50</span>
+                    <span style="left: 20%;">100</span>
+                    <span style="left: 30%;">150</span>
+                    <span style="left: 40%;">200</span>
+                    <span style="left: 60%;">300</span>
+                    <span style="left: 100%;">301+</span>
+                </div>
             </div>
         </div>
-
-        <div id="causes" class="edu-section active">
-          <h2>1. What is Air Pollution?</h2>
-          <ul>
-            <li>Presence of harmful substances in the atmosphere.</li>
-            <li>Includes outdoor pollution (vehicles, factories, crop burning) and indoor pollution (smoke, poor
-              ventilation).</li>
-          </ul>
-
-          <h2>2. What is AQI (Air Quality Index)?</h2>
-          <ul>
-            <li>AQI communicates current or forecasted pollution levels.</li>
-            <li>Scale: 0 to 500 (higher = worse).</li>
-            <li>Major pollutants: PM2.5, PM10, NO₂, SO₂, CO, O₃.</li>
-          </ul>
-
-          <h3>AQI Categories</h3>
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>AQI Range</th>
-                <th>Health Concern</th>
-                <th>Color</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>0–50</td>
-                <td>Good</td>
-                <td style="background-color: #2E8B57; color: white;">Green</td>
-              </tr>
-              <tr>
-                <td>51–100</td>
-                <td>Moderate</td>
-                <td style="background-color: #FFD700; color: black;">Yellow</td>
-              </tr>
-              <tr>
-                <td>101–150</td>
-                <td>Poor</td>
-                <td style="background-color: #FF8C00; color: black;">Orange</td>
-              </tr>
-              <tr>
-                <td>151–200</td>
-                <td>Unhealthy</td>
-                <td style="background-color: #DC143C; color: white;">Red</td>
-              </tr>
-              <tr>
-                <td>201–300</td>
-                <td>Severe</td>
-                <td style="background-color: #8A2BE2; color: white;">Purple</td>
-              </tr>
-              <tr>
-                <td>301–500</td>
-                <td>Hazardous</td>
-                <td style="background-color: #800000; color: white;">Maroon</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h2>3. Causes of Air Pollution</h2>
-          <ul>
-            <li><strong>Human-made:</strong> Vehicle emissions, industrial discharge, construction dust, burning fossil
-              fuels, waste burning.</li>
-            <li><strong>Natural:</strong> Wildfires, dust storms, volcanic activity.</li>
-          </ul>
-        </div>
-
-        <div id="effects" class="edu-section">
-          <h2>4. Effects on the Present Generation</h2>
-          <ul>
-            <li>Respiratory diseases: asthma, bronchitis, lung cancer.</li>
-            <li>Heart issues, eye irritation.</li>
-            <li>Decreased productivity due to illness.</li>
-            <li>Environmental effects: smog, acid rain, poor visibility.</li>
-          </ul>
-
-          <h2>5. Effects on Future Generations</h2>
-          <ul>
-            <li>Poor lung development in children.</li>
-            <li>Higher risk of cognitive and developmental disorders.</li>
-            <li>Long-term environmental damage.</li>
-            <li>Harm to biodiversity and climate.</li>
-          </ul>
-        </div>
-
-        <div id="solutions" class="edu-section">
-          <h2>6. Real-Life Solutions</h2>
-
-          <h3>Individual Level</h3>
-          <ul>
-            <li>Use public transport, carpool, bike, or walk.</li>
-            <li>Shift to electric vehicles and clean fuels.</li>
-            <li>Avoid burning garbage or leaves.</li>
-            <li>Grow air-purifying plants.</li>
-          </ul>
-
-          <h3>Community Level</h3>
-          <ul>
-            <li>Create green zones and urban forests.</li>
-            <li>Control dust/emissions at construction sites.</li>
-            <li>Promote recycling and waste segregation.</li>
-            <li>Raise community awareness.</li>
-          </ul>
-
-          <h3>Government Level</h3>
-          <ul>
-            <li>Enforce pollution laws.</li>
-            <li>Invest in renewables and public transit.</li>
-            <li>Regulate crop burning.</li>
-            <li>Educate the public via media campaigns.</li>
-          </ul>
-        </div>
-      </div>
     </div>
-  </div>
-  
-  <footer>
+
+    <div class="content-box">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="chart-header">
+                    <h4><span id="chart-timeframe-title">Weekly</span> AQI Trend</h4>
+                </div>
+                <div class="d-flex justify-content-center flex-wrap gap-3 mb-4" id="timeframe-selector">
+                    <button class="filter-btn-separate timeframe-btn" data-timeframe="1D">1D</button>
+                    <button class="filter-btn-separate timeframe-btn active" data-timeframe="1W">1W</button>
+                    <button class="filter-btn-separate timeframe-btn" data-timeframe="1M">1M</button>
+                    <button class="filter-btn-separate timeframe-btn" data-timeframe="1Y">1Y</button>
+                    <button class="filter-btn-separate timeframe-btn" data-timeframe="10Y">10Y</button>
+                </div>
+                <canvas id="aqiTrendChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-box">
+        <div class="container">
+            <h1 class="text-center mb-4">Decoding the <span class="gradient-text">Air We Breathe</span></h1>
+            <div class="d-flex justify-content-center flex-wrap gap-3 mb-4" role="group" id="edu-toggle-group">
+                <button type="button" class="filter-btn-separate edu-toggle-btn active" data-target="causes">Causes</button>
+                <button type="button" class="filter-btn-separate edu-toggle-btn" data-target="effects">Effects</button>
+                <button type="button" class="filter-btn-separate edu-toggle-btn" data-target="solutions">Solutions</button>
+            </div>
+
+            <div id="causes" class="edu-section active">
+                <h2>1. What is Air Pollution?</h2>
+                <ul>
+                    <li>Presence of harmful substances in the atmosphere.</li>
+                    <li>Includes outdoor pollution (vehicles, factories, crop burning) and indoor pollution (smoke, poor ventilation).</li>
+                </ul>
+                <h2>2. What is AQI (Air Quality Index)?</h2>
+                <ul>
+                    <li>AQI communicates current or forecasted pollution levels.</li>
+                    <li>Scale: 0 to 500 (higher = worse).</li>
+                    <li>Major pollutants: PM2.5, PM10, NO₂, SO₂, CO, O₃.</li>
+                </ul>
+                <h3>AQI Categories</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>AQI Range</th>
+                            <th>Health Concern</th>
+                            <th>Color</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>0–50</td>
+                            <td>Good</td>
+                            <td style="background-color: var(--good); color: black;">Green</td>
+                        </tr>
+                        <tr>
+                            <td>51–100</td>
+                            <td>Moderate</td>
+                            <td style="background-color: var(--moderate); color: black;">Yellow</td>
+                        </tr>
+                        <tr>
+                            <td>101–150</td>
+                            <td>Poor</td>
+                            <td style="background-color: var(--poor); color: black;">Orange</td>
+                        </tr>
+                        <tr>
+                            <td>151–200</td>
+                            <td>Unhealthy</td>
+                            <td style="background-color: var(--unhealthy); color: white;">Red</td>
+                        </tr>
+                        <tr>
+                            <td>201–300</td>
+                            <td>Severe</td>
+                            <td style="background-color: var(--severe); color: white;">Purple</td>
+                        </tr>
+                        <tr>
+                            <td>301–500</td>
+                            <td>Hazardous</td>
+                            <td style="background-color: var(--hazardous); color: white;">Maroon</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h2>3. Causes of Air Pollution</h2>
+                <ul>
+                    <li><strong>Human-made:</strong> Vehicle emissions, industrial discharge, construction dust, burning fossil fuels, waste burning.</li>
+                    <li><strong>Natural:</strong> Wildfires, dust storms, volcanic activity.</li>
+                </ul>
+            </div>
+
+            <div id="effects" class="edu-section">
+                <h2>4. Effects on the Present Generation</h2>
+                <ul>
+                    <li>Respiratory diseases: asthma, bronchitis, lung cancer.</li>
+                    <li>Heart issues, eye irritation.</li>
+                    <li>Decreased productivity due to illness.</li>
+                    <li>Environmental effects: smog, acid rain, poor visibility.</li>
+                </ul>
+                <h2>5. Effects on Future Generations</h2>
+                <ul>
+                    <li>Poor lung development in children.</li>
+                    <li>Higher risk of cognitive and developmental disorders.</li>
+                    <li>Long-term environmental damage.</li>
+                    <li>Harm to biodiversity and climate.</li>
+                </ul>
+            </div>
+
+            <div id="solutions" class="edu-section">
+                <h2>6. Real-Life Solutions</h2>
+                <h3>Individual Level</h3>
+                <ul>
+                    <li>Use public transport, carpool, bike, or walk.</li>
+                    <li>Shift to electric vehicles and clean fuels.</li>
+                    <li>Avoid burning garbage or leaves.</li>
+                    <li>Grow air-purifying plants.</li>
+                </ul>
+                <h3>Community Level</h3>
+                <ul>
+                    <li>Create green zones and urban forests.</li>
+                    <li>Control dust/emissions at construction sites.</li>
+                    <li>Promote recycling and waste segregation.</li>
+                    <li>Raise community awareness.</li>
+                </ul>
+                <h3>Government Level</h3>
+                <ul>
+                    <li>Enforce pollution laws.</li>
+                    <li>Invest in renewables and public transit.</li>
+                    <li>Regulate crop burning.</li>
+                    <li>Educate the public via media campaigns.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="site-footer">
     <p>&copy; 2025 EcoGauge. All Rights Reserved.</p>
     <p>
-        <a href="#">About Us</a> | 
-        <a href="#">Contact</a> | 
+        <a href="About_Us.html">About Us</a> |
+        <a href="Contact_Us.html">Contact</a> |
         <a href="#">Privacy Policy</a>
     </p>
-  </footer>
+</footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
     document.addEventListener('DOMContentLoaded', function() {
+        const rootStyles = getComputedStyle(document.documentElement);
+
         // --- Live AQI Data Update ---
         const updateAqiData = () => {
-            // Static data as requested
-            const staticAqi = 152;
-            const staticPm10 = 145;
-            const staticPm25 = 152;
+            const staticAqi = 109;
+            const staticPm10 = 75;
+            const staticPm25 = 28;
 
             document.getElementById('aqi-live-value').textContent = staticAqi;
             document.getElementById('pm10-value').textContent = staticPm10;
             document.getElementById('pm25-value').textContent = staticPm25;
 
-            // Update AQI Status Box
             const statusBox = document.getElementById('aqi-live-status');
             let statusInfo = { text: 'Unknown', color: '#30363d', textColor: 'white' };
-            if (staticAqi <= 50) statusInfo = { text: 'Good', color: '#2E8B57', textColor: 'white' };
-            else if (staticAqi <= 100) statusInfo = { text: 'Moderate', color: '#FFD700', textColor: 'black' };
-            else if (staticAqi <= 150) statusInfo = { text: 'Poor', color: '#FF8C00', textColor: 'black' };
-            else if (staticAqi <= 200) statusInfo = { text: 'Unhealthy', color: '#DC143C', textColor: 'white' };
-            else if (staticAqi <= 300) statusInfo = { text: 'Severe', color: '#8A2BE2', textColor: 'white' };
-            else statusInfo = { text: 'Hazardous', color: '#800000', textColor: 'white' };
+            if (staticAqi <= 50) statusInfo = { text: 'Good', color: rootStyles.getPropertyValue('--good').trim(), textColor: 'white' };
+            else if (staticAqi <= 100) statusInfo = { text: 'Moderate', color: rootStyles.getPropertyValue('--moderate').trim(), textColor: 'black' };
+            else if (staticAqi <= 150) statusInfo = { text: 'Poor', color: rootStyles.getPropertyValue('--poor').trim(), textColor: 'black' };
+            else if (staticAqi <= 200) statusInfo = { text: 'Unhealthy', color: rootStyles.getPropertyValue('--unhealthy').trim(), textColor: 'white' };
+            else if (staticAqi <= 300) statusInfo = { text: 'Severe', color: rootStyles.getPropertyValue('--severe').trim(), textColor: 'white' };
+            else statusInfo = { text: 'Hazardous', color: rootStyles.getPropertyValue('--hazardous').trim(), textColor: 'white' };
 
             statusBox.textContent = statusInfo.text;
             statusBox.style.backgroundColor = statusInfo.color;
             statusBox.style.color = statusInfo.textColor;
 
-            // Update AQI Pointer
             const pointer = document.getElementById('aqi-pointer');
-            const aqiPercentage = Math.min(staticAqi / 500, 1) * 100; // Cap at 500
+            const aqiPercentage = Math.min(staticAqi / 500, 1) * 100;
             pointer.style.left = `${aqiPercentage}%`;
         };
 
-        updateAqiData(); // Initial call to display the static data
+        updateAqiData();
 
         // --- Educational Section Toggle ---
         const eduToggleButtons = document.querySelectorAll('.edu-toggle-btn');
         const eduSections = document.querySelectorAll('.edu-section');
-
         eduToggleButtons.forEach(button => {
             button.addEventListener('click', function() {
                 eduToggleButtons.forEach(btn => btn.classList.remove('active'));
@@ -732,66 +741,39 @@
         });
 
         // --- Chart.js Configuration ---
-        const chartFontColor = '#c9d1d9';
+        const chartFontColor = rootStyles.getPropertyValue('--text').trim();
         const chartGridColor = 'rgba(193, 209, 217, 0.2)';
-        const chartAccentColor = '#8A2BE2'; // Changed to violet
+        const chartAccentColor = rootStyles.getPropertyValue('--accent1').trim();
 
         const aqiTrendCtx = document.getElementById('aqiTrendChart').getContext('2d');
-        let aqiTrendChart = new Chart(aqiTrendCtx, {}); // Initialize empty chart
+        let aqiTrendChart = new Chart(aqiTrendCtx, {});
 
         const timeframeData = {
-            '1D': {
-                labels: ['12am', '3am', '6am', '9am', '12pm', '3pm', '6pm', '9pm'],
-                data: [150, 152, 155, 160, 158, 155, 153, 152]
-            },
-            '1W': {
-                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                data: [165, 159, 180, 181, 156, 155, 152]
-            },
-            '1M': {
-                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-                data: [158, 162, 155, 152]
-            },
-            '1Y': {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                data: [180, 175, 160, 140, 120, 110, 130, 152, 165, 170, 175, 185]
-            },
-            '10Y': {
-                labels: ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'],
-                data: [190, 185, 188, 175, 160, 165, 170, 162, 155, 152]
-            }
+            '1D': { labels: ['12am', '3am', '6am', '9am', '12pm', '3pm', '6pm', '9pm'], data: [80, 86, 94, 108, 120, 103, 112, 101] },
+            '1W': { labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], data: [122, 119, 120, 117, 119, 123, 138] },
+            '1M': { labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'], data: [127, 121, 124, 128] },
+            '1Y': { labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], data: [125, 139, 146, 150, 153, 110, 118, 122, 135, 140, 139, 134] },
+            '10Y': { labels: ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'], data: [140, 144, 138, 125, 110, 115, 124, 132, 145, 142] }
         };
-        
+
         const getOrdinalSuffix = (day) => {
             if (day > 3 && day < 21) return 'th';
             switch (day % 10) {
-                case 1: return "st";
-                case 2: return "nd";
-                case 3: return "rd";
-                default: return "th";
+                case 1: return "st"; case 2: return "nd"; case 3: return "rd"; default: return "th";
             }
         };
-        
-        const timeframeTitles = {
-            '1D': 'Daily',
-            '1W': 'Weekly',
-            '1M': 'Monthly',
-            '1Y': 'Yearly',
-            '10Y': 'Decadal'
-        };
+
+        const timeframeTitles = { '1D': 'Daily', '1W': 'Weekly', '1M': 'Monthly', '1Y': 'Yearly', '10Y': 'Decadal' };
 
         const updateChart = (timeframe) => {
             const chartTitleSpan = document.getElementById('chart-timeframe-title');
             chartTitleSpan.textContent = timeframeTitles[timeframe];
             chartTitleSpan.classList.add('flipping');
-            setTimeout(() => {
-                chartTitleSpan.classList.remove('flipping');
-            }, 600);
+            setTimeout(() => chartTitleSpan.classList.remove('flipping'), 600);
 
             const newData = timeframeData[timeframe];
-            if (aqiTrendChart) {
-                aqiTrendChart.destroy();
-            }
+            if (aqiTrendChart) aqiTrendChart.destroy();
+
             aqiTrendChart = new Chart(aqiTrendCtx, {
                 type: 'line',
                 data: {
@@ -800,9 +782,9 @@
                         label: 'AQI',
                         data: newData.data,
                         borderColor: chartAccentColor,
-                        backgroundColor: 'rgba(138, 43, 226, 0.2)',
+                        backgroundColor: 'rgba(41, 182, 246, 0.2)',
                         fill: true,
-                        tension: 0,
+                        tension: 0.1,
                         pointBackgroundColor: 'white',
                         pointBorderColor: chartAccentColor,
                         pointRadius: 5,
@@ -815,45 +797,25 @@
                         y: { beginAtZero: false, ticks: { color: chartFontColor }, grid: { color: chartGridColor } },
                         x: { ticks: { color: chartFontColor }, grid: { color: chartGridColor } }
                     },
-                    plugins: { 
-                        legend: { 
-                            position: 'right',
-                            labels: { color: chartFontColor }
-                        },
+                    plugins: {
+                        legend: { display: false },
                         tooltip: {
                             callbacks: {
                                 title: function(context) {
                                     const index = context[0].dataIndex;
-                                    const today = new Date();
-                                    let date;
-
+                                    const today = new Date('2025-09-04T18:57:00');
                                     if (timeframe === '1W') {
-                                        const dayOfWeek = today.getDay(); // Sunday is 0, Monday is 1, etc.
-                                        // Set to the beginning of the current week (Monday)
+                                        const dayOfWeek = today.getDay();
                                         const startDate = new Date(today);
-                                        startDate.setDate(today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1)); 
-                                        
-                                        date = new Date(startDate);
+                                        startDate.setDate(today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1));
+                                        const date = new Date(startDate);
                                         date.setDate(startDate.getDate() + index);
-                                        
                                         const day = date.getDate();
                                         const month = date.toLocaleString('default', { month: 'short' });
-                                        const year = date.getFullYear();
-                                        // As of today, Aug 12, 2025 (Tuesday), the tooltip for the first point (Mon) should be 11th Aug, 2025
-                                        return `${day}${getOrdinalSuffix(day)} ${month}, ${year}`;
+                                        return `${day}${getOrdinalSuffix(day)} ${month}, ${date.getFullYear()}`;
                                     }
                                     return context[0].label;
                                 },
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed.y !== null) {
-                                        label += context.parsed.y;
-                                    }
-                                    return label;
-                                }
                             }
                         }
                     }
@@ -866,15 +828,16 @@
             button.addEventListener('click', function() {
                 timeframeButtons.forEach(btn => btn.classList.remove('active'));
                 this.classList.add('active');
-                const timeframe = this.getAttribute('data-timeframe');
-                updateChart(timeframe);
+                updateChart(this.getAttribute('data-timeframe'));
             });
         });
 
-        // Initial chart load
         updateChart('1W');
     });
-  </script>
+</script>
 </body>
 
 </html>
+
+
+
