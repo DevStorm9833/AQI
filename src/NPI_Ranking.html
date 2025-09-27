@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NPI_Ranking Page</title>
+  <!-- Boxicons for icons -->
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <style> 
+         :root { 
+           --bg: #0b1020; 
+           --card: #111833; 
+           --header-bg: #161b22; 
+           --border-color: rgba(255, 255, 255, .1); 
+           --muted: #97a3b6; 
+           --text: #e8ecf6; 
+
+           /* Shining Light Blue Theme (Default) */ 
+           --accent1: #29B6F6;      /* Main light blue for borders, active states */ 
+           --accent2: #81D4FA;      /* Lighter blue for hovers, text */ 
+           --logo-color: #29B6F6;   /* Logo color */ 
+           --glow-color-rgba: rgba(41, 182, 246, 0.4); /* RGBA version for glows */ 
+
+           /* Violet Theme (For Navbar Buttons Only) */ 
+           --nav-accent1: var(--accent1); 
+           --nav-accent2: var(--accent2); 
+           --nav-glow-color-rgba: var(--glow-color-rgba); 
+
+           /* NPI Palette */
+           --quiet: #34d399;      /* Green */
+           --moderate: #a3e635;  /* Lime */
+           --loud: #facc15;      /* Yellow */
+           --very-loud: #fb923c;   /* Orange */
+           --extreme: #ef4444;    /* Red */
+         } 
+         *{ box-sizing: border-box; } 
+         body { 
+           margin: 0; 
+           font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; 
+           background: linear-gradient(120deg, #0b1020 0%, #0e1430 60%, #151a3a 100%); 
+           color: var(--text); 
+           display: flex; 
+           flex-direction: column; 
+           min-height: 100vh; 
+         } 
+          main { 
+           flex: 1; 
+          } 
+
+         /* --- Restored & Themed Header/Nav Styles --- */ 
+         .site-nav { 
+           background-color: var(--header-bg); 
+           border-bottom: 1px solid var(--border-color); 
+           padding: 12px 24px; 
+           position: sticky; 
+           top: 0; 
+           z-index: 10; 
+           backdrop-filter: blur(6px); 
+           background: rgba(22, 27, 34, .7); 
+         } 
+         .nav-container { 
+           display: grid; 
+           grid-template-columns: 1fr auto 1fr; 
+           align-items: center; 
+           width: 100%; 
+           gap: 1rem; 
+         } 
+         .logo { 
+           grid-column: 1 / 2; 
+           justify-self: start; 
+           font-size: 24px; 
+           font-weight: 700; 
+           color: var(--logo-color); 
+           text-decoration: none; 
+           transition: filter 0.2s ease; 
+         } 
+         .logo:hover { 
+           filter: brightness(1.2); 
+         } 
+         .nav-controls { 
+           grid-column: 2 / 3; 
+           justify-self: center; 
+           display: flex; 
+           align-items: center; 
+           gap: 0.75rem; 
+         } 
+         .nav-search { 
+             grid-column: 3 / 4; 
+             justify-self: end; 
+         } 
+         .toggle-btn-group { 
+           display: inline-flex; 
+           border-radius: 20px; 
+           overflow: hidden; 
+           border: 1px solid var(--nav-accent1); 
+           box-shadow: 0 0 8px 2px var(--nav-glow-color-rgba); 
+         } 
+         .toggle-btn { 
+           padding: 6px 16px; 
+           font-weight: 500; 
+           transition: all 0.2s ease-in-out; 
+           background-color: transparent; 
+           color: var(--nav-accent2); 
+           border: none; 
+           cursor: pointer; 
+           display: inline-flex; 
+           align-items: center; 
+           gap: 0.5rem; 
+           text-decoration: none; 
+         } 
+         .toggle-btn:not(:last-child) { 
+           border-right: 1px solid var(--nav-accent1); 
+         } 
+         .toggle-btn.active { 
+           background-color: var(--nav-accent1); 
+           color: #FFFFFF; 
+         } 
+         .toggle-btn:hover:not(.active) { 
+           background-color: rgba(41, 182, 246, 0.2); 
+           color: white; 
+         } 
+          .nav-btn { 
+           cursor: pointer; 
+           border: 1px solid var(--nav-accent1); 
+           color: var(--nav-accent2); 
+           padding: 8px 14px; 
+           border-radius: 20px; 
+           background: transparent; 
+           display: inline-flex; 
+           align-items: center; 
+           gap: 0.5rem; 
+           transition: all 0.2s ease; 
+           font-weight: 500; 
+           white-space: nowrap; 
+           text-decoration: none; 
+         } 
+          .nav-btn:hover, .nav-btn.active-glow { 
+             background-color: rgba(41, 182, 246, 0.2); 
+             color: white; 
+             box-shadow: 0 0 8px 2px var(--nav-glow-color-rgba); 
+         } 
+         .nav-btn.secondary {
+           background: rgba(255,255,255,0.05);
+           border-color: rgba(255,255,255,0.1);
+           color: var(--text);
+           box-shadow: none;
+         }
+         .nav-btn.secondary:hover {
+            background-color: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.2);
+         }
+
+         /* --- Main Content Styles --- */ 
+         main { padding: 20px 24px 40px; } 
+        .page-header {
+          text-align: center;
+          margin-bottom: 24px;
+        }
+        .page-header h1 {
+          font-size: clamp(24px, 4vw, 40px);
+          font-weight: 700;
+          color: #fff;
+        }
+        .page-header p {
+          font-size: 18px;
+          color: var(--muted);
+          margin-top: 4px;
+        }
+        .grid-container {
+            display: flex;
+            justify-content: center;
+        }
+        .grid {
+          display: grid;
+          gap: 14px;
+          grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+          width: 100%;
+          max-width: 1200px;
+        }
+        .card {
+          position: relative;
+          background: radial-gradient(1200px 420px at -20% -20%, rgba(111, 86, 250, .1), transparent 60%),
+                      radial-gradient(800px 300px at 120% 140%, rgba(79, 156, 255, .08), transparent 55%),
+                      linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .02));
+          border: 1px solid rgba(255, 255, 255, .08);
+          padding: 16px;
+          border-radius: 18px;
+          box-shadow: 0 8px 30px rgba(0, 0, 0, .25);
+          cursor: pointer;
+          transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+        }
+        .card.selected {
+          border-color: var(--accent1);
+          box-shadow: 0 0 0 2px var(--accent1), 0 8px 30px var(--glow-color-rgba);
+          transform: translateY(-2px);
+        }
+        .city {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 8px;
+        }
+        .city h3 { margin: 0; font-size: 16px; }
+        .pill {
+          font-size: 11px;
+          padding: 4px 8px;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, .08);
+          border: 1px solid rgba(255, 255, 255, .08);
+          color: #cbd5e1;
+        }
+        .npi { font-size: 32px; font-weight: 700; margin: 10px 0 4px; }
+        .meta { font-size: 12px; color: var(--muted); }
+        .status { font-weight: 600; }
+        .status.quiet { color: var(--quiet); }
+        .status.moderate { color: var(--moderate); }
+        .status.loud { color: var(--loud); }
+        .status.very-loud { color: var(--very-loud); }
+        .status.extreme { color: var(--extreme); }
+
+        .section {
+          margin-top: 40px;
+        }
+        .controls-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 15px;
+          margin-top: 15px;
+        }
+        .update-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .time-capsule {
+            background: rgba(255,255,255,.08);
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-variant-numeric: tabular-nums;
+            color: var(--text);
+        }
+        
+        .table-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        #stationSearch {
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 20px;
+            padding: 8px 36px 8px 16px;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.2s;
+            min-width: 220px;
+        }
+        #stationSearch:focus {
+            border-color: var(--accent1);
+        }
+        .search-container > .bx-search {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            pointer-events: none;
+        }
+         
+         /* Table styles */ 
+         .table-wrapper { 
+             overflow-x:auto; 
+             border-radius:14px; 
+             margin-top: 10px; 
+             border: 1px solid var(--border-color); 
+         } 
+         table { 
+           width: 100%; 
+           border-collapse: collapse; 
+           background: rgba(255, 255, 255, .03); 
+           overflow: hidden;
+           border-radius: 14px;
+         } 
+        thead th[data-sort] {
+            cursor: pointer;
+            position: relative;
+            padding-right: 24px;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .sort-indicator {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            color: var(--muted);
+            opacity: 0.5;
+            transition: opacity 0.2s, color 0.2s;
+        }
+        thead th[data-sort]:hover .sort-indicator {
+            opacity: 1;
+        }
+        thead th.sort-asc .sort-indicator,
+        thead th.sort-desc .sort-indicator {
+            opacity: 1;
+            color: var(--accent2);
+        }
+         thead th { 
+           font-size: 12px; 
+           text-align: left; 
+           color: #b7c3d6; 
+           background: rgba(255, 255, 255, .04); 
+         } 
+         th, td { 
+           padding: 12px 10px; 
+           border-bottom: 1px solid rgba(255, 255, 255, .06); 
+           font-size: 13px; 
+         } 
+         tbody tr:hover { background: rgba(255, 255, 255, .03); } 
+         .countdown { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 13px;}
+
+         /* Footer Styles */ 
+         .site-footer { 
+             background-color: var(--header-bg); 
+             text-align: center; 
+             padding: 20px; 
+             margin-top: auto; 
+             border-top: 1px solid var(--border-color); 
+         } 
+         .site-footer p { 
+             margin: 0; 
+             color: var(--muted); 
+         } 
+         .site-footer a { 
+             color: var(--accent1); 
+             text-decoration: none; 
+             margin: 0 8px; 
+             transition: color 0.2s ease, text-decoration 0.2s ease; 
+         } 
+         .site-footer a:hover { 
+             color: var(--accent2); 
+             text-decoration: underline; 
+         } 
+
+         @media (max-width: 800px) { 
+           .nav-btn .btn-text, .toggle-btn .btn-text { display: none; } 
+           .nav-controls { gap: 0.5rem; } 
+           .controls-header { justify-content: center; text-align: center; }
+         } 
+         @media (max-width: 768px) { 
+           .nav-container { 
+               grid-template-columns: 1fr; 
+               justify-items: center; 
+               gap: 12px; 
+           } 
+           .logo, .nav-controls, .nav-search { 
+               grid-column: 1 / -1; 
+               justify-self: center; 
+           } 
+           .nav-search { 
+               justify-self: stretch; /* Make search bar take more width */ 
+               width: 80%; 
+               margin: 0 auto; 
+           } 
+         }
+         @media (max-width: 600px) {
+            .nav-container { flex-direction: column; gap: 12px; }
+         }
+     </style> 
+</head>
+<body>
+  <nav class="site-nav">
+      <div class="nav-container">
+        <a class="logo" href="Landing_Page.html">EcoGauge</a>
+        <div class="nav-controls">
+          <div class="toggle-btn-group">
+            <a href="AQI_Home.html" class="toggle-btn">
+              <i class='bx bx-wind'></i><span class="btn-text">AQI</span>
+            </a>
+            <a href="#" class="toggle-btn active">
+              <i class='bx bxs-volume-full'></i><span class="btn-text">Noise</span>
+            </a>
+          </div>
+          <a href="NPI_Map.html" class="nav-btn" title="Map View">
+              <i class='bx bxs-map'></i> <span class="btn-text">Map</span>
+          </a>
+          <a href="#" class="nav-btn active-glow" title="View Rankings">
+              <i class='bx bxs-bar-chart-alt-2'></i> <span class="btn-text">Rankings</span>
+          </a>
+           
+        </div>
+      </div>
+  </nav>
+
+  <main>
+    <header class="page-header">
+        <h1>Mumbai Noise Pollution Index Ranking</h1>
+        <p>Monitoring the Noise We Hear</p>
+    </header>
+
+    <div class="grid-container">
+        <div class="grid" id="cards"></div>
+    </div>
+    
+    <div class="section">
+      <h2 id="tableTitle" style="font-size: 22px; width: 100%;">Latest Station Readings</h2>
+      <div class="controls-header">
+        <div class="table-controls">
+            <div class="search-container">
+                <input type="text" id="stationSearch" placeholder="Search a station...">
+                <i class='bx bx-search'></i>
+            </div>
+            <button id="refreshBtn" class="nav-btn secondary" title="Force refresh data">
+                <i class='bx bx-refresh'></i><span class="btn-text">Refresh</span>
+            </button>
+            <button id="exportBtn" class="nav-btn secondary" title="Download as JSON">
+                <i class='bx bxs-download'></i><span class="btn-text">Json file</span>
+            </button>
+        </div>
+        <div class="update-info">
+          <span class="countdown">Last updated:</span>
+          <span id="timestamp-capsule" class="time-capsule">00:00:00 AM</span>
+          <div class="countdown">Next update in: <span id="countdown-timer" class="time-capsule">00:00</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-wrapper" style="margin-top: 10px;">
+      <table>
+        <thead>
+          <tr>
+            <th>Line</th>
+            <th data-sort="station_name">Station<i class='bx bxs-sort-alt sort-indicator'></i></th>
+            <th data-sort="lat">Latitude<i class='bx bxs-sort-alt sort-indicator'></i></th>
+            <th data-sort="lon">Longitude<i class='bx bxs-sort-alt sort-indicator'></i></th>
+            <th data-sort="avg_db">Avg. dB<i class='bx bxs-sort-alt sort-indicator'></i></th>
+            <th data-sort="category">Category<i class='bx bxs-sort-alt sort-indicator'></i></th>
+            <th data-sort="peak_db">Peak dB<i class='bx bxs-sort-alt sort-indicator'></i></th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </main>
+  
+  <footer class="site-footer">
+      <p>&copy; 2025 EcoGauge. All Rights Reserved.</p>
+      <p class="mt-2">
+          <a href="About_Us.html">About Us</a> | 
+          <a href="Contact_Us.html">Contact</a> | 
+          <a href="#">Privacy Policy</a>
+      </p>
+  </footer>
+
+<script>
+// --- Core NPI model -----------------------------------------------------------------
+const STATIONS_DATA = {
+  "Western": [
+    { name: "Churchgate", coords: [18.9283, 72.8297], base: 72 }, { name: "Marine Lines", coords: [18.9353, 72.8275], base: 70 },
+    { name: "Charni Road", coords: [18.9436, 72.8211], base: 68 }, { name: "Mumbai Central", coords: [18.9690, 72.8195], base: 78 },
+    { name: "Mahalaxmi", coords: [18.9811, 72.8250], base: 74 }, { name: "Prabhadevi", coords: [19.0125, 72.8386], base: 76 },
+    { name: "Dadar (W)", coords: [19.0186, 72.8432], base: 82 }, { name: "Bandra", coords: [19.0567, 72.8411], base: 79 },
+    { name: "Vile Parle", coords: [19.0995, 72.8437], base: 75 }, { name: "Andheri", coords: [19.1197, 72.8464], base: 81 },
+    { name: "Jogeshwari", coords: [19.1350, 72.8492], base: 77 }, { name: "Borivali", coords: [19.2290, 72.8574], base: 78 },
+    { name: "Vasai Road", coords: [19.3819, 72.8383], base: 72 }, { name: "Virar", coords: [19.4583, 72.8042], base: 70 },
+  ],
+  "Central": [
+    { name: "CSMT", coords: [18.9402, 72.8355], base: 75 }, { name: "Byculla", coords: [18.9750, 72.8335], base: 77 },
+    { name: "Dadar (C)", coords: [19.0180, 72.8450], base: 83 }, { name: "Matunga", coords: [19.0275, 72.8550], base: 76 },
+    { name: "Sion", coords: [19.0430, 72.8630], base: 78 }, { name: "Kurla", coords: [19.0640, 72.8850], base: 84 },
+    { name: "Ghatkopar", coords: [19.0845, 72.9090], base: 80 }, { name: "Bhandup", coords: [19.1430, 72.9360], base: 74 },
+    { name: "Mulund", coords: [19.1720, 72.9420], base: 73 }, { name: "Thane", coords: [19.1860, 72.9760], base: 82 },
+    { name: "Diva", coords: [19.1890, 73.0430], base: 79 }, { name: "Dombivli", coords: [19.2183, 73.0869], base: 81 },
+    { name: "Kalyan", coords: [19.2430, 73.1360], base: 85 }, { name: "Titwala", coords: [19.2930, 73.2050], base: 68 },
+    { name: "Asangaon", coords: [19.4350, 73.2950], base: 65 },
+  ],
+  "Harbour": [
+    { name: "Masjid", coords: [18.9480, 72.8370], base: 74 }, { name: "Sandhurst Road", coords: [18.9550, 72.8400], base: 72 },
+    { name: "Dockyard Road", coords: [18.9610, 72.8440], base: 76 }, { name: "Wadala Road", coords: [19.0180, 72.8680], base: 78 },
+    { name: "Chuna Bhatti", coords: [19.0450, 72.8800], base: 75 }, { name: "Govandi", coords: [19.0480, 72.9200], base: 82 },
+    { name: "Vashi", coords: [19.0680, 72.9950], base: 77 }, { name: "Sanpada", coords: [19.0650, 73.0100], base: 74 },
+    { name: "Juinagar", coords: [19.0550, 73.0200], base: 73 }, { name: "Nerul", coords: [19.0300, 73.0200], base: 72 },
+    { name: "Belapur CBD", coords: [19.0180, 73.0380], base: 75 }, { name: "Kharghar", coords: [19.0400, 73.0650], base: 71 },
+    { name: "Panvel", coords: [18.9894, 73.1175], base: 78 },
+  ]
+};
+
+function getNpiInfo(db) {
+    if (db <= 50) return { category: "Quiet", className: "quiet" };
+    if (db <= 60) return { category: "Moderate", className: "moderate" };
+    if (db <= 70) return { category: "Loud", className: "loud" };
+    if (db <= 80) return { category: "Very Loud", className: "very-loud" };
+    return { category: "Extreme", className: "extreme" };
+}
+
+function randNorm(mu = 0, sigma = 1) {
+    let u = 0, v = 0; while (u === 0) u = Math.random(); while (v === 0) v = Math.random();
+    return mu + sigma * Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
+function getBoosts(d) {
+    const h = d.getHours() + d.getMinutes() / 60;
+    const morningRush = 8 * Math.exp(-0.5 * Math.pow((h - 8.5) / 1.5, 2));
+    const eveningRush = 7 * Math.exp(-0.5 * Math.pow((h - 19) / 1.8, 2));
+    return morningRush + eveningRush;
+}
+
+class Station {
+    constructor(name, line, base, lat, lon) {
+        this.name = name;
+        this.line = line;
+        this.base = base;
+        this.lat = lat;
+        this.lon = lon;
+        this.state = randNorm(0, 2);
+    }
+}
+
+function makeStations() {
+    const stations = [];
+    Object.entries(STATIONS_DATA).forEach(([line, stationList]) => {
+        stationList.forEach(s => {
+            stations.push(new Station(s.name, line, s.base, s.coords[0], s.coords[1]));
+        });
+    });
+    return stations;
+}
+
+function simulateBatch(stations, now) {
+    const boost = getBoosts(now); const rows = [];
+    for (const st of stations) {
+        st.state = st.state * 0.9 + randNorm(0, 0.5); // Mean reversion
+        let avg_db = st.base + boost + st.state + randNorm(0, 1.5);
+        let peak_db = avg_db + Math.random() * 10 + 3; // Peak is higher than average
+        
+        rows.push({
+            timestamp_ist: now.toISOString().replace('T', ' ').substring(0, 19), 
+            station_name: st.name, 
+            line: st.line,
+            lat: st.lat.toFixed(4),
+            lon: st.lon.toFixed(4),
+            avg_db: Math.max(40, +avg_db.toFixed(1)),
+            peak_db: Math.max(50, +peak_db.toFixed(1)),
+            category: getNpiInfo(avg_db).category,
+        });
+    }
+    return rows;
+}
+
+// --- UI Rendering & State --------------------------------------------------------------
+const elCards = document.getElementById('cards');
+const elBody = document.getElementById('tableBody');
+const elCountdown = document.getElementById('countdown-timer');
+const elTableTitle = document.getElementById('tableTitle');
+const elTimestampCapsule = document.getElementById('timestamp-capsule');
+const elStationSearch = document.getElementById('stationSearch');
+
+let stations = makeStations();
+let latestRows = [];
+let selectedLine = "All"; // Default to show all stations
+let sortState = { column: 'station_name', direction: 'asc' };
+let timer = null, countdownTimer = null, nextAt = null;
+const INTERVAL_MS = 60 * 1000;
+let simulatedTime = new Date(2025, 8, 15, 21, 0, 0);
+
+function formatMMSS(ms) {
+    const s = Math.max(0, Math.floor(ms / 1000));
+    const m = String(Math.floor(s / 60)).padStart(2, '0');
+    const r = String(s % 60).padStart(2, '0');
+    return `${m}:${r}`;
+}
+
+function updateDisplay(rows) {
+    // --- Aggregates for cards ---
+    const byLine = { "All": { sum: 0, count: 0, peak: 0 } };
+    rows.forEach(r => {
+        if (!byLine[r.line]) byLine[r.line] = { sum: 0, count: 0, peak: 0 };
+        byLine[r.line].sum += r.avg_db;
+        byLine[r.line].count++;
+        byLine[r.line].peak = Math.max(byLine[r.line].peak, r.peak_db);
+        
+        byLine["All"].sum += r.avg_db;
+        byLine["All"].count++;
+        byLine["All"].peak = Math.max(byLine["All"].peak, r.peak_db);
+    });
+
+    const cardHtml = Object.entries(byLine).map(([line, agg]) => {
+        const avg = agg.sum / agg.count;
+        const info = getNpiInfo(avg);
+        const title = line === "All" ? "Mumbai" : `${line} Line`;
+        return `<div class="card ${selectedLine === line ? 'selected' : ''}" data-line="${line}">
+            <div class="city"><h3>${title}</h3><span class="pill">${agg.count} stns</span></div>
+            <div class="npi" style="color: var(--${info.className})">${avg.toFixed(1)}<span style="font-size:16px; color:var(--muted)">dB</span></div>
+            <div class="meta">
+                <span class="status ${info.className}">${info.category}</span> · Peak: ${agg.peak.toFixed(1)}dB
+            </div>
+        </div>`;
+    }).join('');
+    elCards.innerHTML = cardHtml;
+
+    // --- Filter and Render Table ---
+    const searchTerm = elStationSearch.value.toLowerCase().trim();
+    let lineFilteredRows = selectedLine === "All" ? rows : rows.filter(r => r.line === selectedLine);
+    let searchFilteredRows = !searchTerm 
+        ? lineFilteredRows 
+        : lineFilteredRows.filter(r => r.station_name.toLowerCase().includes(searchTerm));
+
+    // Sort the data
+    const { column, direction } = sortState;
+    let rowsToRender = [...searchFilteredRows];
+    rowsToRender.sort((a, b) => {
+        let valA = a[column]; let valB = b[column];
+        if (typeof valA === 'number') { return valA - valB; }
+        return String(valA).toLowerCase().localeCompare(String(valB).toLowerCase());
+    });
+    if (direction === 'desc') { rowsToRender.reverse(); }
+
+    elTableTitle.textContent = selectedLine === "All" ? 'Latest Readings for Mumbai' : `Latest Readings for ${selectedLine} Line`;
+    document.querySelectorAll('thead th[data-sort]').forEach(th => {
+        th.classList.remove('sort-asc', 'sort-desc');
+        const indicator = th.querySelector('.sort-indicator');
+        if (th.dataset.sort === column) {
+            th.classList.add(direction === 'asc' ? 'sort-asc' : 'sort-desc');
+            if(indicator) indicator.className = `bx ${direction === 'asc' ? 'bxs-up-arrow' : 'bxs-down-arrow'} sort-indicator`;
+        } else if (indicator) {
+            indicator.className = 'bx bxs-sort-alt sort-indicator';
+        }
+    });
+
+    // Render table
+    elBody.innerHTML = rowsToRender.map(r => {
+            const info = getNpiInfo(r.avg_db);
+            return `<tr>
+                <td>${r.line}</td> <td>${r.station_name}</td> <td>${r.lat}</td> <td>${r.lon}</td>
+                <td><b style="color: var(--${info.className})">${r.avg_db}</b></td>
+                <td><span class="status ${info.className}">${r.category}</span></td>
+                <td>${r.peak_db}</td>
+            </tr>`;
+        }).join('');
+}
+
+function tickGenerate() {
+    const now = new Date(simulatedTime.getTime());
+    elTimestampCapsule.textContent = now.toLocaleTimeString('en-IN', {
+        timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+    }).toUpperCase();
+    latestRows = simulateBatch(stations, now);
+    updateDisplay(latestRows);
+    simulatedTime.setTime(simulatedTime.getTime() + INTERVAL_MS);
+}
+
+function schedule() {
+    if (timer) clearInterval(timer);
+    if (countdownTimer) clearInterval(countdownTimer);
+    tickGenerate();
+    nextAt = Date.now() + INTERVAL_MS;
+    timer = setInterval(tickGenerate, INTERVAL_MS);
+    countdownTimer = setInterval(() => {
+        const rem = nextAt - Date.now();
+        if (rem < 0) nextAt = Date.now() + INTERVAL_MS;
+        elCountdown.textContent = formatMMSS(rem);
+    }, 250);
+}
+
+function download(filename, text) {
+    const a = document.createElement('a');
+    a.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(text));
+    a.setAttribute('download', filename);
+    a.style.display = 'none'; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+
+// --- Wire controls ---
+document.getElementById('refreshBtn').addEventListener('click', () => {
+    tickGenerate();
+    nextAt = Date.now() + INTERVAL_MS;
+});
+
+document.getElementById('exportBtn').addEventListener('click', () => {
+    const blob = JSON.stringify(latestRows, null, 2);
+    const d = new Date(); const y = d.getFullYear(), m = String(d.getMonth() + 1).padStart(2, '0'), day = String(d.getDate()).padStart(2, '0');
+    download(`latest_npi_${y}-${m}-${day}.json`, blob);
+});
+
+elCards.addEventListener('click', (e) => {
+    const card = e.target.closest('.card');
+    if (!card) return;
+    selectedLine = card.dataset.line;
+    updateDisplay(latestRows);
+});
+
+elStationSearch.addEventListener('input', () => {
+    updateDisplay(latestRows);
+});
+
+document.querySelector('table thead').addEventListener('click', (e) => {
+    const header = e.target.closest('th[data-sort]');
+    if (!header) return;
+    const column = header.dataset.sort;
+    if (sortState.column === column) {
+        sortState.direction = sortState.direction === 'asc' ? 'desc' : 'asc';
+    } else {
+        sortState.column = column;
+        sortState.direction = 'asc';
+    }
+    updateDisplay(latestRows);
+});
+
+// --- Boot ---
+schedule();
+</script>
+</body>
+</html>
+
