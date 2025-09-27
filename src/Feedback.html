@@ -1,264 +1,344 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Feedback</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    /* feedback.css - EcoGauge Dark Neon Theme */
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback | EcoGauge</title>
+    <!-- Boxicons for icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        :root {
+            --bg: #0b1020;
+            --card: #111833;
+            --header-bg: #161b22;
+            --border-color: rgba(255, 255, 255, .1);
+            --muted: #97a3b6;
+            --text: #e8ecf6;
+            --accent1: #00aeff;
+            --accent2: #29B6F6;
+            --logo-color: #29B6F6;
+            --glow-color-rgba: rgba(41, 182, 246, 0.4);
+            --success-bg: rgba(41, 182, 246, 0.1);
+            --success-border: var(--accent2);
+            --success-text: var(--accent2);
+        }
 
-/* General Page Styles */
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #0d1117; /* Dark bluish-black */
-  color: #c9d1d9; /* Light grey text */
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
+        * {
+            box-sizing: border-box;
+        }
 
-.main-content-wrapper {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
+        body {
+            margin: 0;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+            background: linear-gradient(120deg, #0b1020 0%, #0e1430 60%, #151a3a 100%);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-/* Navbar styling */
-.navbar {
-  background-color: #161b22;
-  /* Slightly lighter than body */
-  border-bottom: 1px solid #6a5acd;
-  /* SlateBlue accent */
-}
+        /* --- Header/Nav Styles --- */
+        .site-nav {
+            background-color: var(--header-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(6px);
+            background: rgba(22, 27, 34, .7);
+        }
 
-.navbar-brand {
-  color: #e209d0;
-  /* Pink accent */
-  font-weight: bold;
-}
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-.navbar-brand:hover,
-.navbar-brand:focus,
-.navbar-brand:active {
-  color: #fc4ded; /* Lighter pink */
-  outline: none;
-  box-shadow: none;
-}
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--logo-color);
+            text-decoration: none;
+            transition: filter 0.2s ease;
+        }
+
+        .logo:hover {
+            filter: brightness(1.2);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent2);
+        }
+
+        .nav-links a.active {
+            color: var(--accent1);
+            font-weight: 600;
+        }
+
+        /* --- Main Content Styles --- */
+        main {
+            padding: 20px 24px 60px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .page-header {
+            text-align: center;
+            padding-top: 60px;
+            padding-bottom: 40px;
+            margin-bottom: 40px;
+        }
+
+        .page-header h1 {
+            font-size: clamp(28px, 5vw, 48px);
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+        }
+
+        .page-header p {
+            font-size: 18px;
+            color: var(--muted);
+            margin-top: 8px;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- Feedback Form Styles --- */
+        .feedback-container {
+            width: 100%;
+            max-width: 600px;
+            gap: 30px;
+            background: radial-gradient(1200px 420px at -20% -20%, rgba(111, 86, 250, .08), transparent 60%),
+                        radial-gradient(800px 300px at 120% 140%, rgba(79, 156, 255, .06), transparent 55%),
+                        linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .02));
+            border: 1px solid rgba(255, 255, 255, .08);
+            padding: 30px 40px;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, .25);
+        }
+        
+        .feedback-container h2 {
+            font-size: 24px;
+            color: #fff;
+            margin-top: 0;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            font-family: inherit;
+            font-size: 16px;
+        }
+        
+        .form-group option {
+            background: var(--card);
+            color: var(--text);
+        }
+        
+        /* Style for the select dropdown arrow */
+        .form-group select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--accent1);
+            box-shadow: 0 0 0 3px var(--glow-color-rgba);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            cursor: pointer;
+            border: 1px solid var(--accent1);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            background: var(--accent1);
+            transition: all 0.2s ease;
+            font-weight: 600;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .submit-btn:hover {
+            background-color: var(--accent2);
+            border-color: var(--accent2);
+            box-shadow: 0 0 15px 4px var(--glow-color-rgba);
+        }
+        
+        #successMessage {
+          background-color: var(--success-bg);
+          color: var(--success-text);
+          padding: 15px;
+          border-radius: 8px;
+          text-align: center;
+          margin-top: 20px;
+          border: 1px solid var(--success-border);
+          display: none; /* Hidden by default */
+        }
 
 
-/* Feedback Form Container */
-.feedback-container {
-  background-color: #161b22; /* Slightly lighter than background */
-  padding: 30px 35px; /* Reverted padding */
-  border-radius: 15px;
-  /* Matched box-shadow to the registration page for a consistent glow effect */
-  box-shadow: 0 0 20px 8px rgba(138, 43, 226, 0.4);
-  width: 100%;
-  max-width: 500px;
-  animation: fadeIn 0.5s ease-in-out;
-  position: relative; /* For positioning the success message */
-  overflow: hidden; /* To contain the success message animation */
-}
+        /* --- Footer --- */
+        .site-footer {
+            background-color: var(--header-bg);
+            text-align: center;
+            padding: 20px;
+            margin-top: auto;
+            border-top: 1px solid var(--border-color);
+        }
 
-/* Heading */
-.feedback-container h2 {
-  text-align: center;
-  margin-bottom: 20px; /* Reverted margin */
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: white;
-}
+        .site-footer p {
+            color: var(--muted);
+            margin: 4px 0 0 0;
+        }
 
-.feedback-container h2 span {
-  background: linear-gradient(to right, #6a5acd, #e209d0);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
+        .site-footer a {
+            color: var(--accent1);
+            text-decoration: none;
+            margin: 0 8px;
+            transition: color 0.2s ease, text-decoration 0.2s ease;
+        }
 
-/* Labels */
-label {
-  display: block;
-  margin-top: 14px; /* Re-added margin-top for spacing */
-  font-weight: 500;
-  color: #c9d1d9;
-}
+        .site-footer a:hover {
+            color: var(--accent2);
+            text-decoration: underline;
+        }
 
-/* Input, Select, Textarea */
-input,
-select,
-textarea {
-  width: 100%;
-  padding: 12px 15px;
-  margin-top: 6px;
-  border: 1px solid #6a5acd;
-  border-radius: 10px;
-  font-size: 14px;
-  background-color: #0d1117;
-  color: #c9d1d9;
-  transition: all 0.2s ease-in-out;
-  box-sizing: border-box; /* Ensures padding doesn't affect width */
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: #8b949e;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-  outline: none;
-  background-color: #21262d;
-  border-color: white;
-  color: white;
-  box-shadow: 0 0 15px 5px rgba(138, 43, 226, 0.5);
-}
-
-/* Submit Button */
-button[type="submit"] {
-  width: 100%;
-  padding: 12px;
-  background: linear-gradient(to right, #0b0edb, #e209d0);
-  color: white;
-  font-weight: bold;
-  border: none;
-  border-radius: 20px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 20px; /* Re-added margin-top */
-  transition: all 0.3s ease;
-  box-shadow: 0 0 15px 5px rgba(138, 43, 226, 0.4);
-}
-
-button[type="submit"]:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 0 25px 8px rgba(138, 43, 226, 0.6);
-}
-
-/* Success Message */
-#successMessage {
-  background-color: #1f2a38;
-  color: #58a6ff;
-  padding: 15px;
-  border-radius: 10px;
-  text-align: center;
-  margin-top: 20px;
-  border: 1px solid #58a6ff;
-  display: none; /* Hidden by default */
-  animation: slideIn 0.5s ease-out;
-}
-
-/* Footer Styles */
-footer {
-    background-color: #161b22;
-    color: #8b949e;
-    text-align: center;
-    padding: 20px 0;
-    border-top: 1px solid #6a5acd;
-}
-footer a {
-    color: #6a5acd;
-    text-decoration: none;
-    margin: 0 10px;
-}
-footer a:hover {
-    color: #836FFF;
-    text-decoration: underline;
-}
-
-
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-  </style>
+    </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">EcoGauge</a>
+    <nav class="site-nav">
+      <div class="nav-container">
+        <a class="logo" href="#">EcoGauge</a>
+         <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="About_Us.html">About Us</a>
+            <a href="#" class="active">Feedback</a>
+            <a href="Contact_Us.html">Contact</a>
+        </div>
       </div>
     </nav>
 
-    <!-- Main Content -->
-    <div class="main-content-wrapper container my-5">
+    <main>
+        <header class="page-header">
+            <h1>Feedback Form</h1>
+            <p>Your insights are valuable. Help us improve EcoGauge by sharing your thoughts, suggestions, or bug reports.</p>
+        </header>
+
       <div class="feedback-container">
-        <h2><span>Feedback</span> Form</h2>
         <form id="feedbackForm">
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" placeholder="Yash Jain">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Yash Singh">
+          </div>
 
-          <label for="email">Email address</label>
-          <input type="email" id="email" name="email" placeholder="yashjain123@gmail.com">
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" id="email" name="email" placeholder="yashsingh123@gmail.com">
+          </div>
           
-          <label for="type">Feedback Type</label>
-          <select id="type" name="type">
-            <option>Bug Report</option>
-            <option>Suggestion</option>
-            <option>Data Accuracy</option>
-            <option>Other</option>
-          </select>
+          <div class="form-group">
+            <label for="type">Feedback Type</label>
+            <select id="type" name="type">
+              <option>Bug Report</option>
+              <option>Suggestion</option>
+              <option>Data Accuracy</option>
+              <option>Other</option>
+            </select>
+          </div>
 
-          <label for="message">Your Feedback</label>
-          <textarea id="message" name="message" rows="4" required placeholder="Tell us what you think..."></textarea>
+          <div class="form-group">
+            <label for="message">Your Feedback</label>
+            <textarea id="message" name="message" rows="4" required placeholder="Your message helps us serve you better..."></textarea>
+          </div>
 
-          <label for="location">Location</label>
-          <input type="text" id="location" name="location" placeholder="City, Area">
+          <div class="form-group">
+            <label for="location">Location (Optional)</label>
+            <input type="text" id="location" name="location" placeholder="City, Area">
+          </div>
 
-          <button type="submit">Submit Feedback</button>
+          <button type="submit" class="submit-btn">Submit Feedback</button>
         </form>
-        <!-- This div is for showing the success message -->
         <div id="successMessage">
           Thank you for your feedback!
         </div>
       </div>
-    </div>
-
+    </main>
   
-  <footer>
-    <p>&copy; 2025 EcoGauge. All Rights Reserved.</p>
+  <footer class="site-footer">
+    <p>&copy; <span id="year"></span> EcoGauge. All Rights Reserved.</p>
     <p>
-        <a href="#">About Us</a> | 
-        <a href="#">Contact</a> | 
+        <a href="About_Us.html">About Us</a> | 
+        <a href="Contact_Us.html">Contact</a> | 
         <a href="#">Privacy Policy</a>
     </p>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    // Get the form and the success message element
+    document.getElementById('year').textContent = new D ate().getFullYear();
+
     const feedbackForm = document.getElementById('feedbackForm');
     const successMessage = document.getElementById('successMessage');
 
-    // Add an event listener for the form's submit event
     feedbackForm.addEventListener('submit', function(event) {
-      // Prevent the default form submission behavior (which reloads the page)
       event.preventDefault();
-
-      // Show the success message
       successMessage.style.display = 'block';
 
-      // Reset the form fields after a short delay to let the user see the message
       setTimeout(() => {
         feedbackForm.reset();
-        successMessage.style.display = 'none'; // Hide the message again
-      }, 3000); // Hide after 3 seconds
+        successMessage.style.display = 'none';
+      }, 3000);
     });
   </script>
-  
 </body>
 </html>
+
+
