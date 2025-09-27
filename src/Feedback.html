@@ -286,23 +286,22 @@
           </div>
           
           <div class="form-group">
-            <label for="type">Feedback Type</label>
-            <select id="type" name="type">
-              <option>Bug Report</option>
-              <option>Suggestion</option>
-              <option>Data Accuracy</option>
-              <option>Other</option>
+            <label for="region">Region</label>
+            <select id="region" name="region">
+              <option>Central</option>
+              <option>Western</option>
+              <option>Harbour</option>
             </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" id="location" name="location" placeholder="City, Area">
           </div>
 
           <div class="form-group">
             <label for="message">Your Feedback</label>
             <textarea id="message" name="message" rows="4" required placeholder="Your message helps us serve you better..."></textarea>
-          </div>
-
-          <div class="form-group">
-            <label for="location">Location (Optional)</label>
-            <input type="text" id="location" name="location" placeholder="City, Area">
           </div>
 
           <button type="submit" class="submit-btn">Submit Feedback</button>
@@ -323,7 +322,7 @@
   </footer>
 
   <script>
-    document.getElementById('year').textContent = new D ate().getFullYear();
+    document.getElementById('year').textContent = new Date().getFullYear();
 
     const feedbackForm = document.getElementById('feedbackForm');
     const successMessage = document.getElementById('successMessage');
@@ -340,5 +339,4 @@
   </script>
 </body>
 </html>
-
 
