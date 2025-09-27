@@ -2,8 +2,8 @@
 
 # Reference 
 - AQI website: https://www.aqi.in/in
-- API_KEY : aqicn f3dbd79d82849161bc891d3f99aa17df24ce5340
-- openweather bd6ac3542d15cd7daf12f898abe3c42b
+- AQICN API_KEY : f3dbd79d82849161bc891d3f99aa17df24ce5340
+- OpenWeather : bd6ac3542d15cd7daf12f898abe3c42b
 
 - some AQI img links
 - https://www.sei.org/wp-content/uploads/2020/09/gettyimages-469339221-cleanairday-mediaadvisory-resamp.jpg
