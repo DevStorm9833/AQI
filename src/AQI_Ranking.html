@@ -1,247 +1,781 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>AQI Rankings - EcoGauge</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Boxicons CSS -->
+  <title>AQI_Ranking Page</title>
+  <!-- Boxicons for icons -->
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <style>
-    /* General Body Styles */
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #0d1117;
-      /* Dark bluish-black background */
-      color: #c9d1d9;
-      /* Light text for readability */
-      margin: 0;
-      padding: 0;
-    }
+  <style> 
+         :root { 
+           --bg: #0b1020; 
+           --card: #111833; 
+           --header-bg: #161b22; 
+           --border-color: rgba(255, 255, 255, .1); 
+           --muted: #97a3b6; 
+           --text: #e8ecf6; 
 
-    /* Navbar styling */
-    .navbar {
-      background-color: #161b22;
-      /* Slightly lighter than body */
-      border-bottom: 1px solid #6a5acd;
-      /* SlateBlue accent */
-    }
+           /* Shining Light Blue Theme (Default) */ 
+           --accent1: #29B6F6;      /* Main light blue for borders, active states */ 
+           --accent2: #81D4FA;      /* Lighter blue for hovers, text */ 
+           --logo-color: #29B6F6;   /* Logo color */ 
+           --glow-color-rgba: rgba(41, 182, 246, 0.4); /* RGBA version for glows */ 
 
-    .navbar-brand {
-      color: #e209d0;
-      /* Pink accent */
-      font-weight: bold;
-    }
+           /* Violet Theme (For Navbar Buttons Only) */ 
+           --nav-accent1: var(--accent1); 
+           --nav-accent2: var(--accent2); 
+           --nav-glow-color-rgba: var(--glow-color-rgba); 
 
-    .navbar-brand:hover,
-    .navbar-brand:focus,
-    .navbar-brand:active {
-      color: #fc4ded; /* Lighter pink */
-      outline: none;
-      box-shadow: none;
-    }
+           /* AQI Palette */ 
+           --good: #34d399; 
+           --moderate: #facc15; 
+           --poor: #fb923c; 
+           --unhealthy: #ef4444; 
+           --severe: #a855f7; 
+           --hazardous: #800000; 
+         } 
+         *{ box-sizing: border-box; } 
+         body { 
+           margin: 0; 
+           font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; 
+           background: linear-gradient(120deg, #0b1020 0%, #0e1430 60%, #151a3a 100%); 
+           color: var(--text); 
+           display: flex; 
+           flex-direction: column; 
+           min-height: 100vh; 
+         } 
+          main { 
+           flex: 1; 
+          } 
 
-    /* Button Styles */
-    .nav-btn {
-      border-radius: 20px;
-      font-weight: 500;
-      padding: 6px 16px;
-      transition: all 0.2s ease-in-out;
-      border: 1px solid #6a5acd;
-      /* SlateBlue border */
-      background-color: transparent;
-      color: #f194ff; /* Light pink text */
-      box-shadow: 0 0 8px 2px rgba(138, 43, 226, 0.3); /* Violet shadow */
-      text-decoration: none; /* Remove underline from all buttons */
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem; /* Space between icon and text */
-    }
-    
-    .nav-btn:hover {
-        background-color: #21262d; /* Dark grey background */
-        border-color: white;
-        color: white;
-        box-shadow: 0 0 15px 5px rgba(138, 43, 226, 0.5);
-    }
-    
-    /* Main Content Area */
-    .main-container {
-      background-color: #161b22;
-      padding: 40px;
-      border-radius: 15px;
-      box-shadow: 0 0 20px 8px rgba(138, 43, 226, 0.2);
-    }
-    
-    .main-container h1 {
-        color: white;
-        font-size: 2.5rem;
-        font-weight: 600;
-        text-align: center;
-        margin-bottom: 30px;
-    }
-    .gradient-text {
-        background: linear-gradient(to right, #6a5acd, #e209d0);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-    }
+         /* --- Restored & Themed Header/Nav Styles --- */ 
+         .site-nav { 
+           background-color: var(--header-bg); 
+           border-bottom: 1px solid var(--border-color); 
+           padding: 12px 24px; 
+           position: sticky; 
+           top: 0; 
+           z-index: 10; 
+           backdrop-filter: blur(6px); 
+           background: rgba(22, 27, 34, .7); 
+         } 
+         .nav-container { 
+           display: grid; 
+           grid-template-columns: 1fr auto 1fr; 
+           align-items: center; 
+           width: 100%; 
+           gap: 1rem; 
+         } 
+         .logo { 
+           grid-column: 1 / 2; 
+           justify-self: start; 
+           font-size: 24px; 
+           font-weight: 700; 
+           color: var(--logo-color); 
+           text-decoration: none; 
+           transition: filter 0.2s ease; 
+         } 
+         .logo:hover { 
+           filter: brightness(1.2); 
+         } 
+         .nav-controls { 
+           grid-column: 2 / 3; 
+           justify-self: center; 
+           display: flex; 
+           align-items: center; 
+           gap: 0.75rem; 
+         } 
+         .nav-search { 
+             grid-column: 3 / 4; 
+             justify-self: end; 
+         } 
+         .toggle-btn-group { 
+           display: inline-flex; 
+           border-radius: 20px; 
+           overflow: hidden; 
+           border: 1px solid var(--nav-accent1); 
+           box-shadow: 0 0 8px 2px var(--nav-glow-color-rgba); 
+         } 
+         .toggle-btn { 
+           padding: 6px 16px; 
+           font-weight: 500; 
+           transition: all 0.2s ease-in-out; 
+           background-color: transparent; 
+           color: var(--nav-accent2); 
+           border: none; 
+           cursor: pointer; 
+           display: inline-flex; 
+           align-items: center; 
+           gap: 0.5rem; 
+           text-decoration: none; 
+         } 
+         .toggle-btn:not(:last-child) { 
+           border-right: 1px solid var(--nav-accent1); 
+         } 
+         .toggle-btn.active { 
+           background-color: var(--nav-accent1); 
+           color: #FFFFFF; 
+         } 
+         .toggle-btn:hover:not(.active) { 
+           background-color: rgba(41, 182, 246, 0.2); 
+           color: white; 
+         } 
+          .nav-btn { 
+           cursor: pointer; 
+           border: 1px solid var(--nav-accent1); 
+           color: var(--nav-accent2); 
+           padding: 8px 14px; 
+           border-radius: 20px; 
+           background: transparent; 
+           display: inline-flex; 
+           align-items: center; 
+           gap: 0.5rem; 
+           transition: all 0.2s ease; 
+           font-weight: 500; 
+           white-space: nowrap; 
+           text-decoration: none; 
+         } 
+          .nav-btn:hover, .nav-btn.active-glow { 
+             background-color: rgba(41, 182, 246, 0.2); 
+             color: white; 
+             box-shadow: 0 0 8px 2px var(--nav-glow-color-rgba); 
+         } 
+         .nav-btn.secondary {
+           background: rgba(255,255,255,0.05);
+           border-color: rgba(255,255,255,0.1);
+           color: var(--text);
+           box-shadow: none;
+         }
+         .nav-btn.secondary:hover {
+            background-color: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.2);
+         }
 
-    /* Ranking Table */
-    .table-dark-custom {
-        background-color: #0d1117;
-        border-radius: 15px;
-        overflow: hidden;
-        box-shadow: 0 0 15px 5px rgba(138, 43, 226, 0.4);
-    }
-    .table-dark-custom thead th {
-        background-color: #8A2BE2;
-        color: white;
-        border-color: #483d8b;
-    }
-    .table-dark-custom tbody tr {
-        transition: background-color 0.2s ease-in-out;
-    }
-    .table-dark-custom tbody tr:hover {
-        background-color: #21262d;
-    }
-    .table-dark-custom td, .table-dark-custom th {
-        vertical-align: middle;
-    }
-    .aqi-badge {
-        font-size: 0.9rem;
-        padding: 5px 10px;
-        border-radius: 15px;
-    }
+         /* --- Main Content Styles --- */ 
+         main { padding: 20px 24px 40px; } 
+        .page-header {
+          text-align: center;
+          margin-bottom: 24px;
+        }
+        .page-header h1 {
+          font-size: clamp(24px, 4vw, 40px);
+          font-weight: 700;
+          color: #fff;
+        }
+        .page-header p {
+          font-size: 18px;
+          color: var(--muted);
+          margin-top: 4px;
+        }
+        .grid-container {
+            display: flex;
+            justify-content: center;
+        }
+        .grid {
+          display: grid;
+          gap: 14px;
+          grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+          width: 100%;
+          max-width: 1200px;
+        }
+        .card {
+          position: relative;
+          background: radial-gradient(1200px 420px at -20% -20%, rgba(111, 86, 250, .1), transparent 60%),
+                      radial-gradient(800px 300px at 120% 140%, rgba(79, 156, 255, .08), transparent 55%),
+                      linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .02));
+          border: 1px solid rgba(255, 255, 255, .08);
+          padding: 16px;
+          border-radius: 18px;
+          box-shadow: 0 8px 30px rgba(0, 0, 0, .25);
+          cursor: pointer;
+          transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+        }
+        .card.selected {
+          border-color: var(--accent1);
+          box-shadow: 0 0 0 2px var(--accent1), 0 8px 30px var(--glow-color-rgba);
+          transform: translateY(-2px);
+        }
+        .city {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 8px;
+        }
+        .city h3 { margin: 0; font-size: 16px; }
+        .pill {
+          font-size: 11px;
+          padding: 4px 8px;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, .08);
+          border: 1px solid rgba(255, 255, 255, .08);
+          color: #cbd5e1;
+        }
+        .aqi { font-size: 32px; font-weight: 700; margin: 10px 0 4px; }
+        .meta { font-size: 12px; color: var(--muted); }
+        .status { font-weight: 600; }
+        .status.good { color: var(--good); }
+        .status.moderate { color: var(--moderate); }
+        .status.poor { color: var(--poor); }
+        .status.unhealthy { color: var(--unhealthy); }
+        .status.severe { color: var(--severe); }
+        .status.hazardous { color: var(--hazardous); }
+        .section {
+          margin-top: 40px;
+        }
+        .controls-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 15px;
+          margin-top: 15px;
+        }
+        .update-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .time-capsule {
+            background: rgba(255,255,255,.08);
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-variant-numeric: tabular-nums;
+            color: var(--text);
+        }
+        
+        .table-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        #stationSearch {
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 20px;
+            padding: 8px 36px 8px 16px;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.2s;
+            min-width: 220px;
+        }
+        #stationSearch:focus {
+            border-color: var(--accent1);
+        }
+        .search-container > .bx-search {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            pointer-events: none;
+        }
+         
+         /* Table styles */ 
+         .table-wrapper { 
+             overflow-x:auto; 
+             border-radius:14px; 
+             margin-top: 10px; 
+             border: 1px solid var(--border-color); 
+         } 
+         table { 
+           width: 100%; 
+           border-collapse: collapse; 
+           background: rgba(255, 255, 255, .03); 
+           overflow: hidden;
+           border-radius: 14px;
+         } 
+        thead th[data-sort] {
+            cursor: pointer;
+            position: relative;
+            padding-right: 24px;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .sort-indicator {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            color: var(--muted);
+            opacity: 0.5;
+            transition: opacity 0.2s, color 0.2s;
+        }
+        thead th[data-sort]:hover .sort-indicator {
+            opacity: 1;
+        }
+        thead th.sort-asc .sort-indicator,
+        thead th.sort-desc .sort-indicator {
+            opacity: 1;
+            color: var(--accent2);
+        }
+         thead th { 
+           font-size: 12px; 
+           text-align: left; 
+           color: #b7c3d6; 
+           background: rgba(255, 255, 255, .04); 
+         } 
+         th, td { 
+           padding: 12px 10px; 
+           border-bottom: 1px solid rgba(255, 255, 255, .06); 
+           font-size: 13px; 
+         } 
+         tbody tr:hover { background: rgba(255, 255, 255, .03); } 
+         .countdown { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 13px;}
 
-    /* Footer Styles */
-    footer {
-        background-color: #161b22;
-        color: #8b949e;
-        text-align: center;
-        padding: 20px 0;
-        border-top: 1px solid #6a5acd;
-    }
-    footer a {
-        color: #6a5acd;
-        text-decoration: none;
-        margin: 0 10px;
-    }
-    footer a:hover {
-        color: #836FFF;
-        text-decoration: underline;
-    }
-    
-  </style>
+         /* Footer Styles */ 
+         .site-footer { 
+             background-color: var(--header-bg); 
+             text-align: center; 
+             padding: 20px; 
+             margin-top: auto; 
+             border-top: 1px solid var(--border-color); 
+         } 
+         .site-footer p { 
+             margin: 0; 
+             color: var(--muted); 
+         } 
+         .site-footer a { 
+             color: var(--accent1); 
+             text-decoration: none; 
+             margin: 0 8px; 
+             transition: color 0.2s ease, text-decoration 0.2s ease; 
+         } 
+         .site-footer a:hover { 
+             color: var(--accent2); 
+             text-decoration: underline; 
+         } 
+
+         @media (max-width: 800px) { 
+           .nav-btn .btn-text, .toggle-btn .btn-text { display: none; } 
+           .nav-controls { gap: 0.5rem; } 
+           .controls-header { justify-content: center; text-align: center; }
+         } 
+         @media (max-width: 768px) { 
+           .nav-container { 
+               grid-template-columns: 1fr; 
+               justify-items: center; 
+               gap: 12px; 
+           } 
+           .logo, .nav-controls, .nav-search { 
+               grid-column: 1 / -1; 
+               justify-self: center; 
+           } 
+           .nav-search { 
+               justify-self: stretch; /* Make search bar take more width */ 
+               width: 80%; 
+               margin: 0 auto; 
+           } 
+         }
+         @media (max-width: 600px) {
+            .nav-container { flex-direction: column; gap: 12px; }
+         }
+     </style> 
 </head>
-
 <body>
-  <div class="main-content-wrapper">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg">
-      <div class="container">
-        <a class="navbar-brand me-auto" href="Landing_Page.html">EcoGauge</a>
-        <div class="d-flex align-items-center">
-          <a class="nav-btn me-2" href="" role="button">Sign Up</a>
-          <a class="nav-btn" href="#" role="button">Login</a>
+  <nav class="site-nav">
+      <div class="nav-container">
+        <a class="logo" href="Landing_Page.html">EcoGauge</a>
+        <div class="nav-controls">
+          <div class="toggle-btn-group">
+            <a href="AQI_Home.html" class="toggle-btn active">
+              <i class='bx bx-wind'></i><span class="btn-text">AQI</span>
+            </a>
+            <a href="NPI_Home.html" class="toggle-btn">
+              <i class='bx bxs-volume-full'></i><span class="btn-text">Noise</span>
+            </a>
+          </div>
+          <a href="AQI_Map.html" class="nav-btn" title="Map View">
+              <i class='bx bxs-map'></i> <span class="btn-text">Map</span>
+          </a>
+          <a href="#" class="nav-btn active-glow" title="View Rankings">
+              <i class='bx bxs-bar-chart-alt-2'></i> <span class="btn-text">Rankings</span>
+          </a>
+           
         </div>
       </div>
-    </nav>
+  </nav>
 
-    <!-- Main Content -->
-    <div class="container my-5">
-        <div class="main-container">
-            <h1>Mumbai's <span class="gradient-text">Air Quality</span> Rankings</h1>
-            <div class="table-responsive">
-                <table class="table table-dark-custom table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Rank</th>
-                            <th scope="col">Locality</th>
-                            <th scope="col">Area</th>
-                            <th scope="col">AQI</th>
-                            <th scope="col">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Malabar Hill</td>
-                            <td>South Mumbai</td>
-                            <td>75</td>
-                            <td><span class="badge aqi-badge" style="background-color: #FFD700; color: black;">Moderate</span></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Bandra</td>
-                            <td>Western Suburbs</td>
-                            <td>98</td>
-                            <td><span class="badge aqi-badge" style="background-color: #FFD700; color: black;">Moderate</span></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Juhu</td>
-                            <td>Western Suburbs</td>
-                            <td>115</td>
-                            <td><span class="badge aqi-badge" style="background-color: #FF8C00; color: black;">Poor</span></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Colaba</td>
-                            <td>South Mumbai</td>
-                            <td>130</td>
-                            <td><span class="badge aqi-badge" style="background-color: #FF8C00; color: black;">Poor</span></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">5</th>
-                            <td>Andheri</td>
-                            <td>Western Suburbs</td>
-                            <td>155</td>
-                            <td><span class="badge aqi-badge" style="background-color: #DC143C; color: white;">Unhealthy</span></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">6</th>
-                            <td>Chembur</td>
-                            <td>Eastern Suburbs</td>
-                            <td>175</td>
-                            <td><span class="badge aqi-badge" style="background-color: #DC143C; color: white;">Unhealthy</span></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">7</th>
-                            <td>BKC</td>
-                            <td>Central Mumbai</td>
-                            <td>190</td>
-                            <td><span class="badge aqi-badge" style="background-color: #DC143C; color: white;">Unhealthy</span></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">8</th>
-                            <td>Mazgaon</td>
-                            <td>South Mumbai</td>
-                            <td>210</td>
-                            <td><span class="badge aqi-badge" style="background-color: #8A2BE2; color: white;">Severe</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+  <main>
+    <header class="page-header">
+        <h1>Mumbai Air Quality Index Ranking</h1>
+        <p>Tracking the Air We Breathe</p>
+    </header>
+
+    <div class="grid-container">
+        <div class="grid" id="cards"></div>
     </div>
-  </div>
+    
+    <div class="section">
+      <h2 id="tableTitle" style="font-size: 22px; width: 100%;">Latest Station Readings</h2>
+      <div class="controls-header">
+        <div class="table-controls">
+            <div class="search-container">
+                <input type="text" id="stationSearch" placeholder="Search a station...">
+                <i class='bx bx-search'></i>
+            </div>
+            <button id="refreshBtn" class="nav-btn secondary" title="Force refresh data">
+                <i class='bx bx-refresh'></i><span class="btn-text">Refresh</span>
+            </button>
+            <button id="exportBtn" class="nav-btn secondary" title="Download as JSON">
+                <i class='bx bxs-download'></i><span class="btn-text">Json file</span>
+            </button>
+        </div>
+        <div class="update-info">
+          <span class="countdown">Last updated:</span>
+          <span id="timestamp-capsule" class="time-capsule">00:00:00 AM</span>
+          <div class="countdown">Next update in: <span id="countdown-timer" class="time-capsule">00:00</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-wrapper" style="margin-top: 10px;">
+      <table>
+        <thead>
+          <tr>
+            <th>Line</th>
+            <th data-sort="station_name">Station<i class='bx bxs-sort-alt sort-indicator'></i></th>
+            <th data-sort="lat">Latitude<i class='bx bxs-sort-alt sort-indicator'></i></th>
+            <th data-sort="lon">Longitude<i class='bx bxs-sort-alt sort-indicator'></i></th>
+            <th data-sort="aqi">AQI<i class='bx bxs-sort-alt sort-indicator'></i></th>
+            <th data-sort="category">Category<i class='bx bxs-sort-alt sort-indicator'></i></th>
+            <th data-sort="dominant_pollutant">Dominant<i class='bx bxs-sort-alt sort-indicator'></i></th>
+            <th data-sort="PM2.5">PM2.5<i class='bx bxs-sort-alt sort-indicator'></i></th>
+            <th data-sort="PM10">PM10<i class='bx bxs-sort-alt sort-indicator'></i></th>
+            <th data-sort="NO2">NO₂<i class='bx bxs-sort-alt sort-indicator'></i></th>
+            <th data-sort="O3">O₃<i class='bx bxs-sort-alt sort-indicator'></i></th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </main>
   
-  <footer>
-    <div class="container">
+  <footer class="site-footer">
       <p>&copy; 2025 EcoGauge. All Rights Reserved.</p>
-      <p>
-          <a href="#">About Us</a> | 
-          <a href="#">Contact</a> | 
+      <p class="mt-2">
+          <a href="About_Us.html">About Us</a> | 
+          <a href="Contact_Us.html">Contact</a> | 
           <a href="#">Privacy Policy</a>
       </p>
-    </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+<script>
+// --- Core AQI model -----------------------------------------------------------------
+const STATIONS_DATA = {
+  "Western": [
+    { name: "Churchgate", coords: [18.9283, 72.8297], base: [48, 88, 35, 40] },
+    { name: "Marine Lines", coords: [18.9353, 72.8275], base: [47, 86, 34, 41] },
+    { name: "Charni Road", coords: [18.9436, 72.8211], base: [46, 85, 33, 42] },
+    { name: "Mumbai Central", coords: [18.9690, 72.8195], base: [50, 92, 38, 38] },
+    { name: "Mahalaxmi", coords: [18.9811, 72.8250], base: [49, 90, 36, 39] },
+    { name: "Prabhadevi", coords: [19.0125, 72.8386], base: [51, 93, 39, 36] },
+    { name: "Dadar (W)", coords: [19.0186, 72.8432], base: [52, 95, 40, 35] },
+    { name: "Bandra", coords: [19.0567, 72.8411], base: [48, 88, 35, 40] },
+    { name: "Vile Parle", coords: [19.0995, 72.8437], base: [49, 89, 36, 38] },
+    { name: "Andheri", coords: [19.1197, 72.8464], base: [50, 91, 37, 37] },
+    { name: "Jogeshwari", coords: [19.1350, 72.8492], base: [51, 92, 38, 36] },
+    { name: "Borivali", coords: [19.2290, 72.8574], base: [45, 82, 32, 43] },
+    { name: "Vasai Road", coords: [19.3819, 72.8383], base: [42, 78, 30, 45] },
+    { name: "Virar", coords: [19.4583, 72.8042], base: [40, 75, 28, 47] },
+  ],
+  "Central": [
+    { name: "CSMT", coords: [18.9402, 72.8355], base: [50, 93, 38, 38] },
+    { name: "Byculla", coords: [18.9750, 72.8335], base: [51, 94, 39, 37] },
+    { name: "Dadar (C)", coords: [19.0180, 72.8450], base: [53, 96, 41, 34] },
+    { name: "Matunga", coords: [19.0275, 72.8550], base: [52, 95, 40, 35] },
+    { name: "Sion", coords: [19.0430, 72.8630], base: [49, 90, 36, 39] },
+    { name: "Kurla", coords: [19.0640, 72.8850], base: [54, 98, 42, 33] },
+    { name: "Ghatkopar", coords: [19.0845, 72.9090], base: [52, 95, 40, 35] },
+    { name: "Bhandup", coords: [19.1430, 72.9360], base: [48, 88, 35, 40] },
+    { name: "Mulund", coords: [19.1720, 72.9420], base: [47, 87, 34, 41] },
+    { name: "Thane", coords: [19.1860, 72.9760], base: [49, 90, 36, 39] },
+    { name: "Diva", coords: [19.1890, 73.0430], base: [53, 97, 41, 34] },
+    { name: "Dombivli", coords: [19.2183, 73.0869], base: [51, 94, 39, 36] },
+    { name: "Kalyan", coords: [19.2430, 73.1360], base: [55, 100, 43, 32] },
+    { name: "Titwala", coords: [19.2930, 73.2050], base: [45, 83, 33, 42] },
+    { name: "Asangaon", coords: [19.4350, 73.2950], base: [42, 79, 31, 44] },
+  ],
+  "Harbour": [
+    { name: "Masjid", coords: [18.9480, 72.8370], base: [48, 89, 36, 39] },
+    { name: "Sandhurst Road", coords: [18.9550, 72.8400], base: [47, 87, 35, 40] },
+    { name: "Dockyard Road", coords: [18.9610, 72.8440], base: [49, 91, 37, 38] },
+    { name: "Wadala Road", coords: [19.0180, 72.8680], base: [50, 92, 38, 37] },
+    { name: "Chuna Bhatti", coords: [19.0450, 72.8800], base: [52, 94, 40, 35] },
+    { name: "Govandi", coords: [19.0480, 72.9200], base: [56, 102, 44, 31] },
+    { name: "Vashi", coords: [19.0680, 72.9950], base: [46, 85, 34, 41] },
+    { name: "Sanpada", coords: [19.0650, 73.0100], base: [45, 84, 33, 42] },
+    { name: "Juinagar", coords: [19.0550, 73.0200], base: [44, 83, 32, 43] },
+    { name: "Nerul", coords: [19.0300, 73.0200], base: [43, 81, 31, 44] },
+    { name: "Belapur CBD", coords: [19.0180, 73.0380], base: [45, 84, 33, 42] },
+    { name: "Kharghar", coords: [19.0400, 73.0650], base: [44, 82, 32, 43] },
+    { name: "Panvel", coords: [18.9894, 73.1175], base: [48, 88, 36, 39] },
+  ]
+};
 
+const AQI_BREAKPOINTS = {
+    'PM2.5': [0, 30, 60, 90, 120, 250, 500], 'PM10':  [0, 50, 100, 250, 350, 430, 1000],
+    'NO2':   [0, 40, 80, 180, 280, 400, 1000], 'O3': [0, 50, 100, 168, 208, 748, 2000],
+    'AQI':   [0, 50, 100, 150, 200, 300, 500] // Updated AQI breakpoints
+};
+function getSubIndex(pollutant, concentration) {
+    const bps = AQI_BREAKPOINTS[pollutant]; const aqiBps = AQI_BREAKPOINTS['AQI'];
+    if (concentration > bps[bps.length - 1]) return aqiBps[aqiBps.length - 1];
+    let i = 0; while (concentration > bps[i]) { i++; } if (i === 0) return 0;
+    const I_HI = aqiBps[i]; const I_LO = aqiBps[i-1]; const BP_HI = bps[i]; const BP_LO = bps[i-1];
+    return Math.round(((I_HI - I_LO) / (BP_HI - BP_LO)) * (concentration - BP_LO) + I_LO);
+}
+function calculateAQI(c) {
+    const si = {'PM2.5': getSubIndex('PM2.5', c['PM2.5']), 'PM10': getSubIndex('PM10', c['PM10']), 'NO2': getSubIndex('NO2', c['NO2']), 'O3': getSubIndex('O3', c['O3'])};
+    const aqi = Math.max(si['PM2.5'], si['PM10'], si['NO2'], si['O3']);
+    const dom = Object.keys(si).reduce((a, b) => si[a] > si[b] ? a : b);
+    return { aqi, dominant: dom };
+}
+function getAqiInfo(aqi) {
+    if (aqi <= 50) return { category: "Good", className: "good" };
+    if (aqi <= 100) return { category: "Moderate", className: "moderate" };
+    if (aqi <= 150) return { category: "Poor", className: "poor" };
+    if (aqi <= 200) return { category: "Unhealthy", className: "unhealthy" };
+    if (aqi <= 300) return { category: "Severe", className: "severe" };
+    return { category: "Hazardous", className: "hazardous" };
+}
+function clamp(x, lo, hi) { return Math.max(lo, Math.min(hi, x)); }
+function randNorm(mu = 0, sigma = 1) {
+    let u = 0, v = 0; while (u === 0) u = Math.random(); while (v === 0) v = Math.random();
+    return mu + sigma * Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+function getBoosts(d) {
+    const h = d.getHours() + d.getMinutes() / 60;
+    const morningRush = 1.4 * Math.exp(-0.5 * Math.pow((h - 8.5) / 1.5, 2));
+    const eveningRush = 1.3 * Math.exp(-0.5 * Math.pow((h - 19) / 1.8, 2));
+    const traffic = morningRush + eveningRush; const inversion = (h < 6 || h > 22) ? 1.2 : 0;
+    const ozonePhoto = 1.5 * Math.exp(-0.5 * Math.pow((h - 14) / 2.5, 2));
+    return { traffic, inversion, ozonePhoto };
+}
+class Station {
+    constructor(name, line, lat, lon, bases) {
+        this.name = name; this.line = line; this.lat = lat; this.lon = lon; this.bases = bases;
+        this.state = {'PM2.5': randNorm(),'PM10': randNorm(),'NO2': randNorm(),'O3': randNorm()};
+    }
+}
+function makeStations() {
+    const stations = [];
+    Object.entries(STATIONS_DATA).forEach(([line, stationList]) => {
+        stationList.forEach(s => {
+            const bases = {'PM2.5': s.base[0] + randNorm(0, 5), 'PM10': s.base[1] + randNorm(0, 8), 'NO2': s.base[2] + randNorm(0, 4), 'O3': s.base[3] + randNorm(0, 5)};
+            stations.push(new Station(s.name, line, s.coords[0], s.coords[1], bases));
+        });
+    });
+    return stations;
+}
+function simulateBatch(stations, now) {
+    const boosts = getBoosts(now); const rows = [];
+    for (const st of stations) {
+        const concentrations = {};
+        for (const p in st.bases) {
+            st.state[p] = clamp(st.state[p] + randNorm(0, 0.1), -10, 10);
+            let boost = 1.0;
+            if (p !== 'O3') { boost += boosts.traffic * 0.5 + boosts.inversion * 0.2; }
+            else { boost += boosts.ozonePhoto * 0.6; }
+            let spike = (Math.random() < 0.02) ? (5 + Math.random() * 15) : 0;
+            let value = (st.bases[p] * boost) + st.state[p] + spike + randNorm(0, 2);
+            concentrations[p] = Math.max(0, +value.toFixed(1));
+        }
+        const { aqi, dominant } = calculateAQI(concentrations);
+        rows.push({
+            timestamp_ist: now.toISOString().replace('T', ' ').substring(0, 19), 
+            station_name: st.name, 
+            line: st.line,
+            lat: st.lat.toFixed(4),
+            lon: st.lon.toFixed(4),
+            aqi: aqi, 
+            category: getAqiInfo(aqi).category,
+            dominant_pollutant: dominant, 
+            concentrations: concentrations
+        });
+    }
+    return rows;
+}
+
+// --- UI Rendering & State --------------------------------------------------------------
+const elCards = document.getElementById('cards');
+const elBody = document.getElementById('tableBody');
+const elCountdown = document.getElementById('countdown-timer');
+const elTableTitle = document.getElementById('tableTitle');
+const elTimestampCapsule = document.getElementById('timestamp-capsule');
+const elStationSearch = document.getElementById('stationSearch');
+
+let stations = makeStations();
+let latestRows = [];
+let selectedLine = "All"; // Default to show all stations
+let sortState = { column: 'station_name', direction: 'asc' };
+let timer = null, countdownTimer = null, nextAt = null;
+const INTERVAL_MS = 60 * 1000;
+let simulatedTime = new Date(2025, 8, 15, 21, 0, 0);
+
+function formatMMSS(ms) {
+    const s = Math.max(0, Math.floor(ms / 1000));
+    const m = String(Math.floor(s / 60)).padStart(2, '0');
+    const r = String(s % 60).padStart(2, '0');
+        return `${m}:${r}`;
+}
+
+function updateDisplay(rows) {
+    // --- Aggregates for cards ---
+    const byLine = { "All": { sum: 0, count: 0, dominant: {} } };
+    rows.forEach(r => {
+        if (!byLine[r.line]) byLine[r.line] = { sum: 0, count: 0, dominant: {} };
+        byLine[r.line].sum += r.aqi; byLine[r.line].count++;
+        byLine[r.line].dominant[r.dominant_pollutant] = (byLine[r.line].dominant[r.dominant_pollutant] || 0) + 1;
+        byLine["All"].sum += r.aqi; byLine["All"].count++;
+        byLine["All"].dominant[r.dominant_pollutant] = (byLine["All"].dominant[r.dominant_pollutant] || 0) + 1;
+    });
+
+    const cardHtml = Object.entries(byLine).map(([line, agg]) => {
+        const avg = agg.sum / agg.count;
+        const info = getAqiInfo(avg);
+        const dominant = Object.keys(agg.dominant).reduce((a, b) => agg.dominant[a] > agg.dominant[b] ? a : b, 'N/A');
+        const isSelected = line === selectedLine ? 'selected' : '';
+        const title = line === "All" ? "Mumbai" : `${line} Line`;
+        return `<div class="card ${isSelected}" data-line="${line}">
+            <div class="city"><h3>${title}</h3><span class="pill">${agg.count} stns</span></div>
+            <div class="aqi" style="color: var(--${info.className})">${avg.toFixed(0)}</div>
+            <div class="meta">
+                <span class="status ${info.className}">${info.category}</span> · Dominant: ${dominant}
+            </div>
+        </div>`;
+    }).join('');
+    elCards.innerHTML = cardHtml;
+
+    // --- Filter and Render Table ---
+    const searchTerm = elStationSearch.value.toLowerCase().trim();
+    let lineFilteredRows = selectedLine === "All" ? rows : rows.filter(r => r.line === selectedLine);
+    let searchFilteredRows = !searchTerm 
+        ? lineFilteredRows
+        : lineFilteredRows.filter(r => r.station_name.toLowerCase().includes(searchTerm));
+
+    // Sort the data
+    const { column, direction } = sortState;
+    let rowsToRender = [...searchFilteredRows];
+    const isNumeric = !['line', 'station_name', 'category', 'dominant_pollutant'].includes(column);
+
+    rowsToRender.sort((a, b) => {
+        let valA = ['PM2.5', 'PM10', 'NO2', 'O3'].includes(column) ? a.concentrations[column] : a[column];
+        let valB = ['PM2.5', 'PM10', 'NO2', 'O3'].includes(column) ? b.concentrations[column] : b[column];
+        if (isNumeric) { return (parseFloat(valA) || 0) - (parseFloat(valB) || 0); }
+        return String(valA).toLowerCase().localeCompare(String(valB).toLowerCase());
+    });
+    if (direction === 'desc') { rowsToRender.reverse(); }
+
+    elTableTitle.textContent = selectedLine === "All" ? 'Latest Readings for Mumbai' : `Latest Readings for ${selectedLine} Line`;
+    document.querySelectorAll('thead th[data-sort]').forEach(th => {
+        th.classList.remove('sort-asc', 'sort-desc');
+        const indicator = th.querySelector('.sort-indicator');
+        if (th.dataset.sort === column) {
+            th.classList.add(direction === 'asc' ? 'sort-asc' : 'sort-desc');
+            if(indicator) indicator.className = `bx ${direction === 'asc' ? 'bxs-up-arrow' : 'bxs-down-arrow'} sort-indicator`;
+        } else if (indicator) {
+            indicator.className = 'bx bxs-sort-alt sort-indicator';
+        }
+    });
+
+    // Render table
+    elBody.innerHTML = rowsToRender.map(r => {
+            const info = getAqiInfo(r.aqi);
+            return `<tr>
+                <td>${r.line}</td> <td>${r.station_name}</td> <td>${r.lat}</td> <td>${r.lon}</td>
+                <td><b style="color: var(--${info.className})">${r.aqi}</b></td>
+                <td><span class="status ${info.className}">${r.category}</span></td>
+                <td>${r.dominant_pollutant}</td><td>${r.concentrations['PM2.5']}</td>
+                <td>${r.concentrations['PM10']}</td><td>${r.concentrations['NO2']}</td>
+                <td>${r.concentrations['O3']}</td>
+            </tr>`;
+        }).join('');
+}
+
+function tickGenerate() {
+    const now = new Date(simulatedTime.getTime());
+    elTimestampCapsule.textContent = now.toLocaleTimeString('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+    }).toUpperCase();
+    latestRows = simulateBatch(stations, now);
+    updateDisplay(latestRows);
+    simulatedTime.setTime(simulatedTime.getTime() + INTERVAL_MS);
+}
+
+function schedule() {
+    if (timer) clearInterval(timer);
+    if (countdownTimer) clearInterval(countdownTimer);
+    tickGenerate();
+    nextAt = Date.now() + INTERVAL_MS;
+    timer = setInterval(tickGenerate, INTERVAL_MS);
+    countdownTimer = setInterval(() => {
+        const rem = nextAt - Date.now();
+        if (rem < 0) nextAt = Date.now() + INTERVAL_MS;
+        elCountdown.textContent = formatMMSS(rem);
+    }, 250);
+}
+
+function download(filename, text) {
+    const a = document.createElement('a');
+    a.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(text));
+    a.setAttribute('download', filename);
+    a.style.display = 'none'; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+
+// --- Wire controls ---
+document.getElementById('refreshBtn').addEventListener('click', () => {
+    tickGenerate();
+    nextAt = Date.now() + INTERVAL_MS;
+});
+
+document.getElementById('exportBtn').addEventListener('click', () => {
+    const blob = JSON.stringify(latestRows, null, 2);
+    const d = new Date(); const y = d.getFullYear(), m = String(d.getMonth() + 1).padStart(2, '0'), day = String(d.getDate()).padStart(2, '0');
+    download(`latest_aqi_${y}-${m}-${day}.json`, blob);
+});
+
+elCards.addEventListener('click', (e) => {
+    const card = e.target.closest('.card');
+    if (!card) return;
+    selectedLine = card.dataset.line;
+    updateDisplay(latestRows);
+});
+
+elStationSearch.addEventListener('input', () => {
+    updateDisplay(latestRows);
+});
+
+document.querySelector('table thead').addEventListener('click', (e) => {
+    const header = e.target.closest('th[data-sort]');
+    if (!header) return;
+    const column = header.dataset.sort;
+    if (sortState.column === column) {
+        sortState.direction = sortState.direction === 'asc' ? 'desc' : 'asc';
+    } else {
+        sortState.column = column;
+        sortState.direction = 'asc';
+    }
+    updateDisplay(latestRows);
+});
+
+// --- Boot ---
+schedule();
+</script>
+</body>
 </html>
+
+
