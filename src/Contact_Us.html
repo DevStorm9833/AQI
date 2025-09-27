@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | EcoGauge</title>
+    <!-- Boxicons for icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        :root {
+            --bg: #0b1020;
+            --card: #111833;
+            --header-bg: #161b22;
+            --border-color: rgba(255, 255, 255, .1);
+            --muted: #97a3b6;
+            --text: #e8ecf6;
+            --accent1: #00aeff;
+            --accent2: #29B6F6;
+            --logo-color: #29B6F6;
+            --glow-color-rgba: rgba(41, 182, 246, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+            background: linear-gradient(120deg, #0b1020 0%, #0e1430 60%, #151a3a 100%);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- Header/Nav Styles --- */
+        .site-nav {
+            background-color: var(--header-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(6px);
+            background: rgba(22, 27, 34, .7);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--logo-color);
+            text-decoration: none;
+            transition: filter 0.2s ease;
+        }
+
+        .logo:hover {
+            filter: brightness(1.2);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent2);
+        }
+
+        .nav-links a.active {
+            color: var(--accent1);
+            font-weight: 600;
+        }
+
+        /* --- Main Content Styles --- */
+        main {
+            padding: 20px 24px 40px;
+            max-width: 1000px; /* Adjusted max-width for contact page layout */
+            margin: 0 auto;
+            flex-grow: 1;
+        }
+
+        .page-header {
+            text-align: center;
+            padding-top: 60px;
+            padding-bottom: 40px;
+            margin-bottom: 40px;
+        }
+
+        .page-header h1 {
+            font-size: clamp(28px, 5vw, 48px);
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+        }
+
+        .page-header p {
+            font-size: 18px;
+            color: var(--muted);
+            margin-top: 8px;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- Contact Section Styles --- */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            background: radial-gradient(1200px 420px at -20% -20%, rgba(111, 86, 250, .08), transparent 60%),
+                        radial-gradient(800px 300px at 120% 140%, rgba(79, 156, 255, .06), transparent 55%),
+                        linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .02));
+            border: 1px solid rgba(255, 255, 255, .08);
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, .25);
+        }
+
+        @media (min-width: 900px) {
+            .contact-container {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+        
+        .contact-form h2, .contact-info h2 {
+            font-size: 24px;
+            color: #fff;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            font-family: inherit;
+            font-size: 16px;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--accent1);
+            box-shadow: 0 0 0 3px var(--glow-color-rgba);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            cursor: pointer;
+            border: 1px solid var(--accent1);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            background: var(--accent1);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            font-weight: 600;
+            font-size: 16px;
+            width: 100%;
+            justify-content: center;
+        }
+        .submit-btn:hover {
+            background-color: var(--accent2);
+            border-color: var(--accent2);
+            box-shadow: 0 0 15px 4px var(--glow-color-rgba);
+        }
+
+        .contact-info-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .contact-info-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 25px;
+            color: var(--muted);
+        }
+        
+        .contact-info-list i {
+            font-size: 24px;
+            color: var(--accent1);
+            margin-top: 2px;
+        }
+        .contact-info-list strong {
+            display: block;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+
+        /* --- Footer --- */
+        .site-footer {
+            background-color: var(--header-bg);
+            text-align: center;
+            padding: 20px;
+            margin-top: auto;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .site-footer p {
+            color: var(--muted);
+            margin: 4px 0 0 0;
+        }
+
+        .site-footer a {
+            color: var(--accent1);
+            text-decoration: none;
+            margin: 0 8px;
+            transition: color 0.2s ease, text-decoration 0.2s ease;
+        }
+
+        .site-footer a:hover {
+            color: var(--accent2);
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="site-nav">
+        <div class="nav-container">
+            <a class="logo" href="Landing_Page.html">EcoGauge</a>
+            <div class="nav-links">
+                <a href="AQI_Home.html">Home</a>
+                <a href="About_Us.html">About Us</a>
+                <a href="Feedback.html">Feedback</a>
+                <a href="#" class="active">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <header class="page-header">
+            <h1>Get In Touch</h1>
+            <p>Have questions, feedback, or collaboration ideas? We'd love to hear from you. Reach out to us using the form below or through our contact details.</p>
+        </header>
+
+        <div class="contact-container">
+            <div class="contact-form">
+                <h2>Send us a Message</h2>
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" placeholder="Yash Singh" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Your Email</label>
+                        <input type="email" id="email" name="email" placeholder="yashsingh123@gmail.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your Message</label>
+                        <textarea id="message" name="message" placeholder="Hey! Drop your thoughts here..." required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <i class='bx bxs-paper-plane'></i> Submit
+                    </button>
+                </form>
+            </div>
+            <div class="contact-info">
+                <h2>Contact Information</h2>
+                <ul class="contact-info-list">
+                    <li>
+                        <i class='bx bxs-map'></i>
+                        <div>
+                            <strong>Address</strong>
+                            <span>Mumbai, Maharashtra, India</span>
+                        </div>
+                    </li>
+                    <li>
+                        <i class='bx bxs-envelope'></i>
+                        <div>
+                            <strong>Email</strong>
+                            <span>contact@ecogauge.com</span>
+                        </div>
+                    </li>
+                    <li>
+                        <i class='bx bxs-phone'></i>
+                        <div>
+                            <strong>Phone</strong>
+                            <span>+91 12345 67890</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; <span id="year"></span> EcoGauge. All Rights Reserved.</p>
+        <p>
+            <a href="AQI_Home.html">Home</a> |
+            <a href="About_Us.html">About</a> |
+            <a href="#">Privacy Policy</a>
+        </p>
+    </footer>
+
+    <script>
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
+
