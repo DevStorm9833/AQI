@@ -14,6 +14,12 @@
 - https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTu8vRXClnC3CwKfK4hJzj5Y0qlSS5fQYqqDA&s
 
 
+Changes
+- Light background
+- Login SignUp page both in a single page
+
+
+
 # Output:
 
 1. Landing Page
@@ -26,9 +32,6 @@
    + Remember password
 
 4. Forgot_Password
-
-
-
 
 ✓ User Pages(6 pages)
 
