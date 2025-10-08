@@ -10,7 +10,7 @@
 - https://moderndiplomacy.eu/wp-content/uploads/2021/09/air-pollution-china.jpg
 
 - some NPI img links :
-- https://static.toiimg.com/thumb/msid-105136821,width-1280,height-720,resizemode-72/105136821.jpg
+- https://media.assettype.com/nationalherald%2F2022-11%2F5cd5de8a-2f87-454a-b31f-bb33cfafe17e%2Fair_pollution.png?rect=4%2C0%2C1188%2C668&auto=format%2Ccompress&fmt=webp&w=1200
 - https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTu8vRXClnC3CwKfK4hJzj5Y0qlSS5fQYqqDA&s
 
 
